@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Home page!</title>
+{% endblock %}
+
+{% block body %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <script>alert("Wrong file type")</script>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h1 id="header1">THIS IS THE HEADER</h1>
+
+    <p>
+        <strong>Why hello there.</strong>
+    </p>
+
+    <p>
+    <form action="/handleUpload" method="POST" enctype="multipart/form-data">
+        <label for="fileUploaded">Choose file to check</label>
+        <input type="file" id="fileUploaded" name="fileUploaded"> 
+
+        <button type="submit">Submit</button>
+    </form>
+    </p>
+
+
+{% endblock %}

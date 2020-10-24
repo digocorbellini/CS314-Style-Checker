@@ -1,0 +1,3 @@
+str = "      {"
+
+print(str.split())

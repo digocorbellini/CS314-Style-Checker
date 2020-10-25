@@ -1,7 +1,7 @@
 import re
 
 #place all lines from the file into an array
-with open('text.txt') as f:
+with open('static/uploads/text.txt') as f:
     lines = [line.rstrip() for line in f]
 
 problematicLines = {}
@@ -10,42 +10,178 @@ problematicLines = {}
 haveReachedFirstMethod = False
 inClass = False
 bracketInLine = True
-nameOfClass = ""
+inMethod = False
+bracketStack = []
+linesInMethod = 0
+operators = "*-+/%"
+operatorSpacing = 0
+
 
 def instanceVariableProblem(line, index):
+    """checks to see if instance variables are not instantiated outside of
+    constructor"""
     #if line is not a comment and has an equals then it 
     #has been instantiated outside of constructor
     if("//" not in line and "*" not in line and "=" in line):
         problematicLines[index] = ("Do not instantiate instance variables " +
             "outside of constructor")
 
-def onlyBracket(line, index):
+def onlyBracket(line):
+    """Checks to see if the line only contains a bracket"""
     for x in line:
-        if(x != "{" or x != "}"):
+        if(x != "{" and x != "}" and x != " "):
             return False
     return True
+
+def isLine(line):
+    if("//" in line or line == ""):
+        return False
+    return True
+
+def isMethod(line, index):
+    """Checks to see if the line is the start of a method"""
+    if(("public" in line or "private" in line) and "class" not in line):
+        if("{" in line or "{" in lines[index + 1]):
+            return True
+    return False
+
+def methodCommentCheck(index):
+    lineBefore = lines[index - 1]
+    if ("//" not in lineBefore and "*/" not in lineBefore):
+        problematicLines[index] = ("All methods must be commented")
+
+def checkMethodLength(line, index):
+    global linesInMethod
+    global inMethod
+    if(not onlyBracket(line) and isLine(line)):
+        linesInMethod += 1
+
+    if("{" in line):
+        bracketStack.append("{")
+        #check bracket inconsistency 
+        checkOpenBrackets(line,index)
+    if("}" in line):
+        bracketStack.pop()
+    
+    if(len(bracketStack) == 0):
+        if(linesInMethod > 25):
+            problematicLines[index] = ("Methods must not be longer than 25 " +
+                "lines.")
+        inMethod = False
+        linesInMethod = 0
+
+def checkMethodBrackets(line, index):
+    nextIndex = index + 1
+    if(bracketInLine and "{" in lines[nextIndex] 
+        and onlyBracket(lines[nextIndex])):
+        problematicLines[nextIndex] = "Inconsistency in brackets."
+    if(not bracketInLine and line[len(line) - 1] == "{"):
+        problematicLines[index] = "Inconsistency in brackets."
+
+def checkOpenBrackets(line,index):
+    if(bracketInLine and onlyBracket(line) or not bracketInLine 
+        and not onlyBracket(line)):
+        problematicLines[index] = "Inconsistency in brackets."
+
+def checkMagicNumbers(line, index):
+    acceptableNums = [0,1,-1,2]
+    splitLine = re.split("&|\||\(|\)|<|>|;|\+|\-|\*|\/| ", line)
+    for x in splitLine:
+        if(x.isnumeric()):
+            num = float(x)
+            if(num not in acceptableNums):
+                if("=" not in line or ("<" in line or ">" in line)):
+                    problematicLines[index] = "Magic number."
+                elif("final" not in line):
+                    problematicLines[index] = "Magic numbers should be constant."
+        
+def checkOperatorSpacing(line, index):
+    lineIndex = 0
+    allowedChars = "+-;) "
+    for x in line:
+        currentSpacing = 0
+        if(x in operators):
+            charBefore = line[lineIndex - 1]
+            charAfter = line[lineIndex + 1]
+            if(charBefore in allowedChars or x == charAfter):
+                currentSpacing += 1
+            if(charAfter in allowedChars or x == charBefore or charAfter == "="):
+                currentSpacing += 1
+            if(currentSpacing != operatorSpacing):
+                problematicLines[index] = "Inconsistent operator spacing."
+                break
+        lineIndex += 1
+
     
 #go through all of the lines in the code
 index = 0
-for line in  lines:
-    if("class" in line):
-        inClass = True
-        nameOfClass = re.split(" {", line)[2]
-    if(not haveReachedFirstMethod):
+for line in lines:
+    #check to see if lines meet 80 character requirement
+    if(len(line) > 80):
+        problematicLines[index] = "Lines can not exceede 80 characters."
+
+    #If in the class and have not reached first method, check instance variables
+    if(inClass and not haveReachedFirstMethod):
        instanceVariableProblem(line, index)
-    if(nameOfClass != "" and nameOfClass in line or "{" in line):
+
+    if(not haveReachedFirstMethod and inClass and isMethod(line,index)):
         haveReachedFirstMethod = True
-        if(onlyBracket):
+        if("{" not in line and "{" in lines[index + 1]):
             bracketInLine = False
 
 
-    if(haveReachedFirstMethod):
-        if("private" in line or "public" in line):
-            lineBefore = lines[index - 1]
-            if("//" not in lineBefore or "*/" not in lineBefore):
-                x = 1
+    if(haveReachedFirstMethod and isLine(line)):
+        #check for break statements
+        if("break" in line):
+            problematicLines[index] = "No break statements allowed."
+
+        
+        if(inMethod):
+            #if in a method, count the number of lines
+            checkMethodLength(line, index)
+            #Check operator spacing
+            if(operatorSpacing == 0):
+                lineIndex = 0
+                for x in line:
+                    if(x in operators):
+                        if(line[lineIndex - 1] == " "):
+                            operatorSpacing += 1
+                        if(line[lineIndex + 1] == " "):
+                            operatorSpacing += 1
+                        break
+                    lineIndex += 1
+            else:
+                checkOperatorSpacing(line, index)
+
+        #find the start of a method
+        #Check for method comment and consistency with brackets
+        if(not inMethod and isMethod(line, index)):
+            inMethod = True
+            #check method comment
+            methodCommentCheck(index)
+            #check inconsistency with brackets
+            checkMethodBrackets(line, index)  
+            #append bracket 
+            if("{" in line):
+                bracketStack.append("{")
+        
+        #check magic numbers
+        checkMagicNumbers(line,index)
+        
+
+
+
+
+        
+        
+        
+    #Only start checking lines if the class has been reached
+    if("class" in line):
+        inClass = True        
 
     index += 1
+
+print(problematicLines)
 
 
 

@@ -1,0 +1,711 @@
+
+/*
+ * Student information for assignment:
+ * On my honor, Rodrigo Okamoto Corbellini Pereira, 
+ * this programming assignment is my own work
+ * and I have not provided this code to any other student.
+ * UTEID: ro7929
+ * email address: rodrigoocp@utexas.edu
+ * TA name: Irena
+ * Number of slip days I am using: 0
+ */
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedList<E> implements IList<E> {
+    // CS314 students. Add you instance variables here.
+    // You decide what instance variables to use.
+    // Must adhere to assignment requirements.
+    // No ArrayLists or Java LinkedLists.
+    private final DoubleListNode<E> HEADER;
+    private int size;
+
+    // CS314 students, add constructors here:
+    public LinkedList(){
+        HEADER = new DoubleListNode<E>();
+        HEADER.setNext(HEADER);
+        HEADER.setPrev(HEADER);
+        size = 0;
+    }
+    // CS314 students, add methods here:
+
+    /**
+     * Add an item to the end of this list.
+     * <br>pre: item != null
+     * <br>post: size() = old size() + 1, get(size() - 1) = item
+     * @param item the data to be added to the end of this list,
+     * item != null
+     */
+    public void add(E item){
+        //precon
+        if(item == null){
+            throw new IllegalArgumentException("Precondition Violated: " 
+                    + "add. item must not be null.");
+        }
+
+        //Big O = O(1)
+
+        //Create a new DoubleListNode
+        //Because it will be added to the end, it points back to the previous
+        //last node and points to HEADER
+        DoubleListNode<E> newNode = 
+                new DoubleListNode<>(HEADER.getPrev(), item, HEADER);
+
+        //Update previous last to point to newNode
+        HEADER.getPrev().setNext(newNode);
+        //Update HEADER so that it points back to newNode
+        HEADER.setPrev(newNode);
+        size++;
+    }
+
+    /**
+     * Returns the node in this LinkedList at the given index
+     * @param index >= 0, < size
+     * @return the node in this LinkedList at the given index
+     */
+    private DoubleListNode<E> getNodeAt(int index){
+        //precon
+        if(index < 0 || index >= size){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "getNodeAt. index must be >= 0 and < size.");
+        }
+
+        //Big O = O(N)
+
+        DoubleListNode<E> tempNode;
+        final int MIDDLE_OF_LIST = size / 2;
+        //If the index is closer to the start then start from index 0, and if
+        //it is closer to the end then start from size - 1. This makes
+        //best case O(1) for getting first and last nodes
+        if(index < MIDDLE_OF_LIST){
+            //Start from index 0 until the given index
+            tempNode = HEADER.getNext();
+            for(int i = 0; i < index; i++){
+                tempNode = tempNode.getNext();
+            }
+        }else{
+            //Start from size - 1 until the given index
+            tempNode = HEADER.getPrev();
+            for(int i = size - 1; i > index; i--){
+                tempNode = tempNode.getPrev();
+            }
+        }
+
+        return tempNode;
+    }
+
+    /**
+     * Insert an item at a specified position in the list.
+     * <br>pre: 0 <= pos <= size(), item != null
+     * <br>post: size() = old size() + 1, get(pos) = item,
+     * all elements in the list with a positon >= pos have a
+     * position = old position + 1
+     * @param pos the position to insert the data at in the list
+     * @param item the data to add to the list, item != null
+    */
+    public void insert(int pos, E item){
+        //precon
+        if(0 > pos || pos > size || item == null){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "insert. pos must be >= 0 and <= size and item must "
+                    + "not be null.");
+        }
+
+        //Big O = O(N)
+
+        //Get the node before this pos. If pos is 0 then get the HEADER
+        DoubleListNode<E> nodeBefore = 
+                (pos == 0) ? HEADER : getNodeAt(pos - 1);
+        //Create a new node for the item and make it point back to nodeBefore
+        //and to the node that nodeBefore is pointing to.
+        DoubleListNode<E> newNode = 
+                new DoubleListNode<>(nodeBefore, item, nodeBefore.getNext());
+        //Set the prev of the node after the index to the new node
+        nodeBefore.getNext().setPrev(newNode);
+        //Set the next of the node before to new node
+        nodeBefore.setNext(newNode);
+        size++;      
+    }
+
+    /**
+     * Change the data at the specified position in the list.
+     * the old data at that position is returned.
+     * <br>pre: 0 <= pos < size(), item != null
+     * <br>post: get(pos) = item, return the
+     * old get(pos)
+     * @param pos the position in the list to overwrite
+     * @param item the new item that will overwrite the old item,
+     * item != null
+     * @return the old data at the specified position
+     */
+    public E set(int pos, E item){
+        //precon
+        if(0 > pos || pos >= size || item == null){
+            throw new IllegalArgumentException("Precondition Violated: " 
+                    + "set. pos must be >= 0 and < size and item must not "
+                    + "be null.");
+        }
+
+        //Big O = O(N)
+
+        //Find node at pos
+        DoubleListNode<E> nodeAtPos = getNodeAt(pos);
+        //Store old data to return and then override it with new item
+        E oldData = nodeAtPos.getData();
+        nodeAtPos.setData(item);
+
+        return oldData;
+    }
+
+    /**
+     * Get an element from the list.
+     * <br>pre: 0 <= pos < size()
+     * <br>post: return the item at pos
+     * @param pos specifies which element to get
+     * @return the element at the specified position in the list
+     */
+    public E get(int pos){
+        //precon 
+        if(0 > pos || pos >= size){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "get. pos must be >= 0 and < size.");
+        }
+
+        //Big O = O(N)
+
+        //Find node at pos and return the data from the found node at pos
+        return getNodeAt(pos).getData();
+    }
+
+    /**
+     * Remove an element in the list based on position.
+     * <br>pre: 0 <= pos < size()
+     * <br>post: size() = old size() - 1, all elements of
+     * list with a position > pos have a position = old position - 1
+     * @param pos the position of the element to remove from the list
+     * @return the data at position pos
+     */
+    public E remove(int pos){
+        //precon
+        if(0 > pos || pos >= size){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "remove. pos must be >= 0 and < size.");
+        }
+
+        //Big O = O(N)
+
+        //Get the node before this pos. If pos is 0 then get the HEADER
+        DoubleListNode<E> nodeBefore = 
+                (pos == 0) ? HEADER : getNodeAt(pos - 1);
+        DoubleListNode<E> nodeAfter = nodeBefore.getNext().getNext();
+        //Store old data before removing node
+        E oldData = nodeBefore.getNext().getData();
+        //Remove all references to the node at pos by making the node after it
+        //point to the node before it and the node before it point to the node
+        //after it.
+        nodeAfter.setPrev(nodeBefore);
+        nodeBefore.setNext(nodeAfter);
+        size--;
+
+        return oldData;
+    }
+
+    /**
+     * Returns the first node that has the given item as data and returns
+     * null if no item was found
+     * @param item != null
+     * @return the first node that has the given item as data and null if no
+     * item was found
+     */
+    private DoubleListNode<E> getNodeWith(E item){
+        //precon
+        if(item == null){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "getNodeWith. item can not be null.");
+        }
+
+        //Big O = O(N)
+
+        DoubleListNode<E> tempNode = HEADER.getNext();
+        //Go through all nodes in this LinkedList and if any node has item
+        //stored, then return that node.
+        for(int i = 0; i < size; i++){
+            if(tempNode.getData().equals(item)){
+                return tempNode;
+            }
+            tempNode = tempNode.getNext();
+        }
+        
+        //No node with item was found so null is returned.
+        return null;
+    }
+
+    /**
+     * Remove the first occurrence of obj in this list.
+     * Return <tt>true</tt> if this list changed
+     * as a result of this call, <tt>false</tt> otherwise.
+     * <br>pre: obj != null
+     * <br>post: if obj is in this list the first occurrence
+     * has been removed and size() = old size() - 1.
+     * If obj is not present the list is not altered in any way.
+     * @param obj The item to remove from this list. obj != null
+     * @return Return <tt>true</tt> if this list changed
+     * as a result of this call, <tt>false</tt> otherwise.
+     */
+    public boolean remove(E obj){
+        //precon
+        if(obj == null){
+            throw new IllegalArgumentException("Preconditon Violated: " 
+                    + "remove. obj must not be null.");
+        }
+
+        //Big O = O(N)
+
+        DoubleListNode<E> nodeWithObject = getNodeWith(obj);
+        //If node exists then remove all references to it by making the node
+        //before it point to the node after it and the node after it point back
+        //to the node before it.
+        if(nodeWithObject != null){
+            DoubleListNode<E> previousNode = nodeWithObject.getPrev();
+            DoubleListNode<E> nextNode = nodeWithObject.getNext();
+            previousNode.setNext(nextNode);
+            nextNode.setPrev(previousNode);
+            size--;
+            return true;
+        }
+        
+        //No node was found with the object
+        return false;
+    }
+
+    /**
+     * Return a sublist of elements in this list
+     * from <tt>start</tt> inclusive to <tt>stop</tt> exclusive.
+     * This list is not changed as a result of this call.
+     * <br>pre: <tt>0 <= start <= size(), start <= stop <= size()</tt>
+     * <br>post: return a list whose size is stop - start
+     * and contains the elements at positions start through stop - 1
+     * in this list.
+     * @param start index of the first element of the sublist.
+     * @param stop stop - 1 is the index of the last element
+     * of the sublist.
+     * @return a list with <tt>stop - start</tt> elements,
+     * The elements are from positions <tt>start</tt> inclusive to
+     * <tt>stop</tt> exclusive in this list.
+     * If start == stop an empty list is returned.
+     */
+    public IList<E> getSubList(int start, int stop){
+        //precon
+        if(start < 0 || start > size || start > stop || stop > size){
+            throw new IllegalArgumentException("Precondition Violated: " 
+                    + "getSubList. start must be >= 0 and <= size and " 
+                    + "stop must be >= start and <= size.");
+        }
+
+        //Big O = O(N)
+
+        LinkedList<E> subList = new LinkedList<>();
+
+        //If start == stop then an empty list should be returned so step to add
+        //elements is skipped
+        if(start != stop){
+            //Go through all of the nodes in this list from start to stop
+            //and add their data to the new subList using the add() method
+            DoubleListNode<E> tempNode = getNodeAt(start);
+            for(int i = start; i < stop; i++){
+                subList.add(tempNode.getData());
+                tempNode = tempNode.getNext();
+            }    
+        }    
+
+        return subList;
+
+
+    }
+
+    /**
+     * Return the size of this list.
+     * In other words the number of elements in this list.
+     * <br>pre: none
+     * <br>post: return the number of items in this list
+     * @return the number of items in this list
+     */
+    public int size(){
+        //Big O = O(1)
+
+        return size;
+    }
+
+    /**
+     * Find the position of an element in the list.
+     * <br>pre: item != null
+     * <br>post: return the index of the first element equal to item
+     * or -1 if item is not present
+     * @param item the element to search for in the list. item != null
+     * @return return the index of the first element equal to item
+     * or a -1 if item is not present
+     */
+    public int indexOf(E item){
+        //precon 
+        if(item == null){
+            throw new IllegalArgumentException("Precondition Violated: " 
+                    + "indexOf. item can not be null.");
+        }
+
+        //Big O = O(N)
+        
+        //If the list is empty then return -1
+        if(size == 0){
+            return -1;
+        }
+        //The other version of indexOf starts at a given index, so we call it 
+        //starting from index 0.
+        return indexOf(item, 0);
+    }
+
+    /**
+     * find the position of an element in the list starting
+     * at a specified position.
+     * <br>pre: 0 <= pos < size(), item != null
+     * <br>post: return the index of the first element equal
+     * to item starting at pos
+     * or -1 if item is not present from position pos onward
+     * @param item the element to search for in the list. Item != null
+     * @param pos the position in the list to start searching from
+     * @return starting from the specified position
+     * return the index of the first element equal to item
+     * or a -1 if item is not present between pos
+     * and the end of the list
+     */
+    public int indexOf(E item, int pos){
+        //precon 
+        if(0 > pos || pos >= size || item == null){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "indexOf. item must not be null and pos must be >=0 "
+                    + "and < size.");
+        }
+
+        //Big O = O(N)
+
+        //Since search starts at given index, tempNode is the node at that index
+        DoubleListNode<E> tempNode = getNodeAt(pos);
+        //Go through all nodes in this LinkedList starting from the given pos
+        //and if any node's data equals the give item, then return its index.
+        for(int i = pos; i < size; i++){
+            if(tempNode.getData().equals(item)){
+                return i;
+            }
+            tempNode = tempNode.getNext();
+        }
+        return -1;
+    }
+
+    /**
+     * return the list to an empty state.
+     * <br>pre: none
+     * <br>post: size() = 0
+     */
+    public void makeEmpty(){
+        //Big O = O(1)
+
+        //make the HEADER point to itself from both ends so that all the other
+        //elements don't have a starting reference therefore emptying the list
+        HEADER.setNext(HEADER);
+        HEADER.setPrev(HEADER);
+        size = 0;
+    }
+
+    /**
+     * Remove all elements in this list from <tt>start</tt>
+     * inclusive to <tt>stop</tt> exclusive.
+     * <br>pre: <tt>0 <= start <= size(), start <= stop <= size()</tt>
+     * <br>post: <tt>size() = old size() - (stop - start)</tt>
+     * @param start position at beginning of range of elements
+     * to be removed
+     * @param stop stop - 1 is the position at the end
+     * of the range of elements to be removed
+     */
+    public void removeRange(int start, int stop){
+        //precon 
+        if(0 > start || start > size || start > stop || stop > size){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "removeRange. start must be >= 0 and <= size and "
+                    + "stop must be >= start and <= size");
+        }
+
+        //Big O = O(N)
+
+        DoubleListNode<E> nodeBeforeStart =
+                (start == 0) ? HEADER : getNodeAt(start - 1);
+        DoubleListNode<E> nodeAtStop = 
+                (stop == size) ? HEADER : getNodeAt(stop);
+        //Make the node before start point to the node at stop and the node at
+        //stop point back to the node before start so that the nodes within the
+        //range are no longer referenced in this LinkedList
+        nodeBeforeStart.setNext(nodeAtStop);
+        nodeAtStop.setPrev(nodeBeforeStart);
+        size -= (stop - start);
+    }
+
+    /**
+     * Return a String version of this list enclosed in
+     * square brackets, []. Elements are in
+     * are in order based on position in the
+     * list with the first element
+     * first. Adjacent elements are separated by comma's
+     * @return a String representation of this IList
+     */
+    public String toString(){
+        //Big O = O(N)
+        
+        final String BETWEEN_ELEMENTS = ", ";
+        final String START_OF_STRING = "[";
+        final String END_OF_STRING = "]";
+        StringBuilder finalString = new StringBuilder(START_OF_STRING);
+        //Go through every node in this LinkedList and add the string version
+        //of their data to the finalString separated by ", "
+        DoubleListNode<E> tempNode = HEADER.getNext();
+        for(int i = 0; i < size; i++){
+            String dataString = tempNode.getData().toString();
+            finalString.append(dataString);
+            //Dont add ", " if its the last element
+            if(i != size - 1){
+                finalString.append(BETWEEN_ELEMENTS);
+            }
+            tempNode = tempNode.getNext();
+        }
+        finalString.append(END_OF_STRING);
+
+        return finalString.toString();
+    }
+
+    /**
+     * Determine if this IList is equal to other. Two
+     * ILists are equal if they contain the same elements
+     * in the same order.
+     * @return true if this IList is equal to other, false otherwise
+     */
+    public boolean equals(Object other){
+        //Big O = O(N)
+
+        //Check to see if other is an IList
+        boolean isLinkedList = other instanceof IList;
+
+        if(isLinkedList){
+            IList<?> otherList = (IList<?>)other;
+            //If the sizes aren't equal then they're not equal
+            if(otherList.size() != size){
+                return false;
+            }
+            //Go through all elements in both ILists and if any elements at the
+            //same index are not equal then return false
+            DoubleListNode<E> thisTemp = HEADER.getNext();
+            Iterator<?> otherIterator = otherList.iterator();
+            for(int i = 0; i < size; i++){
+                if(!thisTemp.getData().equals(otherIterator.next())){
+                    return false;
+                }
+                thisTemp = thisTemp.getNext();
+            }
+        }else{
+            //If other is not a IList then return false.
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * add item to the front of the list. <br>
+     * pre: item != null <br>
+     * post: size() = old size() + 1, get(0) = item
+     *
+     * @param item the data to add to the front of this list
+     */
+    public void addFirst(E item) {
+        //precon
+        if(item == null){
+            throw new IllegalArgumentException("Precondition Violated: "
+                + "addFirst. item must not be null.");
+        }
+
+        //Big O = O(1)
+
+        //Because new node is in the first position make it point back to HEADER
+        //and the previous first node (HEADER.getNezt())
+        DoubleListNode<E> newNode = 
+                new DoubleListNode<>(HEADER, item, HEADER.getNext());
+        //Make HEADER point to newNode and the previous first node point back
+        //to newNode
+        HEADER.getNext().setPrev(newNode);
+        HEADER.setNext(newNode);
+        size++;
+    }
+
+    /**
+     * add item to the end of the list. <br>
+     * pre: item != null <br>
+     * post: size() = old size() + 1, get(size() -1) = item
+     *
+     * @param item the data to add to the end of this list
+     */
+    public void addLast(E item) {
+        //precon
+        if(item == null){
+            throw new IllegalArgumentException("Precondition Violated: "
+                    + "addLast. item can not be null.");
+        }
+
+        //Big O = O(1)
+
+        //add method already adds to the end of this list
+        add(item);
+    }
+
+    /**
+     * remove and return the first element of this list. <br>
+     * pre: size() > 0 <br>
+     * post: size() = old size() - 1
+     *
+     * @return the old first element of this list
+     */
+    public E removeFirst() {
+        //precon
+        if(size <= 0){
+            throw new IndexOutOfBoundsException("Precondition Violated: " 
+                    + "removeFirst. size must be > 0.");
+        }
+
+        //Big O = O(1)
+
+        //Removing from front is already O(1) because of the HEADER node having
+        //a reference to the first node.
+        return remove(0);
+    }
+
+    /**
+     * remove and return the last element of this list. <br>
+     * pre: size() > 0 <br>
+     * post: size() = old size() - 1
+     *
+     * @return the old last element of this list
+     */
+    public E removeLast() {
+        //precon 
+        if(size <= 0){
+            throw new IndexOutOfBoundsException("Precondition Violated: " 
+                    + "removeFirst. size must be > 0.");
+        }
+
+        //Big O = O(1)
+
+        //Remove all refences to current last by making header point back to 
+        //the node before current last and making the node before current last
+        //point towards HEADER
+        DoubleListNode<E> oldLast = HEADER.getPrev();
+        E oldData = oldLast.getData();
+        oldLast.getPrev().setNext(HEADER);
+        HEADER.setPrev(oldLast.getPrev());
+        size--;
+
+        return oldData;
+    }
+
+    /**
+    * return an Iterator for this list.
+    * <br>pre: none
+    * <br>post: return an Iterator object for this List
+    */
+    public Iterator<E> iterator(){
+        return new LIterator();
+    }
+
+    /**
+     * Provides an iterator for this LinkedList
+     */
+    private class LIterator implements Iterator<E> {
+        private DoubleListNode<E> currentNode;
+        private boolean okToRemove;
+
+        /**
+         * Constructor that creates a new iterator for this LinkedList
+         */
+        public LIterator(){
+            currentNode = HEADER;
+            okToRemove = false;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        public boolean hasNext(){
+            //Big O = O(1)
+
+            //If the the next node is HEADER (which has null stored) then 
+            //return false, otherwise return true.
+            return currentNode.getNext().getData() != null; 
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        public E next(){
+            //precon
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+
+            //Big O = O(1)
+
+            //Get the next node in the LinkedList and okToRemove is true
+            currentNode = currentNode.getNext();
+            okToRemove = true;
+
+            return currentNode.getData();
+        }
+
+        /**
+         * Removes from the underlying collection the last element returned
+         * by this iterator (optional operation).  This method can be called
+         * only once per call to {@link #next}.
+         * <p>
+         *
+         * @throws IllegalStateException if the {@code next} method has not
+         *         yet been called, or the {@code remove} method has already
+         *         been called after the last call to the {@code next}
+         *         method
+         */
+        public void remove(){
+            //precon
+            if(!okToRemove){
+                throw new IllegalStateException();
+            }
+
+            //Big O = O(1)
+
+            //Remove references to the currentNode by making the node before it
+            //point to the node after it and the node after it point back to the
+            //node before it
+            DoubleListNode<E> previousNode = currentNode.getPrev();
+            DoubleListNode<E> nextNode = currentNode.getNext();
+            previousNode.setNext(nextNode);
+            nextNode.setPrev(previousNode);
+            currentNode = previousNode;
+            LinkedList.this.size--;   
+            okToRemove = false;
+        }
+
+
+    }
+
+    
+
+}

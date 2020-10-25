@@ -12,8 +12,9 @@ inClass = False
 bracketInLine = True
 inMethod = False
 bracketStack = []
+isComment = False
 linesInMethod = 0
-operators = "*-+/%"
+operators = "*+-/%"
 operatorSpacing = 0
 
 
@@ -34,7 +35,7 @@ def onlyBracket(line):
     return True
 
 def isLine(line):
-    if("//" in line or line == ""):
+    if("//" in line or line == "" or isComment):
         return False
     return True
 
@@ -98,9 +99,10 @@ def checkMagicNumbers(line, index):
 def checkOperatorSpacing(line, index):
     lineIndex = 0
     allowedChars = "+-;) "
+    numOfOperators = 0
     for x in line:
         currentSpacing = 0
-        if(x in operators):
+        if(x in operators):      
             charBefore = line[lineIndex - 1]
             charAfter = line[lineIndex + 1]
             if(charBefore in allowedChars or x == charAfter):
@@ -110,9 +112,16 @@ def checkOperatorSpacing(line, index):
             if(currentSpacing != operatorSpacing):
                 problematicLines[index] = "Inconsistent operator spacing."
                 break
+            numOfOperators += 1
         lineIndex += 1
 
-    
+''' def styleCheck():   
+    global inClass
+    global haveReachedFirstMethod
+    global isComment
+    global inMethod
+    global operatorSpacing
+    global bracketInLine '''
 #go through all of the lines in the code
 index = 0
 for line in lines:
@@ -120,9 +129,14 @@ for line in lines:
     if(len(line) > 80):
         problematicLines[index] = "Lines can not exceede 80 characters."
 
+    #Check for start of comment
+    if("/*" in line):
+        isComment = True
+
+
     #If in the class and have not reached first method, check instance variables
     if(inClass and not haveReachedFirstMethod):
-       instanceVariableProblem(line, index)
+        instanceVariableProblem(line, index)
 
     if(not haveReachedFirstMethod and inClass and isMethod(line,index)):
         haveReachedFirstMethod = True
@@ -130,7 +144,7 @@ for line in lines:
             bracketInLine = False
 
 
-    if(haveReachedFirstMethod and isLine(line)):
+    if(haveReachedFirstMethod and isLine(line) and not isComment):
         #check for break statements
         if("break" in line):
             problematicLines[index] = "No break statements allowed."
@@ -167,20 +181,20 @@ for line in lines:
         
         #check magic numbers
         checkMagicNumbers(line,index)
-        
-
-
-
-
-        
-        
-        
+                    
     #Only start checking lines if the class has been reached
     if("class" in line):
         inClass = True        
-
+    #Check to see if it is the end of a comment
+    if("*/" in line):
+        isComment = False
+        
     index += 1
 
+        #finalHtml = "<h1>Test Header</h1>"
+        #return finalHtml
+
+#styleCheck()
 print(problematicLines)
 
 

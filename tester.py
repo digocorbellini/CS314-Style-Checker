@@ -10,4 +10,4 @@ def onlyBracket(line):
             return False
     return True
 
-print(re.split(" |{", "    public void x(){"))
+print(10 + -    10)

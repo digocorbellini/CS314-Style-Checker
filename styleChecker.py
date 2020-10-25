@@ -230,7 +230,9 @@ def writeBasicHTML(file):
     keysIndex = 0
     for line in lines:
         if(keysIndex < len(keys) and keys[keysIndex] == linesIndex):
-            finalString += "<span class='error'>" + str(linesIndex + 1) + " " + line + "</span><br>\n"
+            finalString += "<span class='tooltip'>" + str(linesIndex + 1) + " " + line
+            finalString += "<span class='tooltiptext'>" + problematicLines[keys[keysIndex]] + "</span></span>"
+            finalString += "<br>\n"
             keysIndex += 1
         else:
             finalString += str(linesIndex + 1) + " " + line + "<br>\n"

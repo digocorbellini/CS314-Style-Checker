@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title>Home page!</title>
+    <title>CS 314 Style Checker</title>
 {% endblock %}
 
 {% block body %}
@@ -14,11 +14,8 @@
         {% endif %}
     {% endwith %}
 
-    <h1 id="header1">THIS IS THE HEADER</h1>
-
-    <p>
-        <strong>Why hello there.</strong>
-    </p>
+    <h1 id="header1">CS 314 Style Checker</h1>
+    <h4>By: Rodrigo O.C. Pereira</h4>
 
     <p>
     <form action="/handleUpload" method="POST" enctype="multipart/form-data">
@@ -28,10 +25,5 @@
         <button type="submit">Submit</button>
     </form>
     </p>
-
-    <form action="/back" method="POST" enctype="multipart/form-data"> 
-        <button>Back</button>
-    </form>
-
 
 {% endblock %}

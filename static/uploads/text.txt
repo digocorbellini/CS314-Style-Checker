@@ -1,593 +1,1181 @@
-//  CodeCamp.java - CS314 Assignment 1
-
 /*  Student information for assignment:
+*
+*  On my honor, Rodrigo Okamoto Corbellini Pereira, 
+*  this programming assignment is my own work
+*  and I have not provided this code to any other student.
+*
+*  Name: Rodrigo Okamoto Corbellini Pereira
+*  email address: rodrigoocp@utexas.edu
+*  UTEID: ro7929
+*  TA name: Irena
+*  Number of slip days used on this assignment: 0
+*/
+
+//Experiment results. CS314 students, place your experiment
+//results here:
+/**
+ * 1)
+ * Num Repeats: 100
+ * Adding at end: ArrayList
+ * N = 30000, total time:  0.1138
+ * N = 60000, total time:  0.1680
+ * N = 120000, total time:  0.3597
+ * N = 240000, total time:  0.4080
+ * N = 480000, total time:  1.5995
  * 
- *  replace <NAME> with your name.
- *
- *  On my honor, Rodrigo Okamoto Corbellini Pereira, this programming assignment is my own work
- *  and I have not provided this code to any other student.
- *
- *  Name: Rodrigo Okamoto Corbellini Pereira
- *  email address: rodrigoocp@utexas.edu
- *  UTEID: ro7929
- *  Section 5 digit ID: 50915
- *  Grader name: Irena
- *  Number of slip days used on this assignment: 0
+ * 
+ * Num Repeats: 100
+ * Adding at end: LinkedList
+ * N = 30000, total time:  0.0430
+ * N = 60000, total time:  0.0841
+ * N = 120000, total time:  0.2570
+ * N = 240000, total time:  0.4170
+ * N = 480000, total time:  0.8553
+ * 
+ * 
+ * 2)
+ * Num Repeats: 100
+ * Adding at front: ArrayList
+ * N = 2000, total time:  0.0197
+ * N = 4000, total time:  0.0615
+ * N = 8000, total time:  0.2233
+ * N = 16000, total time:  1.0108
+ * N = 32000, total time:  4.1044
+ * 
+ * 
+ * Num Repeats: 100
+ * Adding at front: LinkedList
+ * N = 10000, total time:  0.0093
+ * N = 20000, total time:  0.0174
+ * N = 40000, total time:  0.0361
+ * N = 80000, total time:  0.0702
+ * N = 160000, total time:  0.1373
+ * 
+ * 
+ * 3)
+ * Num Repeats: 100
+ * Removing from front: ArrayList
+ * N = 2000, total time:  0.0180
+ * N = 4000, total time:  0.0547
+ * N = 8000, total time:  0.2083
+ * N = 16000, total time:  0.9560
+ * N = 32000, total time:  4.0443
+ * 
+ * 
+ * Num Repeats: 100
+ * removing from front: LinkedList
+ * N = 5000, total time:  0.0105
+ * N = 10000, total time:  0.0269
+ * N = 20000, total time:  0.0605
+ * N = 40000, total time:  0.1237
+ * N = 80000, total time:  0.2516
+ * 
+ * 
+ * 4)
+ * Num Repeats: 100
+ * Getting random: ArrayList
+ * N = 10000, total time:  0.0182
+ * N = 20000, total time:  0.0393
+ * N = 40000, total time:  0.0969
+ * N = 80000, total time:  0.2490
+ * N = 160000, total time:  0.6081
+ * 
+ * 
+ * Num Repeats: 100
+ * Getting random: LinkedList
+ * N = 1000, total time:  0.1132
+ * N = 2000, total time:  0.4517
+ * N = 4000, total time:  1.8269
+ * N = 8000, total time:  7.4272
+ * N = 16000, total time: 30.9252
+ * 
+ * 
+ * 5)
+ * Num Repeats: 100
+ * Getting all using iterator: ArrayList
+ * N = 50000, total time:  0.0149
+ * N = 100000, total time:  0.0260
+ * N = 200000, total time:  0.0389
+ * N = 400000, total time:  0.0819
+ * N = 800000, total time:  0.1441
+ * 
+ * 
+ * Num Repeats: 100
+ * Getting all using iterator: LinkedList
+ * N = 50000, total time:  0.0194
+ * N = 100000, total time:  0.0366
+ * N = 200000, total time:  0.0754
+ * N = 400000, total time:  0.1477
+ * N = 800000, total time:  0.2916
+ * 
+ * 
+ * 6)
+ * Num Repeats: 100
+ * Getting all using get method: ArrayList
+ * N = 100000, total time:  0.0154
+ * N = 200000, total time:  0.0282
+ * N = 400000, total time:  0.0563
+ * N = 800000, total time:  0.1132
+ * N = 1600000, total time:  0.2134
+ * 
+ * 
+ * Num Repeats: 100
+ * Getting all using get method: LinkedList
+ * N = 1000, total time:  0.1011
+ * N = 2000, total time:  0.4298
+ * N = 4000, total time:  1.7487
+ * N = 8000, total time:  7.2023
+ * N = 16000, total time: 30.6518
  */
+//1) Adding to end appears to be almost twice as fast on a LinkedList for most
+//sizes of N.
+//LinkedList appears to have a Big O of O(1) for adding to the end
+//since the timing was increasing by only a factor of 2 caused by the loop that 
+//calls the addLast() method N times while the method its self caused no  
+//increase in time.
+//ArrayList appears to have a Big O of O(N) because of resizing as shown in the
+//4x increase in time from .4080 to 1.5995 when N is doubled from N = 240000 
+//to N = 480000. This 4x increase is caused by the experiment loop running 
+//the ArrayList .add() method of O(N) N times.
+//
+//2) Adding at front appears to be faster on a LinkedList because adding to the
+//front was faster even when adding 5x more elements than in the ArrayList
+//LinkedList appears to have a Big O of O(1) for adding to the front since the
+//timing was increasing by only a factor of 2 caused by the loop that 
+//calls the addFirst() method N times while the method its self caused no  
+//increase in time.
+//ArrayList appears to have a Big O of O(N) because of shifting as shown in the
+//about 4x increase in time every time N was doubled. This 4x increase is caused
+//by the experiment loop running the ArrayList .add(0,j) method of O(N) N times.
+//
+//3) Removing from front appears to be faster on a LinkedList because it was
+//faster than an ArrayList while adding more than 2x the elements.
+//LinkedList appears to have a Big O of O(1) for removing from the end since
+//the timing doubled every time N was douled which was caused by the loop in 
+//the experiment calling removeFirst() N times while the method itself worked
+//in constant time.
+//ArrayList appears to have a Big O of O(N) because of shifting after removing
+//as shown by the 4x increase in the times every time N was doubled. This 4x
+//increase was caused by the experiment calling the remove(0), an O(N) method,
+//N times.
+//
+//4) Getting random appeared to be faster for ArrayList since it got data faster
+//while doing 10x the size of N that LinkedList did.
+//LinkedList appeared to have a Big O of O(N) because of the 4x increase in
+//timing every time N was doubled. This 4x increase was caused by the experiment
+//calling the O(N) method of .get() N times.
+//ArrayList appeared to have a Big O of O(1) because the timing only doubled
+//every time N was double which was caused by the experiment calling the 
+//.get() method N.
+//
+//5) Getting all using iterator appeared to take around the same amount of time
+//for both ArrayList and LinkedList for the same values of N.
+//ArrayList and LinkedList appeared to have a Big O of O(1) for their iterator
+//next() methods and an Big O of O(N) for getting all since their timings 
+//increased by 2 every time N was doubled.
+//
+//6) Getting all using get method appeared to be faster for ArrayList since it 
+//was faster at getting all for values of N 100x greater than LinkeList used.
+//LinkedList appeared to have a Big O of O(N) for its get() method and a Big O
+//of O(N^2) for getting all since its timings increased by a factor of 4 every
+//time N was doubled.
+//ArrayList appeared to have a Big O of O(1) for its get() method and a Big O of
+//O(N) for getting all since its timings doubled every time N was doubled.
 
+import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Arrays;
 
-public class CodeCamp {
+public class LinkedListTester {
 
-    /**
-     * Determine the Hamming distance between two arrays of ints. 
-     * Neither the parameter <tt>aData</tt> or
-     * <tt>bData</tt> are altered as a result of this method.<br>
-     * @param aData != null, aData.length == aData.length
-     * @param bData != null
-     * @return the Hamming Distance between the two arrays of ints.
-     */    
-    public static int hammingDistance(int[] aData, int[] bData) {
-        // check preconditions
-        if (aData == null || bData == null || aData.length != bData.length) { 
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "hammingDistance. neither parameter may equal null, arrays" +
-                    " must be equal length.");
+   public static void main(String[] args) {
+
+       //CS314 students. Add your tests here:
+       String[] expectedArr;
+       String[] initialList;
+       LinkedList<String> testList;
+       
+       //Testing toString()
+       System.out.println();
+       System.out.println("----------------Testing toString()----------------");
+
+       //toString 1
+       expectedArr = new String[] {};
+       testList = makeList(expectedArr);
+       runTest("toString()", testList, expectedArr);
+
+       //toString 2
+       expectedArr = new String[] {"A"};
+       testList = makeList(expectedArr);
+       runTest("toString()", testList, expectedArr);
+
+       //toString 3
+       expectedArr = new String[] {"A", "B", "C", "D", "e", "f"};
+       testList = makeList(expectedArr);
+       runTest("toString()", testList, expectedArr);
+
+       //Testing add()
+       System.out.println();
+       System.out.println("------------------Testing add()-------------------");
+
+       //Add 1
+       expectedArr = new String[] {"A","b","C"};
+       testList = makeList(expectedArr);
+       runTest("add()", testList, expectedArr);
+
+       //Add 2
+       expectedArr = new String[] {"1"};
+       testList = makeList(expectedArr);
+       runTest("add()", testList, expectedArr);
+
+       //Add 3
+       expectedArr = new String[] {"h","e","l","l","o","world"};
+       testList = makeList(expectedArr);
+       runTest("add()", testList, expectedArr);
+
+       //testing addFirst()
+       System.out.println();
+       System.out.println("---------------Testing addFirst()-----------------");
+
+       //addFirst 1
+       initialList = new String[] {};
+       expectedArr = new String[] {"b"};
+       testList = makeList(initialList);
+       testList.addFirst("b");
+       runTest("addFirst()", testList, expectedArr);
+
+       //addFirst 2
+       initialList = new String[] {"c"};
+       expectedArr = new String[] {"b","c"};
+       testList = makeList(initialList);
+       testList.addFirst("b");
+       runTest("addFirst()", testList, expectedArr);
+
+       //addFirst 3
+       initialList = new String[] {"a","fda","fdeaefd","ae"};
+       expectedArr = new String[] {"a","a","fda","fdeaefd","ae"};
+       testList = makeList(initialList);
+       testList.addFirst("a");
+       runTest("addFirst()", testList, expectedArr);
+
+       //testing addLast()
+       System.out.println();
+       System.out.println("---------------Testing addLast()------------------");
+
+       //addLast 1
+       initialList = new String[] {};
+       expectedArr = new String[] {"b"};
+       testList = makeList(initialList);
+       testList.addLast("b");
+       runTest("addLast()", testList, expectedArr);
+
+       //addLast 2
+       initialList = new String[] {"b","c"};
+       expectedArr = new String[] {"b","c","b"};
+       testList = makeList(initialList);
+       testList.addLast("b");
+       runTest("addLast()", testList, expectedArr);
+
+       //addLast 3
+       initialList = new String[] {"b","c","b","c"};
+       expectedArr = new String[] {"b","c","b","c","b"};
+       testList = makeList(initialList);
+       testList.addLast("b");
+       runTest("addLast()", testList, expectedArr);
+
+       //testing insert()
+       System.out.println();
+       System.out.println("----------------Testing insert()------------------");
+
+       //insert 1
+       initialList = new String[] {"a","fda","fdeaefd","ae"};
+       expectedArr = new String[] {"a","a","fda","fdeaefd","ae"};
+       testList = makeList(initialList);
+       testList.insert(0,"a");
+       runTest("insert()", testList, expectedArr);
+
+       //insert 2
+       initialList = new String[] {"a","fda","fdeaefd","ae"};
+       expectedArr = new String[] {"a","fda","fdeaefd","ae","a"};
+       testList = makeList(initialList);
+       testList.insert(initialList.length,"a");
+       runTest("insert()", testList, expectedArr);
+
+       //insert 3
+       initialList = new String[] {"a","fda","fdeaefd","ae"};
+       expectedArr = new String[] {"a","fda","a","fdeaefd","ae"};
+       testList = makeList(initialList);
+       testList.insert(initialList.length/2,"a");
+       runTest("insert()", testList, expectedArr);
+
+       //testing set()
+       System.out.println();
+       System.out.println("------------------Testing set()-------------------");
+
+       //set 1
+       initialList = new String[] {"b","fds","as"};
+       expectedArr = new String[] {"a","fds","as"};
+       testList = makeList(initialList);
+       testList.set(0,"a");
+       runTest("set()", testList, expectedArr);
+
+       //set 2
+       initialList = new String[] {"1","2","3"};
+       expectedArr = new String[] {"1","2","10"};
+       testList = makeList(initialList);
+       testList.set(initialList.length - 1,"10");
+       runTest("set()", testList, expectedArr);
+
+       //set 3
+       initialList = new String[] {"1","2","4"};
+       expectedArr = new String[] {"1","3","4"};
+       testList = makeList(initialList);
+       testList.set(initialList.length/2,"3");
+       runTest("set()", testList, expectedArr);
+
+       //testing get()
+       System.out.println();
+       System.out.println("------------------Testing get()-------------------");
+
+       //get 1
+       initialList = new String[] {"a"};
+       testList = makeList(initialList);
+       runTest("get()", testList.get(0), "a");
+
+       //get 2
+       initialList = new String[] {"a","b","c","d"};
+       testList = makeList(initialList);
+       runTest("get()", testList.get(initialList.length - 1), "d");
+
+       //get 3
+       initialList = new String[] {"a","b","c","d"};
+       testList = makeList(initialList);
+       runTest("get()", testList.get(initialList.length/2), "c");
+
+       //testing remove(index)
+       System.out.println();
+       System.out.println("--------------Testing remove(index)---------------");
+
+       //remove 1
+       initialList = new String[] {"1"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.remove(0);
+       runTest("remove(index)", testList, expectedArr);
+
+       //remove 2
+       initialList = new String[] {"1","2","3","4","5"};
+       expectedArr = new String[] {"1","2","3","4"};
+       testList = makeList(initialList);
+       testList.remove(initialList.length - 1);
+       runTest("remove(index)", testList, expectedArr);
+
+       //remove 3
+       initialList = new String[] {"1","2","3","4","5"};
+       expectedArr = new String[] {"1","2","4","5"};
+       testList = makeList(initialList);
+       testList.remove(initialList.length/2);
+       runTest("remove(index)", testList, expectedArr);
+
+       //testing remove(obj)
+       System.out.println();
+       System.out.println("---------------Testing remove(obj)----------------");
+
+       //remove 1
+       initialList = new String[] {"1","2","1"};
+       expectedArr = new String[] {"2","1"};
+       testList = makeList(initialList);
+       testList.remove("1");
+       runTest("remove(index)", testList, expectedArr);
+
+       //remove 2
+       initialList = new String[] {"1","2","1"};
+       expectedArr = new String[] {"1","1"};
+       testList = makeList(initialList);
+       testList.remove("2");
+       runTest("remove(index)", testList, expectedArr);
+
+       //remove 3
+       initialList = new String[] {"3"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.remove("3");
+       runTest("remove(index)", testList, expectedArr);
+
+       //testing removeFirst()
+       System.out.println();
+       System.out.println("--------------Testing removeFirst()---------------");
+
+       //remove 1
+       initialList = new String[] {"1","2","1"};
+       expectedArr = new String[] {"2","1"};
+       testList = makeList(initialList);
+       testList.removeFirst();
+       runTest("removeFirst()", testList, expectedArr);
+
+       //remove 2
+       initialList = new String[] {"1"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.removeFirst();
+       runTest("removeFirst()", testList, expectedArr);
+
+       //remove 3
+       initialList = new String[] {"a","B","C","d"};
+       expectedArr = new String[] {"B","C","d"};
+       testList = makeList(initialList);
+       testList.removeFirst();
+       runTest("removeFirst()", testList, expectedArr);
+
+
+       //testing removeLast()
+       System.out.println();
+       System.out.println("--------------Testing removeLast()----------------");
+
+       //remove 1
+       initialList = new String[] {"d"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.removeLast();
+       runTest("removeLast()", testList, expectedArr);
+
+       //remove 2
+       initialList = new String[] {"a","d","c","f"};
+       expectedArr = new String[] {"a","d","c"};
+       testList = makeList(initialList);
+       testList.removeLast();
+       runTest("removeLast()", testList, expectedArr);
+
+       //remove 3
+       initialList = new String[] {"a","f"};
+       expectedArr = new String[] {"a"};
+       testList = makeList(initialList);
+       testList.removeLast();
+       runTest("removeLast()", testList, expectedArr);
+
+       //testing getSubList()
+       System.out.println();
+       System.out.println("--------------Testing getSubList()----------------");
+
+       //subList 1
+       initialList = new String[] {"a"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList = (LinkedList<String>) testList.getSubList(0, 0);
+       runTest("getSubList()", testList, expectedArr);
+
+       //subList 2
+       initialList = new String[] {"a","b","c","d"};
+       expectedArr = new String[] {"b"};
+       testList = makeList(initialList);
+       testList = (LinkedList<String>) testList.getSubList(1, 2);
+       runTest("getSubList()", testList, expectedArr);
+
+       //subList 3
+       initialList = new String[] {"a","b","c","d","e","f"};
+       expectedArr = new String[] {"c","d","e","f"};
+       testList = makeList(initialList);
+       testList = 
+            (LinkedList<String>) testList.getSubList(2, initialList.length);
+       runTest("getSubList()", testList, expectedArr);
+
+       //testing size()
+       System.out.println();
+       System.out.println("-----------------Testing size()-------------------");
+
+       //size 1
+       initialList = new String[] {};
+       testList = makeList(initialList);
+       runTest("size()", testList.size(), initialList.length);
+
+       //size 2
+       initialList = new String[] {"a","b"};
+       testList = makeList(initialList);
+       runTest("size()", testList.size(), initialList.length);
+
+       //size 3
+       initialList = new String[] {"a","b","c","d","e","f","g"};
+       testList = makeList(initialList);
+       runTest("size()", testList.size(), initialList.length);
+
+       //testing indexOf(item)
+       System.out.println();
+       System.out.println("--------------Testing indexOf(item)---------------");
+
+       //indexOf 1
+       initialList = new String[] {};
+       testList = makeList(initialList);
+       runTest("indexOf(item)", testList.indexOf("a"), -1);
+
+       //indexOf 2
+       initialList = new String[] {"a","b","a"};
+       testList = makeList(initialList);
+       runTest("indexOf(item)", testList.indexOf("a"), 0);
+
+       //indexOf 3
+       initialList = new String[] {"a","b","a","c","d","e"};
+       testList = makeList(initialList);
+       runTest("indexOf(item)", testList.indexOf("e"), initialList.length - 1);
+
+       //testing indexOf(item, pos)
+       System.out.println();
+       System.out.println("------------Testing indexOf(item, pos)------------");
+
+       //indexOf 1
+       initialList = new String[] {"a"};
+       testList = makeList(initialList);
+       runTest("indexOf(item, pos)", testList.indexOf("a",0), 0);
+
+       //indexOf 2
+       initialList = new String[] {"a","b","c","d"};
+       testList = makeList(initialList);
+       runTest("indexOf(item, pos)", testList.indexOf("a",1), -1);
+
+       //indexOf 3
+       initialList = new String[] {"a","b","c","d","a"};
+       testList = makeList(initialList);
+       runTest("indexOf(item, pos)", testList.indexOf("a",1), 
+            initialList.length - 1);
+
+        //testing makeEmtpy()
+       System.out.println();
+       System.out.println("---------------Testing makeEmpty()----------------");
+
+       //makeEmpty 1
+       initialList = new String[] {};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.makeEmpty();
+       runTest("makeEmpty()", testList, expectedArr);
+
+       //makeEmpty 2
+       initialList = new String[] {"a","b","c"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.makeEmpty();
+       runTest("makeEmpty()", testList, expectedArr);
+
+       //makeEmpty 3
+       initialList = new String[] {"a"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.makeEmpty();
+       runTest("makeEmpty()", testList, expectedArr);
+
+       //testing removeRange()
+       System.out.println();
+       System.out.println("--------------Testing removeRange()---------------");
+
+       //removeRange() 1
+       initialList = new String[] {"a","b","c"};
+       expectedArr = new String[] {"a","b","c"};
+       testList = makeList(initialList);
+       testList.removeRange(2, 2);
+       runTest("removeRange()", testList, expectedArr);
+
+       //removeRange() 2
+       initialList = new String[] {"a","b","c"};
+       expectedArr = new String[] {"b","c"};
+       testList = makeList(initialList);
+       testList.removeRange(0, 1);
+       runTest("removeRange()", testList, expectedArr);
+
+       //removeRange() 3
+       initialList = new String[] {"a","b","c"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       testList.removeRange(0, initialList.length);
+       runTest("removeRange()", testList, expectedArr);
+
+       //testing equals()
+       System.out.println();
+       System.out.println("----------------Testing equals()------------------");
+
+       //equals 1
+       initialList = new String[] {};
+       testList = makeList(initialList);
+       LinkedList<String> testList2 = makeList(initialList);
+       runTest("equals()", testList.equals(testList2));
+
+       //equals 2
+       initialList = new String[] {};
+       testList = makeList(initialList);
+       testList2 = makeList(initialList);
+       testList2.add("a");
+       runTest("equals()", !testList.equals(testList2));
+
+       //equals 2
+       initialList = new String[] {};
+       testList = makeList(initialList);
+       LinkedList<Integer> testList3 = new LinkedList<>();
+       runTest("equals()", testList.equals(testList3));
+
+       //testing iterator()
+       System.out.println();
+       System.out.println("---------------Testing Iterator()-----------------");
+
+       //iterator 1
+       runTest("iterator()", testList.iterator() != null);
+
+       //iterator 2
+       testList = new LinkedList<>();
+       runTest("iterator()", testList.iterator() != null);
+
+       //iterator 3
+       testList = new LinkedList<>();
+       testList.add("a");
+       runTest("iterator()", testList.iterator() != null);
+
+       System.out.println();
+       System.out.println("*****************ITERATOR METHODS*****************");
+
+       //testing hasNext()
+       System.out.println();
+       System.out.println("----------------Testing hasNext()-----------------");
+
+       //hasNext 1
+       initialList = new String[] {};
+       testList = makeList(initialList);
+       Iterator<String> it = testList.iterator();
+       runTest("hasNext()", !it.hasNext());
+
+       //hasNext 2
+       initialList = new String[] {"a","b"};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       runTest("hasNext()", it.hasNext());
+
+       //hasNext 3
+       initialList = new String[] {"a","b","c"};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       it.next();
+       it.next();
+       runTest("hasNext()", it.hasNext());
+
+       //testing next()
+       System.out.println();
+       System.out.println("-----------------Testing next()-------------------");
+
+       //next 1
+       initialList = new String[] {"a"};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       runTest("next()", it.next(), initialList[0]);
+
+       //next 2
+       initialList = new String[] {"a","b"};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       it.next();
+       runTest("next()", it.next(), initialList[1]);
+
+       //next 2
+       initialList = new String[] {"a","b","c","d","e"};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       it.next();
+       it.next();
+       it.next();
+       runTest("next()", it.next(), "d");
+
+       //testing remove()
+       System.out.println();
+       System.out.println("----------------Testing remove()------------------");
+
+       //remove()
+       initialList = new String[] {"a"};
+       expectedArr = new String[] {};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       it.next();
+       it.remove();
+       runTest("remove()", testList, expectedArr);
+
+       //remove()
+       initialList = new String[] {"a","b"};
+       expectedArr = new String[] {"a"};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       it.next();
+       it.next();
+       it.remove();
+       runTest("remove()", testList, expectedArr);
+
+       //remove()
+       initialList = new String[] {"a","b","c"};
+       expectedArr = new String[] {"a","c"};
+       testList = makeList(initialList);
+       it = testList.iterator();
+       it.next();
+       it.next();
+       it.remove();
+       runTest("remove()", testList, expectedArr);
+
+       System.out.println("\nTests passed: " + testsPassed + "/" 
+            + (testNum - 1));
+
+       // CS314 Students:
+       // uncomment the following line to run tests comparing
+       // your LinkedList class to the java ArrayList class.
+       //comparison();
+   }
+
+    private static LinkedList<String> makeList(String...str){
+       LinkedList<String> newList = new LinkedList<>();
+        for(String s : str){
+            newList.add(s);
         }
+        return newList;
+   }
+
+    private static int testNum = 1;
+    private static int testsPassed = 0;
+    private static void runTest(String methodName, LinkedList<String> testList
+            , String[] expectedArr){
+        String listString = testList.toString();
+        String expectedString = Arrays.toString(expectedArr);
+       if(listString.equals(expectedString)){
+           System.out.print("[PASSED] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+           testsPassed++;
+       }else{
+           System.out.print("[**FAILED**] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+           System.out.println("Expected: " + expectedString);
+           System.out.println("Actual: " + listString);
+       }
+
+       testNum++;       
+   }
+
+    private static void runTest(String methodName, String listString,
+            String expectedString){
+       if(listString.equals(expectedString)){
+           System.out.print("[PASSED] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+           testsPassed++;
+       }else{
+           System.out.print("[**FAILED**] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+           System.out.println("Expected: " + expectedString);
+           System.out.println("Actual: " + listString);
+       }
+
+       testNum++;       
+   }
+
+   private static void runTest(String methodName, int listInt,
+            int expectedInt){
+       if(listInt == expectedInt){
+           System.out.print("[PASSED] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+           testsPassed++;
+       }else{
+           System.out.print("[**FAILED**] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+           System.out.println("Expected: " + expectedInt);
+           System.out.println("Actual: " + listInt);
+       }
+
+       testNum++;       
+   }
+
+   private static void runTest(String methodName, boolean result){
+       if(result){
+           System.out.print("[PASSED] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+           testsPassed++;
+       }else{
+           System.out.print("[**FAILED**] ");
+           System.out.println("Test " + testNum + ": " + methodName);
+       }
+
+       testNum++;       
+   }
+   
+   private static Object[] toArray(LinkedList<String> list) {
+       Object[] result = new Object[list.size()];
+       Iterator<String> it = list.iterator();
+       int index = 0;
+       while (it.hasNext()){
+           result[index] = it.next();
+           index++;
+       }
+       return result;
+   }
+
+   //pre: none
+   private static boolean arraysSame(Object[] one, Object[] two)  {
+       boolean same;
+       if (one == null || two == null) {
+           same = (one == two);
+       } else {
+           //neither one or two are null
+           assert one != null && two != null;
+           same = one.length == two.length;
+           if (same) {
+               int index = 0;
+               while (index < one.length && same) {
+                   same = (one[index].equals(two[index]));
+                   index++;
+               }
+           }
+       }
+       return same;
+   }
+
+
+   private static final int NUM_DOUBLINGS_OF_N = 5;
+   private static final int NUM_REPEATS_OF_TEST = 100;
+
+   // A method to be run to compare your LinkedList class
+   // and the Java ArrayList class.
+   public static void comparison() {
+       Stopwatch s = new Stopwatch();
+
+       int initialN = 30000;
+       addEndArrayList(s, initialN, NUM_DOUBLINGS_OF_N);
+       addEndLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);
+
+       initialN = 2000;
+       addFrontArrayList(s, initialN, NUM_DOUBLINGS_OF_N);
+       initialN = 10000;
+       addFrontLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);
+
+       initialN = 2000;
+       removeFrontArrayList(s, initialN, NUM_DOUBLINGS_OF_N);
+       initialN = 5000;
+       removeFrontLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);
+
+       initialN = 10000;
+       getRandomArrayList(s, initialN, NUM_DOUBLINGS_OF_N);
+       initialN = 1000;
+       getRandomLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);
+
+       initialN = 50000;
+       getAllArrayListUsingIterator(s, initialN, NUM_DOUBLINGS_OF_N);
+       getAllLinkedListUsingIterator(s, initialN, NUM_DOUBLINGS_OF_N);
+
+       initialN = 100000;
+       getAllArrayListUsingGetMethod(s, initialN, NUM_DOUBLINGS_OF_N);
+       initialN = 1000;
+       getAllLinkedListUsingGetMethod(s, initialN, NUM_DOUBLINGS_OF_N);
+
+   }
+
+   // These pairs of method illustrate a failure to use polymorphism.
+   // If the students had implemented the Java list interface there
+   // could be a single method. Also we could use function objects to
+   // reduce the awful repetition of code.
+   public static void addEndArrayList(Stopwatch s, int initialN,
+           int numTests) {
+
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               ArrayList<Integer> javaList = new ArrayList<>();
+               s.start();
+               for (int j = 0; j < n; j++) {
+                   javaList.add(j);
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Adding at end: ArrayList", totalTimes, initialN);
+   }
+
+   private static void showResults(String title, double[] times,
+           int initialN) {
+       System.out.println();
+       System.out.println("Num Repeats: " + NUM_REPEATS_OF_TEST);
+       System.out.println(title);
+       for (double time : times) {
+           System.out.print("N = " + initialN + ", total time: ");
+           System.out.printf("%7.4f\n", time);
+           initialN *= 2;
+       }
+       System.out.println();
+   }
+
+   public static void addEndLinkedList(Stopwatch s, int initialN,
+           int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               LinkedList<Integer> studentList = new LinkedList<>();
+               s.start();
+               for (int j = 0; j < n; j++) {
+                   studentList.add(j);
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Adding at end: LinkedList", totalTimes, initialN);
+   }
+
+   public static void addFrontArrayList(Stopwatch s, int initialN,
+           int numTests){
+
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               ArrayList<Integer> javaList = new ArrayList<>();
+               s.start();
+               for (int j = 0; j < n; j++) {
+                   javaList.add(0, j);
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Adding at front: ArrayList", totalTimes, initialN);
+   }
+
+   public static void addFrontLinkedList(Stopwatch s, int initialN,
+           int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               LinkedList<Integer> studentList = new LinkedList<>();
+               s.start();
+               for (int j = 0; j < n; j++) {
+                   studentList.insert(0, j);
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Adding at front: LinkedList", totalTimes, initialN);
+   }
+
+   public static void removeFrontArrayList(Stopwatch s, int initialN,
+           int numTests){
+       double[] totalTimes = new double[numTests];
+       for(int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               ArrayList<String> javaList = new ArrayList<>();
+               for (int j = 0; j < n; j++) {
+                   javaList.add(j + "");
+               }
+               s.start();
+               while (!javaList.isEmpty()) {
+                   javaList.remove(0);
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Removing from front: ArrayList", totalTimes, initialN);
+   }
+
+   public static void removeFrontLinkedList(Stopwatch s, int initialN,
+           int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               LinkedList<String> studentList = new LinkedList<>();
+               for (int j = 0; j < n; j++) {
+                   studentList.add(j + "");
+               }
+               s.start();
+               while (studentList.size() != 0) {
+                   studentList.removeFirst();
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("removing from front: LinkedList", totalTimes, initialN);
+   }
+
+   public static void getRandomArrayList(Stopwatch s, int initialN,
+           int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           int total = 0;
+           Random r = new Random();
+           for (int i = 0; i < numTests; i++) {
+               ArrayList<Integer> javaList = new ArrayList<>();
+               for (int j = 0; j < n; j++) {
+                   javaList.add(j);
+               }
+               s.start();
+               for (int j = 0; j < n; j++) {
+                   total += javaList.get(r.nextInt(javaList.size()));
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Getting random: ArrayList", totalTimes, initialN);
+   }
+
+   public static void getRandomLinkedList(Stopwatch s, int initialN,
+           int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           int total = 0;
+           Random r = new Random();
+           for (int i = 0; i < numTests; i++) {
+               LinkedList<Integer> studentList = new LinkedList< >();
+               for (int j = 0; j < n; j++) {
+                   studentList.add(j);
+               }
+               s.start();
+               for (int j = 0; j < n; j++) {
+                   total += studentList.get(r.nextInt(studentList.size()));
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Getting random: LinkedList", totalTimes, initialN);
+   }
+
+   public static void getAllArrayListUsingIterator(Stopwatch s,
+           int initialN, int numTests){
+
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           int total = 0;
+           for (int i = 0; i < numTests; i++) {
+               ArrayList<Integer> javaList = new ArrayList<>();
+               for (int j = 0; j < n; j++) {
+                   javaList.add(j);
+               }
+               Iterator<Integer> it = javaList.iterator();
+               s.start();
+               while (it.hasNext()) {
+                   total += it.next();
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Getting all using iterator: ArrayList", totalTimes,
+               initialN);
+   }
+
+   public static void getAllLinkedListUsingIterator(Stopwatch s,
+           int initialN, int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           int total = 0;
+           for (int i = 0; i < numTests; i++) {
+               LinkedList<Integer> studentList = new LinkedList<>();
+               for (int j = 0; j < n; j++) {
+                   studentList.add(j);
+               }
+               Iterator<Integer> it = studentList.iterator();
+               s.start();
+               while (it.hasNext()) {
+                   total += it.next();
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Getting all using iterator: LinkedList", totalTimes,
+               initialN);
+   }
+
+   public static void getAllArrayListUsingGetMethod(Stopwatch s,
+           int initialN, int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               ArrayList<Integer> javaList = new ArrayList<>();
+               for (int j = 0; j < n; j++) {
+                   javaList.add(j);
+               }
+               s.start();
+               int x = 0;
+               for (int j = 0; j < javaList.size(); j++) {
+                   x += javaList.get(j);
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Getting all using get method: ArrayList", totalTimes,
+               initialN);
+   }
+
+   public static void getAllLinkedListUsingGetMethod(Stopwatch s,
+           int initialN, int numTests){
+       double[] totalTimes = new double[numTests];
+       for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {
+           int n = initialN;
+           for (int i = 0; i < numTests; i++) {
+               LinkedList<Integer> studentList = new LinkedList<>();
+               for (int j = 0; j < n; j++) {
+                   studentList.add(j);
+               }
+               s.start();
+               int x = 0;
+               for (int j = 0; j < studentList.size(); j++) {
+                   x += studentList.get(j);
+               }
+               s.stop();
+               totalTimes[i] += s.time();
+               n *= 2;
+           }
+       }
+       showResults("Getting all using get method: LinkedList",
+               totalTimes, initialN);
+   }
+
+   // for future changes
+   private static interface ArrayListOp {
+       public <E> void op(ArrayList<E> list, E data);
+   }
+
+   private ArrayListOp addAL = new ArrayListOp() {
+       public <E> void op(ArrayList<E> list, E data) {
+           list.add(data);
+       }
+   };
+
+   private ArrayListOp addFrontAL = new ArrayListOp() {
+       public <E> void op(ArrayList<E> list, E data) {
+           list.add(0, data);
+       }
+   };
+
+   private ArrayListOp removeFrontAL = new ArrayListOp() {
+       public <E> void op(ArrayList<E> list, E data) {
+           list.remove(0);
+       }
+   };
+
+   private static interface LinkedListOp<E> {
+       public void op(LinkedList<E> list);
+   }
 
-        int hammingDistanceCount = 0;
-        // go through both arrays and if the values at the same index 
-        // are different, then add to count
-        for(int i = 0; i < aData.length ; i++){
-            
-            if(aData[i] != bData[i]){
-                hammingDistanceCount++; 
-            }
-
-        }
-
-        return hammingDistanceCount;
-    }
-
-
-    /**
-     * Sorts a given array from least to greatest
-     * 
-     * @param array the array to sort
-     * @return a sorted array from least to greatest
-     * 
-    */  
-    private static int[] sort(int[] array){
-        // use a string array so that it is all null by default
-        String[] newArray = new String[array.length + 1];
-        
-        // go through array
-        for(int arrayIndex = 0; arrayIndex<array.length; arrayIndex++){
-
-            // compare all items in new array with currently selected item 
-            // from the original array
-            for(int newArrayIndex = newArray.length-1; newArrayIndex >= 0;
-                     newArrayIndex--){
-
-                if(newArrayIndex == newArray.length - 1){
-                    
-                    // if last index then add to newArray
-                    newArray[newArrayIndex] = ""+array[arrayIndex];
-
-                }else{
-
-                    // if next spot is less than or empty (== null)
-                    // then place currently selected item in new array
-                    if(newArray[newArrayIndex] == null 
-                            || array[arrayIndex] 
-                            < Integer.parseInt(newArray[newArrayIndex])){
-
-                        newArray[newArrayIndex + 1] = newArray[newArrayIndex];
-                        newArray[newArrayIndex] = ""+array[arrayIndex];
-                    }
-
-                }
-                
-
-            }
-
-        }
-
-        // convert string array back to int array
-        int[]returnArr = new int[array.length];
-        for(int i = 0; i < array.length; i++){
-            returnArr[i] = Integer.parseInt(newArray[i]);
-        }
-
-        return returnArr;
-        
-    }
-
-    /**
-     * Determine if one array of ints is a permutation of another.
-     * Neither the parameter <tt>aData</tt> or 
-     * the parameter <tt>bData</tt> are altered as a result of this method.<br>
-     * @param aData != null
-     * @param bData != null
-     * @return <tt>true</tt> if aData is a permutation of bData, 
-     * <tt>false</tt> otherwise
-     * 
-     */
-    public static boolean isPermutation(int[] aData, int[] bData) {
-        // check preconditions
-        if (aData == null || bData == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "isPermutation. neither parameter may equal null.");
-        }
-        
-        // Both arrays must be the same length before checking if its a 
-        // permutation
-        if(aData.length == bData.length){
-
-            // sort both arrays
-            int[] sortedAData = sort(aData);
-            int[] sortedBData = sort(bData);
-            
-            // check to see if all numbers match 
-            for(int i = 0; i < aData.length; i++){
-
-                if(sortedAData[i] != sortedBData[i]){
-                    return false;
-                }
-
-            }
-
-        }else{
-            // not a permutation if not the same length
-            return false;
-        }
-        
-        // if no differences were found in sorted arrays, then its a permutation
-        return true; 
-    }
-
-
-    /**
-     * Determine the index of the String that 
-     * has the largest number of vowels. 
-     * Vowels are defined as <tt>'A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 
-     * 'U', and 'u'</tt>.
-     * The parameter <tt>arrayOfStrings</tt> is not altered as a result of this method.
-     * <p>pre: <tt>arrayOfStrings != null</tt>, <tt>arrayOfStrings.length > 0</tt>, 
-     * there is an least 1 non null element in arrayOfStrings.
-     * <p>post: return the index of the non-null element in arrayOfStrings that has the 
-     * largest number of characters that are vowels.
-     * If there is a tie return the index closest to zero. 
-     * The empty String, "", has zero vowels.
-     * It is possible for the maximum number of vowels to be 0.<br>
-     * @param arrayOfStrings the array to check
-     * @return the index of the non-null element in arrayOfStrings that has 
-     * the largest number of vowels.
-     */
-    public static int mostVowels(String[] arrayOfStrings) {
-        // check preconditions
-        if (arrayOfStrings == null || arrayOfStrings.length == 0 || !atLeastOneNonNull(arrayOfStrings)) { 
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "mostVowels. parameter may not equal null and must contain " +
-                    "at least one none null value.");
-        }
-
-        String vowels = "aeiou";
-        // last index of array since the loop starts from the end of array
-        int indexOfMostVowels = arrayOfStrings.length-1;
-        int countOfVowelsInMostVowels = 0;
-
-        // go through all of the strings int the array
-        // Start from end of array so you can settle tie with string 
-        // closest to index 0
-        for(int i = arrayOfStrings.length - 1; i >=0; i--){
-
-            // make sure the string isnt null
-            if(arrayOfStrings[i] != null){
-
-                // turn the string into an all lowercase array of strings 
-                // so that you can check if each character is a vowel
-                String[]str = arrayOfStrings[i].toLowerCase().split("");
-                int countOfVowels = 0;
-
-                // count vowels in currently selected string
-                for(String x: str){
-
-                    // must ignore empty string and see if the character 
-                    // is vowel before counting
-                    if(!x.equals("") && vowels.contains(x)){
-                        countOfVowels++;
-                    }
-
-                }
-
-                // if this string has more vowels than previous
-                // then set it's index as the indexOfMostVowels
-                // and replace highest vowel count to current count
-                if(countOfVowels >= countOfVowelsInMostVowels){
-                    indexOfMostVowels = i;
-                    countOfVowelsInMostVowels = countOfVowels;
-                }
-
-            }
-
-
-        }
-
-        return indexOfMostVowels;
-    }
-
-
-
-    /**
-     * Perform an experiment simulating the birthday problem.
-     * Pick random birthdays for the given number of people. 
-     * Return the number of pairs of people that share the
-     * same birthday.<br>
-     * @param numPeople The number of people in the experiment.
-     * This value must be > 0
-     * @param numDaysInYear The number of days in the year for this experiement.
-     * This value must be > 0
-     * @return The number of pairs of people that share a birthday 
-     * after running the simulation.
-     */
-    public static int sharedBirthdays(int numPeople, int numDaysInYear) {
-        // check preconditions
-        if (numPeople <= 0 || numDaysInYear <= 0) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "sharedBirthdays. both parameters must be greater than 0. " +
-                    "numPeople: " + numPeople + 
-                    ", numDaysInYear: " + numDaysInYear);
-        }
-
-        int[] birthdays = new int[numPeople];
-        int numberOfPairs = 0;
-
-        // generate random birthdays 
-        for(int i = 0; i<numPeople; i++){
-            Random r = new Random();
-            birthdays[i] = r.nextInt(numDaysInYear);
-
-        }
-
-        // go through list of birthdays
-        for(int i = 0; i < birthdays.length; i++){
-
-            // compare to every birthday except itself and the ones before it
-            // because the ones before it have already been compared
-            for(int x = i+1; x < birthdays.length; x++){
-                if(birthdays[i] == birthdays[x]){
-                    numberOfPairs++;
-                }
-            }
-
-        }
-
-        return numberOfPairs; 
-    }
-
-
-
-    /**
-     * Determine if the chess board represented by board is a safe set up.
-     * <p>pre: board != null, board.length > 0, board is a square matrix.
-     * (In other words all rows in board have board.length columns.),
-     * all elements of board == 'q' or '.'. 'q's represent queens, '.'s
-     * represent open spaces.<br>
-     * <p>post: return true if the configuration of board is safe,
-     * that is no queen can attack any other queen on the board.
-     * false otherwise.
-     * the parameter <tt>board</tt> is not altered as a result of 
-     * this method.<br>
-     * @param board the chessboard
-     * @return true if the configuration of board is safe,
-     * that is no queen can attack any other queen on the board.
-     * false otherwise.
-     */
-    public static boolean queensAreSafe(char[][] board) {
-        char[] validChars = {'q', '.'};
-        // check preconditions
-        if (board == null || board.length == 0 || !isSquare(board) 
-                || !onlyContains(board, validChars)) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "queensAreSafe. The board may not be null, must be square, " +
-                    "and may only contain 'q's and '.'s");        
-        }
-
-        char queen = validChars[0];  // 'q' stands for queen on the board
-        for(int row = 0; row < board.length; row++){
-
-            for(int column = 0; column < board.length; column++){
-                // find queen in matrix
-                if(board[row][column] == queen){
-                    
-                    for(int i = 0; i < board.length; i++){
-                        // check horizontal for queen
-                        if(i != column && board[row][i] == queen){
-                            return false;
-                        }
-
-                        // check vertical for queen
-                        if(i != row && board[i][column] == queen){
-
-                            return false;
-                        }
-
-                        // check diagonal 1(\) for queen
-                        int columnDiagonal1 = column - (row - i);
-                        if(columnDiagonal1 >= 0 && columnDiagonal1 < board.length){
-                            if(i != row && board[i][columnDiagonal1] == queen){
-                                return false;
-                            }
-                        }
-
-                        // check diagonal 2(/) for queen
-                        int columnDiagonal2 = column + (row - i);
-                        if(columnDiagonal2 < board.length && columnDiagonal2 >= 0){
-                            if(i != row && board[i][columnDiagonal2] == queen){
-                                return false;
-                            }
-                        }
-                        
-                    }
-
-
-                }
-            }
-        }
-
-        // passed all directional tests for all queens on the board
-        // so the board is safe
-        return true; 
-    }
-
-    /**
-     * Given a 2D array and a starting point (row,column) it returns 
-     * the value of the most valuable contiguous sub rectangle from 
-     * that starting point
-     * 
-     * @param city The 2D array of ints representing the value of
-     * each block in a portion of a city.
-     * @param row the row of the starting point in the city array
-     * @param column the column of the starting point in the city array
-     * @return the value of the most valuable contiguous sub rectangle
-     * in the city array from the given starting point with row and column
-     */
-    private static int getMostValueFromStartingPoint(int[][]city, int row, int column){
-        int highestValue = city[row][column];
-
-        // runs through all rows from starting row and onwards
-        for(int r = row; r < city.length; r++){
-            // keeps count of value of current rectangle
-            int sum = 0;
-
-            // runs through all columns from starting column and onwards
-            for(int c = column; c < city[r].length; c++){
-                // adds values from previous columns
-                for(int currentRow = r; currentRow >= row; currentRow--){
-                    sum += city[currentRow][c];
-                }   
-                // if current rectangle is larger than previously 
-                // largest rectangle then replace 
-                // highest value with new rectangle value
-                if(sum > highestValue){
-                    highestValue = sum;
-                }           
-                
-            }
-
-        }
-
-        return highestValue;
-    }
-
-    /**
-     * Given a 2D array of ints return the value of the
-     * most valuable contiguous sub rectangle in the 2D array.
-     * The sub rectangle must be at least 1 by 1. 
-     * <p>pre: <tt>mat != null, mat.length > 0, mat[0].length > 0,
-     * mat</tt> is a rectangular matrix.
-     * <p>post: return the value of the most valuable contiguous sub rectangle
-     * in <tt>city</tt>.<br>
-     * @param city The 2D array of ints representing the value of
-     * each block in a portion of a city.
-     * @return return the value of the most valuable contiguous sub rectangle
-     * in <tt>city</tt>.
-     */
-    public static int getValueOfMostValuablePlot(int[][] city) {
-        // check preconditions
-        if (city == null || city.length == 0 || city[0].length == 0 
-                || !isRectangular(city) ) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "getValueOfMostValuablePlot. The parameter may not be null," +
-                    " must value at least one row and at least" +
-                    " one column, and must be rectangular."); 
-        }        
-
-        int highestValue = city[0][0];
-
-        for(int row = 0; row<city.length; row++){
-
-            for(int column = 0; column < city[row].length; column++){
-                // finds rectangle with highest value from this point
-                int maxValFromThisPoint = 
-                        getMostValueFromStartingPoint(city, row, column);
-                // if this new highest value exceeds previous highest value, 
-                // then it replaces it
-                if(maxValFromThisPoint > highestValue){
-                    highestValue = maxValFromThisPoint;
-                }
-            }
-
-        }
-
-        // returns highest possible value out of the 2D array 
-        // out of all starting points
-        return highestValue; 
-    }
-
-
-    // !!!!! ***** !!!!! ***** !!!!! ****** !!!!! ****** !!!!! ****** !!!!!!
-    // CS314 STUDENTS: Put your birthday problem experiment code here:
-
-    /**
-     * perform birthday experiment as many times as you want 
-     * works with sharedBirthdays method
-     * returns average number of pairs that occur
-     * 
-     * @param numOfExperiments the number of experiments that you want to run
-     * @param numPeople the number of people to be used in the birthday problem
-     * @param daysPerYear the number of days in a year to be 
-     * used in the birthday problem
-     * @return the average number of pairs out of all of the experiments
-     */
-    public static double averageNumberOfPairsExperiment(int numOfExperiments, int numPeople, int daysPerYear){
-        // keeps count of the sum of all the results
-        double totalSumOfPairs = 0;
-
-        // performs expriments and adds results to totalSumOfPairs
-        for(int i = 0; i < numOfExperiments; i++){
-            totalSumOfPairs += sharedBirthdays(numPeople, daysPerYear);
-        }
-
-        // returns the average number of pairs
-        return totalSumOfPairs/numOfExperiments;
-    }
-
-    /**
-     * performs birthday experiment and returns the number of experiments
-     * that have at least 1 shared birthday
-     * 
-     * @param numOfExperiments the number of experiments you want to run
-     * @param numPeople the number of people to be used in the birthday problem
-     * @param daysInYear the number of days in a year to be used
-     * in the birthday problem
-     * @return the number of experiments that had at least one pair
-     */
-    public static int countOfExperimentsWithAPair(int numOfExperiments, int numPeople, int daysInYear){
-        // keeps count of experiments that have atleast one pair
-        int countOfExperiments = 0;
-
-        // runs experiments
-        for(int i = 0; i < numOfExperiments; i++){
-            // adds to counter if experiment has a pair
-            if(sharedBirthdays(numPeople, daysInYear) >= 1){
-                countOfExperiments++;
-            }
-        }
-
-        return countOfExperiments;
-
-    }
-
-    /**
-     * Performs the second experiment for the birthday problem and draws the table
-     * 
-     * @param minRange the minimum number of people (inclusive)
-     * @param maxRange the maximum number of people (inclusive)
-     */
-    public static void runBirthdayExperiment2(int minRange, int maxRange){
-        
-        for(int i = minRange; i <= maxRange; i++){
-            int count = countOfExperimentsWithAPair(50000, i, 365);
-            double percentage = (count/50000.)*100;
-            System.out.print("Num people: "+i+", number of experiments with one or more shared birthday: "+count+", percentage: ");
-            System.out.printf("%.2f",percentage);
-            System.out.println();
-        }
-    }
-
-    /* 
-     * pre: arrayOfStrings != null
-     * post: return true if at least one element in arrayOfStrings is 
-     * not null, otherwise return false. 
-     */
-    private static boolean atLeastOneNonNull(String[] arrayOfStrings) {
-        // check precondition
-        if (arrayOfStrings == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "atLeastOneNonNull. parameter may not equal null.");
-        }
-        boolean foundNonNull = false;
-        int i = 0;
-        while( !foundNonNull && i < arrayOfStrings.length ) {
-            foundNonNull = arrayOfStrings[i] != null;
-            i++;
-        }
-        return foundNonNull;
-    }
-
-
-    /* 
-     * pre: mat != null
-     * post: return true if mat is a square matrix, false otherwise
-     */
-    private static boolean isSquare(char[][] mat) {
-        if (mat == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "isSquare. Parameter may not be null.");
-        }
-        final int numRows = mat.length;
-        int row = 0;
-        boolean isSquare = true;
-        while (isSquare && row < numRows) {
-            isSquare = ( mat[row] != null) && (mat[row].length == numRows);
-            row++;
-        }
-        return isSquare;
-    }
-
-
-    /* 
-     * pre: mat != null, valid != null
-     * post: return true if all elements in mat are one of the 
-     * characters in valid
-     */
-    private static boolean onlyContains(char[][] mat, char[] valid) {
-        // check preconditions
-        if (mat == null || valid == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "onlyContains. Parameters may not be null.");
-        }
-        String validChars = new String(valid);
-        int row = 0;
-        boolean onlyContainsValidChars = true;
-        while (onlyContainsValidChars && row < mat.length) {
-            int col = 0;
-            while(onlyContainsValidChars && col < mat[row].length) {
-                int indexOfChar = validChars.indexOf(mat[row][col]);
-                onlyContainsValidChars = indexOfChar != -1;
-                col++;
-            }
-            row++;
-        }
-        return onlyContainsValidChars;
-    }
-
-
-    /*
-     * pre: mat != null, mat.length > 0
-     * post: return true if mat is rectangular
-     */
-    private static boolean isRectangular(int[][] mat) {
-        // check preconditions
-        if (mat == null || mat.length == 0) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "isRectangular. Parameter may not be null and must contain" +
-                    " at least one row.");
-        }
-        boolean correct = mat[0] != null;
-        int row = 0;
-        while(correct && row < mat.length) {
-            correct = (mat[row] != null) 
-                    && (mat[row].length == mat[0].length);
-            row++;
-        }
-        return correct;
-    }
-
-    // make constructor private so no instances of CodeCamp can not be created
-    private CodeCamp() {
-
-    }
 }

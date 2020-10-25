@@ -1,593 +1,1089 @@
-//  CodeCamp.java - CS314 Assignment 1
-
-/*  Student information for assignment:
- * 
- *  replace <NAME> with your name.
- *
- *  On my honor, Rodrigo Okamoto Corbellini Pereira, this programming assignment is my own work
- *  and I have not provided this code to any other student.
- *
- *  Name: Rodrigo Okamoto Corbellini Pereira
- *  email address: rodrigoocp@utexas.edu
- *  UTEID: ro7929
- *  Section 5 digit ID: 50915
- *  Grader name: Irena
- *  Number of slip days used on this assignment: 0
- */
-
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
-public class CodeCamp {
-
-    /**
-     * Determine the Hamming distance between two arrays of ints. 
-     * Neither the parameter <tt>aData</tt> or
-     * <tt>bData</tt> are altered as a result of this method.<br>
-     * @param aData != null, aData.length == aData.length
-     * @param bData != null
-     * @return the Hamming Distance between the two arrays of ints.
-     */    
-    public static int hammingDistance(int[] aData, int[] bData) {
-        // check preconditions
-        if (aData == null || bData == null || aData.length != bData.length) { 
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "hammingDistance. neither parameter may equal null, arrays" +
-                    " must be equal length.");
-        }
-
-        int hammingDistanceCount = 0;
-        // go through both arrays and if the values at the same index 
-        // are different, then add to count
-        for(int i = 0; i < aData.length ; i++){
-            
-            if(aData[i] != bData[i]){
-                hammingDistanceCount++; 
-            }
-
-        }
-
-        return hammingDistanceCount;
-    }
-
-
-    /**
-     * Sorts a given array from least to greatest
-     * 
-     * @param array the array to sort
-     * @return a sorted array from least to greatest
-     * 
-    */  
-    private static int[] sort(int[] array){
-        // use a string array so that it is all null by default
-        String[] newArray = new String[array.length + 1];
-        
-        // go through array
-        for(int arrayIndex = 0; arrayIndex<array.length; arrayIndex++){
-
-            // compare all items in new array with currently selected item 
-            // from the original array
-            for(int newArrayIndex = newArray.length-1; newArrayIndex >= 0;
-                     newArrayIndex--){
-
-                if(newArrayIndex == newArray.length - 1){
-                    
-                    // if last index then add to newArray
-                    newArray[newArrayIndex] = ""+array[arrayIndex];
-
-                }else{
-
-                    // if next spot is less than or empty (== null)
-                    // then place currently selected item in new array
-                    if(newArray[newArrayIndex] == null 
-                            || array[arrayIndex] 
-                            < Integer.parseInt(newArray[newArrayIndex])){
-
-                        newArray[newArrayIndex + 1] = newArray[newArrayIndex];
-                        newArray[newArrayIndex] = ""+array[arrayIndex];
-                    }
-
-                }
-                
-
-            }
-
-        }
-
-        // convert string array back to int array
-        int[]returnArr = new int[array.length];
-        for(int i = 0; i < array.length; i++){
-            returnArr[i] = Integer.parseInt(newArray[i]);
-        }
-
-        return returnArr;
-        
-    }
-
-    /**
-     * Determine if one array of ints is a permutation of another.
-     * Neither the parameter <tt>aData</tt> or 
-     * the parameter <tt>bData</tt> are altered as a result of this method.<br>
-     * @param aData != null
-     * @param bData != null
-     * @return <tt>true</tt> if aData is a permutation of bData, 
-     * <tt>false</tt> otherwise
-     * 
-     */
-    public static boolean isPermutation(int[] aData, int[] bData) {
-        // check preconditions
-        if (aData == null || bData == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "isPermutation. neither parameter may equal null.");
-        }
-        
-        // Both arrays must be the same length before checking if its a 
-        // permutation
-        if(aData.length == bData.length){
-
-            // sort both arrays
-            int[] sortedAData = sort(aData);
-            int[] sortedBData = sort(bData);
-            
-            // check to see if all numbers match 
-            for(int i = 0; i < aData.length; i++){
-
-                if(sortedAData[i] != sortedBData[i]){
-                    return false;
-                }
-
-            }
-
-        }else{
-            // not a permutation if not the same length
-            return false;
-        }
-        
-        // if no differences were found in sorted arrays, then its a permutation
-        return true; 
-    }
-
-
-    /**
-     * Determine the index of the String that 
-     * has the largest number of vowels. 
-     * Vowels are defined as <tt>'A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 
-     * 'U', and 'u'</tt>.
-     * The parameter <tt>arrayOfStrings</tt> is not altered as a result of this method.
-     * <p>pre: <tt>arrayOfStrings != null</tt>, <tt>arrayOfStrings.length > 0</tt>, 
-     * there is an least 1 non null element in arrayOfStrings.
-     * <p>post: return the index of the non-null element in arrayOfStrings that has the 
-     * largest number of characters that are vowels.
-     * If there is a tie return the index closest to zero. 
-     * The empty String, "", has zero vowels.
-     * It is possible for the maximum number of vowels to be 0.<br>
-     * @param arrayOfStrings the array to check
-     * @return the index of the non-null element in arrayOfStrings that has 
-     * the largest number of vowels.
-     */
-    public static int mostVowels(String[] arrayOfStrings) {
-        // check preconditions
-        if (arrayOfStrings == null || arrayOfStrings.length == 0 || !atLeastOneNonNull(arrayOfStrings)) { 
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "mostVowels. parameter may not equal null and must contain " +
-                    "at least one none null value.");
-        }
-
-        String vowels = "aeiou";
-        // last index of array since the loop starts from the end of array
-        int indexOfMostVowels = arrayOfStrings.length-1;
-        int countOfVowelsInMostVowels = 0;
-
-        // go through all of the strings int the array
-        // Start from end of array so you can settle tie with string 
-        // closest to index 0
-        for(int i = arrayOfStrings.length - 1; i >=0; i--){
-
-            // make sure the string isnt null
-            if(arrayOfStrings[i] != null){
-
-                // turn the string into an all lowercase array of strings 
-                // so that you can check if each character is a vowel
-                String[]str = arrayOfStrings[i].toLowerCase().split("");
-                int countOfVowels = 0;
-
-                // count vowels in currently selected string
-                for(String x: str){
-
-                    // must ignore empty string and see if the character 
-                    // is vowel before counting
-                    if(!x.equals("") && vowels.contains(x)){
-                        countOfVowels++;
-                    }
-
-                }
-
-                // if this string has more vowels than previous
-                // then set it's index as the indexOfMostVowels
-                // and replace highest vowel count to current count
-                if(countOfVowels >= countOfVowelsInMostVowels){
-                    indexOfMostVowels = i;
-                    countOfVowelsInMostVowels = countOfVowels;
-                }
-
-            }
-
-
-        }
-
-        return indexOfMostVowels;
-    }
-
-
-
-    /**
-     * Perform an experiment simulating the birthday problem.
-     * Pick random birthdays for the given number of people. 
-     * Return the number of pairs of people that share the
-     * same birthday.<br>
-     * @param numPeople The number of people in the experiment.
-     * This value must be > 0
-     * @param numDaysInYear The number of days in the year for this experiement.
-     * This value must be > 0
-     * @return The number of pairs of people that share a birthday 
-     * after running the simulation.
-     */
-    public static int sharedBirthdays(int numPeople, int numDaysInYear) {
-        // check preconditions
-        if (numPeople <= 0 || numDaysInYear <= 0) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "sharedBirthdays. both parameters must be greater than 0. " +
-                    "numPeople: " + numPeople + 
-                    ", numDaysInYear: " + numDaysInYear);
-        }
-
-        int[] birthdays = new int[numPeople];
-        int numberOfPairs = 0;
-
-        // generate random birthdays 
-        for(int i = 0; i<numPeople; i++){
-            Random r = new Random();
-            birthdays[i] = r.nextInt(numDaysInYear);
-
-        }
-
-        // go through list of birthdays
-        for(int i = 0; i < birthdays.length; i++){
-
-            // compare to every birthday except itself and the ones before it
-            // because the ones before it have already been compared
-            for(int x = i+1; x < birthdays.length; x++){
-                if(birthdays[i] == birthdays[x]){
-                    numberOfPairs++;
-                }
-            }
-
-        }
-
-        return numberOfPairs; 
-    }
-
-
-
-    /**
-     * Determine if the chess board represented by board is a safe set up.
-     * <p>pre: board != null, board.length > 0, board is a square matrix.
-     * (In other words all rows in board have board.length columns.),
-     * all elements of board == 'q' or '.'. 'q's represent queens, '.'s
-     * represent open spaces.<br>
-     * <p>post: return true if the configuration of board is safe,
-     * that is no queen can attack any other queen on the board.
-     * false otherwise.
-     * the parameter <tt>board</tt> is not altered as a result of 
-     * this method.<br>
-     * @param board the chessboard
-     * @return true if the configuration of board is safe,
-     * that is no queen can attack any other queen on the board.
-     * false otherwise.
-     */
-    public static boolean queensAreSafe(char[][] board) {
-        char[] validChars = {'q', '.'};
-        // check preconditions
-        if (board == null || board.length == 0 || !isSquare(board) 
-                || !onlyContains(board, validChars)) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "queensAreSafe. The board may not be null, must be square, " +
-                    "and may only contain 'q's and '.'s");        
-        }
-
-        char queen = validChars[0];  // 'q' stands for queen on the board
-        for(int row = 0; row < board.length; row++){
-
-            for(int column = 0; column < board.length; column++){
-                // find queen in matrix
-                if(board[row][column] == queen){
-                    
-                    for(int i = 0; i < board.length; i++){
-                        // check horizontal for queen
-                        if(i != column && board[row][i] == queen){
-                            return false;
-                        }
-
-                        // check vertical for queen
-                        if(i != row && board[i][column] == queen){
-
-                            return false;
-                        }
-
-                        // check diagonal 1(\) for queen
-                        int columnDiagonal1 = column - (row - i);
-                        if(columnDiagonal1 >= 0 && columnDiagonal1 < board.length){
-                            if(i != row && board[i][columnDiagonal1] == queen){
-                                return false;
-                            }
-                        }
-
-                        // check diagonal 2(/) for queen
-                        int columnDiagonal2 = column + (row - i);
-                        if(columnDiagonal2 < board.length && columnDiagonal2 >= 0){
-                            if(i != row && board[i][columnDiagonal2] == queen){
-                                return false;
-                            }
-                        }
-                        
-                    }
-
-
-                }
-            }
-        }
-
-        // passed all directional tests for all queens on the board
-        // so the board is safe
-        return true; 
-    }
-
-    /**
-     * Given a 2D array and a starting point (row,column) it returns 
-     * the value of the most valuable contiguous sub rectangle from 
-     * that starting point
-     * 
-     * @param city The 2D array of ints representing the value of
-     * each block in a portion of a city.
-     * @param row the row of the starting point in the city array
-     * @param column the column of the starting point in the city array
-     * @return the value of the most valuable contiguous sub rectangle
-     * in the city array from the given starting point with row and column
-     */
-    private static int getMostValueFromStartingPoint(int[][]city, int row, int column){
-        int highestValue = city[row][column];
-
-        // runs through all rows from starting row and onwards
-        for(int r = row; r < city.length; r++){
-            // keeps count of value of current rectangle
-            int sum = 0;
-
-            // runs through all columns from starting column and onwards
-            for(int c = column; c < city[r].length; c++){
-                // adds values from previous columns
-                for(int currentRow = r; currentRow >= row; currentRow--){
-                    sum += city[currentRow][c];
-                }   
-                // if current rectangle is larger than previously 
-                // largest rectangle then replace 
-                // highest value with new rectangle value
-                if(sum > highestValue){
-                    highestValue = sum;
-                }           
-                
-            }
-
-        }
-
-        return highestValue;
-    }
-
-    /**
-     * Given a 2D array of ints return the value of the
-     * most valuable contiguous sub rectangle in the 2D array.
-     * The sub rectangle must be at least 1 by 1. 
-     * <p>pre: <tt>mat != null, mat.length > 0, mat[0].length > 0,
-     * mat</tt> is a rectangular matrix.
-     * <p>post: return the value of the most valuable contiguous sub rectangle
-     * in <tt>city</tt>.<br>
-     * @param city The 2D array of ints representing the value of
-     * each block in a portion of a city.
-     * @return return the value of the most valuable contiguous sub rectangle
-     * in <tt>city</tt>.
-     */
-    public static int getValueOfMostValuablePlot(int[][] city) {
-        // check preconditions
-        if (city == null || city.length == 0 || city[0].length == 0 
-                || !isRectangular(city) ) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "getValueOfMostValuablePlot. The parameter may not be null," +
-                    " must value at least one row and at least" +
-                    " one column, and must be rectangular."); 
-        }        
-
-        int highestValue = city[0][0];
-
-        for(int row = 0; row<city.length; row++){
-
-            for(int column = 0; column < city[row].length; column++){
-                // finds rectangle with highest value from this point
-                int maxValFromThisPoint = 
-                        getMostValueFromStartingPoint(city, row, column);
-                // if this new highest value exceeds previous highest value, 
-                // then it replaces it
-                if(maxValFromThisPoint > highestValue){
-                    highestValue = maxValFromThisPoint;
-                }
-            }
-
-        }
-
-        // returns highest possible value out of the 2D array 
-        // out of all starting points
-        return highestValue; 
-    }
-
-
-    // !!!!! ***** !!!!! ***** !!!!! ****** !!!!! ****** !!!!! ****** !!!!!!
-    // CS314 STUDENTS: Put your birthday problem experiment code here:
-
-    /**
-     * perform birthday experiment as many times as you want 
-     * works with sharedBirthdays method
-     * returns average number of pairs that occur
-     * 
-     * @param numOfExperiments the number of experiments that you want to run
-     * @param numPeople the number of people to be used in the birthday problem
-     * @param daysPerYear the number of days in a year to be 
-     * used in the birthday problem
-     * @return the average number of pairs out of all of the experiments
-     */
-    public static double averageNumberOfPairsExperiment(int numOfExperiments, int numPeople, int daysPerYear){
-        // keeps count of the sum of all the results
-        double totalSumOfPairs = 0;
-
-        // performs expriments and adds results to totalSumOfPairs
-        for(int i = 0; i < numOfExperiments; i++){
-            totalSumOfPairs += sharedBirthdays(numPeople, daysPerYear);
-        }
-
-        // returns the average number of pairs
-        return totalSumOfPairs/numOfExperiments;
-    }
-
-    /**
-     * performs birthday experiment and returns the number of experiments
-     * that have at least 1 shared birthday
-     * 
-     * @param numOfExperiments the number of experiments you want to run
-     * @param numPeople the number of people to be used in the birthday problem
-     * @param daysInYear the number of days in a year to be used
-     * in the birthday problem
-     * @return the number of experiments that had at least one pair
-     */
-    public static int countOfExperimentsWithAPair(int numOfExperiments, int numPeople, int daysInYear){
-        // keeps count of experiments that have atleast one pair
-        int countOfExperiments = 0;
-
-        // runs experiments
-        for(int i = 0; i < numOfExperiments; i++){
-            // adds to counter if experiment has a pair
-            if(sharedBirthdays(numPeople, daysInYear) >= 1){
-                countOfExperiments++;
-            }
-        }
-
-        return countOfExperiments;
-
-    }
-
-    /**
-     * Performs the second experiment for the birthday problem and draws the table
-     * 
-     * @param minRange the minimum number of people (inclusive)
-     * @param maxRange the maximum number of people (inclusive)
-     */
-    public static void runBirthdayExperiment2(int minRange, int maxRange){
-        
-        for(int i = minRange; i <= maxRange; i++){
-            int count = countOfExperimentsWithAPair(50000, i, 365);
-            double percentage = (count/50000.)*100;
-            System.out.print("Num people: "+i+", number of experiments with one or more shared birthday: "+count+", percentage: ");
-            System.out.printf("%.2f",percentage);
-            System.out.println();
-        }
-    }
-
-    /* 
-     * pre: arrayOfStrings != null
-     * post: return true if at least one element in arrayOfStrings is 
-     * not null, otherwise return false. 
-     */
-    private static boolean atLeastOneNonNull(String[] arrayOfStrings) {
-        // check precondition
-        if (arrayOfStrings == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "atLeastOneNonNull. parameter may not equal null.");
-        }
-        boolean foundNonNull = false;
-        int i = 0;
-        while( !foundNonNull && i < arrayOfStrings.length ) {
-            foundNonNull = arrayOfStrings[i] != null;
-            i++;
-        }
-        return foundNonNull;
-    }
-
-
-    /* 
-     * pre: mat != null
-     * post: return true if mat is a square matrix, false otherwise
-     */
-    private static boolean isSquare(char[][] mat) {
-        if (mat == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "isSquare. Parameter may not be null.");
-        }
-        final int numRows = mat.length;
-        int row = 0;
-        boolean isSquare = true;
-        while (isSquare && row < numRows) {
-            isSquare = ( mat[row] != null) && (mat[row].length == numRows);
-            row++;
-        }
-        return isSquare;
-    }
-
-
-    /* 
-     * pre: mat != null, valid != null
-     * post: return true if all elements in mat are one of the 
-     * characters in valid
-     */
-    private static boolean onlyContains(char[][] mat, char[] valid) {
-        // check preconditions
-        if (mat == null || valid == null) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "onlyContains. Parameters may not be null.");
-        }
-        String validChars = new String(valid);
-        int row = 0;
-        boolean onlyContainsValidChars = true;
-        while (onlyContainsValidChars && row < mat.length) {
-            int col = 0;
-            while(onlyContainsValidChars && col < mat[row].length) {
-                int indexOfChar = validChars.indexOf(mat[row][col]);
-                onlyContainsValidChars = indexOfChar != -1;
-                col++;
-            }
-            row++;
-        }
-        return onlyContainsValidChars;
-    }
-
-
     /*
-     * pre: mat != null, mat.length > 0
-     * post: return true if mat is rectangular
+        This is a community sourced tester file for CS314 Assignment 1, written
+        by David Bauducco.
+
+        The following people contributed to the file:
+        - Aly Abdulatiff
+        - Lauren Kim
+        - Raquel Moreno
+        - Akram B
+
+        If you would like to make contributions, contact David at either
+        option below:
+            Discord: iBeam#8060
+            Email: dbauducco@utexas.edu
+
+
+       Disclaimer:
+       This code is provided as-is and comes with no guarantees of accurateness
+       or completeness. This is also not an accurate representation of what tests
+       might be ran against your code to grade it.
+
      */
-    private static boolean isRectangular(int[][] mat) {
-        // check preconditions
-        if (mat == null || mat.length == 0) {
-            throw new IllegalArgumentException("Violation of precondition: " +
-                    "isRectangular. Parameter may not be null and must contain" +
-                    " at least one row.");
-        }
-        boolean correct = mat[0] != null;
-        int row = 0;
-        while(correct && row < mat.length) {
-            correct = (mat[row] != null) 
-                    && (mat[row].length == mat[0].length);
-            row++;
-        }
-        return correct;
+
+public class CodeCampCommunityTester {
+
+
+    // OPTIONS + SET UP --------------------------------------------------------
+
+    // Set to true to see only the summary, partly overridden by smartOutput.
+    static boolean summaryOnly = true;
+
+    // Set to true to see full outputs of expected, actual results, and time only
+    // when a test fails
+    static boolean smartOutput = true;
+
+    // Set to true to see full outputs of expected, actual results and time
+    // Otherwise, keep to false for a shorter concise output.
+    // ** Overrides smart and summaryOnly modes.
+    static boolean fullOutput = true;
+
+    public static void main(String[] args) {
+
+        /*
+            Comment out any tests that you are not interested in running.
+         */
+
+        // Tests for hammingDistance()
+        testHammingDistance();
+
+        // Test for isPermutation()
+        testPermutation();
+
+        // Test for mostVowels()
+        testMostVowels();
+
+        // Test for sharedBirthdays()
+        testSharedBirthdays();
+
+        // Test for queensAreSafe()
+        testQueensAreSafe();
+
+        // Test for mostValuablePlot()
+        testMostValuablePlot();
+
+        // Print Summary Page
+        printSummaryPage();
+
     }
 
-    // make constructor private so no instances of CodeCamp can not be created
-    private CodeCamp() {
+
+    // Test Code ---------------------------------------------------------------
+
+
+    public static void testHammingDistance() {
+
+
+        // Setup
+        resetTestRun();
+        int[] dataOne = {};
+        int[] dataTwo = {};
+        int expectedResult = 0;
+        System.out.println(newline + "********* HAMMING TESTS *********" + newline);
+
+        // Test 1
+        dataOne = new int[] { 1, 2, 3, 4, 5, 4, 3, 2, 1 };
+        dataTwo = new int[] { 1, 6, 3, 6, 5, 6, 3, 6, 1 };
+        expectedResult = 4;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 2
+        dataOne = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        dataTwo = new int[] { 0, 0, 0, 0, 11, 11, 11, 12, 12, 12 };
+        expectedResult = 10;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 3
+        dataOne = new int[] { 1, 2, 3, 4, 5, 4, 3, 2, 1 };
+        dataTwo = new int[] { 1, 2, 10, 4, 5, 4, 3, -10, 1 };
+        expectedResult = 2;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 4
+        dataOne = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        dataTwo = new int[] { -6, -6, -6, -6, -6, -6, -6, -6, -6, -6 };
+        expectedResult = 10;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 5
+        dataOne = new int[500000];
+        dataTwo = new int[500000];
+        expectedResult = 0;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 6
+        dataOne = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        dataTwo = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        expectedResult = 0;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 7
+        dataOne = new int[] { };
+        dataTwo = new int[] { };
+        expectedResult = 0;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 8
+        dataOne = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        dataTwo = new int[] { -100000, -100000, -100000, -100000, -100000, -100000,
+                -100000, -100000, -100000, -100000};
+        expectedResult = 10;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 9
+        dataOne = new int[] { 8, 56, 4, 2, 67, 5, 9, 10, 18, 8 };
+        dataTwo = new int[] { 56, 8, 4, 2, 67, 7, 9, 9, 18, 8 };
+        expectedResult = 4;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 10
+        dataOne = new int[] { 5, 7, 3, 5, 9, 11 };
+        dataTwo = new int[] { 5, 7, 2, 5, 9, 11};
+        expectedResult = 1;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 11
+        dataOne = new int[] { -1, -2, -3, -4, -5, -6, -7, -8, -9 };
+        dataTwo = new int[] { -9, -8, -7, -6, -5, -4, -3, -2, -1 };
+        expectedResult = 8;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Test 12
+        dataOne = new int[] { 1, 2, 4, 8, 16 };
+        dataTwo = new int[] { 1, 2, 3, 4, 5 };
+        expectedResult = 3;
+        runHammingTest(dataOne, dataTwo, expectedResult);
+
+        // Add to Summary
+        addToSummary("hammingDistance()");
 
     }
+
+    public static void testPermutation() {
+
+
+        // Setup
+        resetTestRun();
+        int[] dataOne = {};
+        int[] dataTwo = {};
+        boolean expectedResult = false;
+        System.out.println(newline + "********* PERMUTATION TESTS *********" + newline);
+
+        // Test 1
+        dataOne = new int[] { 1, 2, 3, 3, 4, 4, 5, 5 };
+        dataTwo = new int[] { 5, 2, 1, 3, 4, 3, 4, 5 };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 2
+        dataOne = new int[] { 6, 4, 2 };
+        dataTwo = new int[] { 2, 1, 3 };
+        expectedResult = false;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 3
+        dataOne = new int[] { 2, 1, 3, 5 };
+        dataTwo = new int[] { 2, 1, 3, 4 };
+        expectedResult = false;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 4
+        dataOne = new int[] { 1, 2, 3 };
+        dataTwo = new int[] { 2, 1, 3 };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 5
+        dataOne = new int[] { 1, 2, 3 };
+        dataTwo = new int[] { 2, 1, 3, 3 };
+        expectedResult = false;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 6
+        dataOne = new int[] { Integer.MAX_VALUE, Integer.MIN_VALUE, 0, 100000, Integer.MAX_VALUE / 2 };
+        dataTwo = new int[] { 100000, Integer.MAX_VALUE, Integer.MAX_VALUE / 2, 0, Integer.MIN_VALUE };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 7
+        dataOne = new int[] { -180997325, 1320698025, 888999820, -829322186, -1307183500, 1361152474,
+                -1392440054, -214873900, -1855376901, -1960300168, -1953730082, 425360258,
+                1058753183, -677178196, 1984530148, -1942949307, -1635374961, 343505368, 95408596,
+                858251297, -1364562317, -582163733, -1883628785, -1285527161, -997097776, 675098870,
+                1137740700, -855636981, 889189296, 1637018879, -349690004, -1168073383, -1612354431,
+                -2088449515, -1121376283, 2124922217, -815737283, -1660242780, 1619131037,
+                1081153522, 1073648075, -956169462, -274405274, -2029240037, 1380457636, -16016534,
+                1992992906, -325813896, 487792570, 751182527, 846488663, 1076151604, 1182271636,
+                1972603187, -334762275, 1222230665, -46755651, 1178240944, 1189688565, 796259192,
+                -1747921057, 1168761527, -17815162, -795578698, -670306006, -231963023, -479546877,
+                -677303323, -753986951, -2017800189, 1626756919, -225616125, -431441993, 470194214,
+                1553317444, -760637657, 1909682175, -1868246283, -462279192, 527864937, -1333121534,
+                512809225, 1088005122, 1205405986, 2123776813, 762490306, 1841971028, -64243115,
+                524249355, -707602713, 857997706, -2089897108, -1402438425, -1661232783, 1806052731,
+                1988722982, 1135202741, -2064601181, -1855076946, 1367451599 };
+        dataTwo = new int[] { -17815162, 762490306, 524249355, -2064601181, -670306006, -1285527161,
+                2123776813, 1619131037, -2029240037, -2017800189, 527864937, 1073648075,
+                -1942949307, 857997706, 796259192, -431441993, 1909682175, -956169462, 751182527,
+                -1168073383, -462279192, -760637657, -334762275, -582163733, -1635374961,
+                -1612354431, 1168761527, -1953730082, -479546877, -2088449515, -677303323,
+                -1660242780, -677178196, -64243115, 1361152474, 1076151604, 675098870, -815737283,
+                -180997325, 1135202741, 1222230665, -1121376283, 1189688565, 512809225, -349690004,
+                1553317444, 1972603187, -1307183500, 1182271636, -46755651, -1883628785,
+                -1661232783, -829322186, 1984530148, 1626756919, 889189296, -855636981, 1992992906,
+                1137740700, -1960300168, 1806052731, 343505368, 1367451599, -1402438425, 1178240944,
+                -231963023, -795578698, -2089897108, 95408596, 1205405986, -1855376901, 470194214,
+                -997097776, -1364562317, 888999820, -325813896, 1637018879, -1855076946, 1081153522,
+                1320698025, -16016534, -274405274, 487792570, -1392440054, 1841971028, -1747921057,
+                1058753183, 1380457636, 858251297, -214873900, -225616125, 425360258, 1088005122,
+                -707602713, 2124922217, -1868246283, -1333121534, 1988722982, 846488663,
+                -753986951 };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 8
+        dataOne = new int[1000];
+        dataTwo = new int[1000];
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 9
+        dataOne = new int[1000];
+        dataTwo = new int[1001];
+        expectedResult = false;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 10
+        dataOne = new int[10000];
+        dataTwo = new int[10000];
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 11
+        dataOne = new int[] { 2, 2, 2, 3, 3 };
+        dataTwo = new int[] { 0, -2, 0, 0, 14 };
+        expectedResult = false;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 12
+        dataOne = new int[] { 492, 607, 776, 789 };
+        dataTwo = new int[] { 607, 776, 492, 789 };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 13
+        dataOne = new int[] { 10, -11, 12, -13, };
+        dataTwo = new int[] { -13, 12, -11, 10 };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 14
+        dataOne = new int[] { 6, 8, 2, 5};
+        dataTwo = new int[] { 2, 6, 5, 8 };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 15
+        dataOne = new int[157];
+        dataTwo = new int[159];
+        expectedResult = false;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 16
+        dataOne = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        dataTwo = new int[] {2, 5, 8, 3, 1, 9, 7, 0, 4, 6};
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 17
+        dataOne = new int[] { 1 };
+        dataTwo = new int[] { 1 };
+        expectedResult = true;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 18
+        dataOne = new int[1234];
+        dataTwo = new int[4321];
+        expectedResult = false;
+        runPermutationTest(dataOne, dataTwo, expectedResult);
+
+        // Test 19
+        final int NUM_ELEMENTS = 10000;
+        ArrayList<Integer> temp = new ArrayList<>(NUM_ELEMENTS);
+        Random r = new Random();
+        for (int i = 0; i < NUM_ELEMENTS; i++) {
+            temp.add(r.nextInt());
+        }
+
+        dataOne = temp.stream().mapToInt(i -> i).toArray();
+        Collections.shuffle(temp);
+        dataTwo = temp.stream().mapToInt(i -> i).toArray();
+        expectedResult = true;
+        runPermutationTest(dataOne,dataTwo, expectedResult);
+
+        // Add to Summary
+        addToSummary("isPermutation()");
+
+    }
+
+    public static void testMostVowels() {
+
+
+        // Setup
+        resetTestRun();
+        String[] data = {};
+        int expectedResult = 0;
+        System.out.println( newline + "********* VOWELS TESTS *********" + newline);
+
+        // Test 1
+        data = new String[] { "Cow", "Cat", "Dog"};
+        expectedResult = 0;
+        runVowelsTest(data, expectedResult);
+
+        // Test 2
+        data = new String[] { "Hello", null, "Hi", "Greetings"};
+        expectedResult = 3;
+        runVowelsTest(data, expectedResult);
+
+        // Test 3
+        data = new String[] { null, null, null, null, "jk"};
+        expectedResult = 4;
+        runVowelsTest(data, expectedResult);
+
+        // Test 4
+        data = new String[] { "aaaaaaa", "aieou" };
+        expectedResult = 0;
+        runVowelsTest(data, expectedResult);
+
+        // Test 5
+        data = new String[]  { "Staying", null, "", "moo", "SEqUOIA NAtIOnAl FOrEst",
+                "!!!!>>+_)(*&^%$#@!>)))???\\///\n\n/n" };
+        expectedResult = 4;
+        runVowelsTest(data, expectedResult);
+
+        // Test 6
+        data = new String[]  { null, null, "100,000,000", "XXX", "",
+                "!!!!>>+_)(*&^%$#@!>)))???\\///\n\n/n", null };
+        expectedResult = 2;
+        runVowelsTest(data, expectedResult);
+
+        // Test 7
+        data = new String[]  { null, null, null, null, "", "", null };
+        expectedResult = 4;
+        runVowelsTest(data, expectedResult);
+
+        // Test 8
+        data = new String[]  { "" };
+        expectedResult = 0;
+        runVowelsTest(data, expectedResult);
+
+        // Test 9
+        data = new String[] { null, "AIBA", "" };
+        expectedResult = 1;
+        runVowelsTest(data, expectedResult);
+
+        // Test 10
+        data = new String[] { "867", null, "45", "random" };
+        expectedResult = 3;
+        runVowelsTest(data, expectedResult);
+
+        // Test 11
+        data = new String[] { "cat", "mississippi", "56" };
+        expectedResult = 1;
+        runVowelsTest(data, expectedResult);
+
+        // Test 12
+        data = new String[] { "eureka", "BASEBALL BAT", "LONGHORN" };
+        expectedResult = 0;
+        runVowelsTest(data, expectedResult);
+
+        // Test 13
+        data = new String[] { null, "null", null, "null" };
+        expectedResult = 1;
+        runVowelsTest(data, expectedResult);
+
+        // Test 14
+        data = new String[] { "i", "really", "III", "like", "judo"};
+        expectedResult = 2;
+        runVowelsTest(data, expectedResult);
+
+        // Test 15
+        data = new String[] {"hmmm", "", "", "    ", " "};
+        expectedResult = 0;
+        runVowelsTest(data, expectedResult);
+
+        // Test 16
+        data = new String[] { "aaaaaaa", null, null, "a", null };
+        expectedResult = 0;
+        runVowelsTest(data, expectedResult);
+
+        // Test 17
+        data = new String[] { "a", null, "b", "c", "defghi", "", ""};
+        expectedResult = 4;
+        runVowelsTest(data, expectedResult);
+
+        // Add to Summary
+        addToSummary("mostVowels()");
+
+    }
+
+    public static void testSharedBirthdays() {
+
+
+        // Setup
+        resetTestRun();
+        int dataPeople = 0;
+        int dataDays = 0;
+        int expectedResult = 0;
+        System.out.println(newline + "********* BIRTHDAY TESTS *********" + newline);
+
+        // Test 1
+        dataPeople = 5;
+        dataDays = 4;
+        expectedResult = 0;
+        runBirthdayTestGreaterThan(dataPeople, dataDays, expectedResult);
+
+        // Test 2
+        dataPeople = 14;
+        dataDays = 1;
+        expectedResult = 91;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 3
+        dataPeople = 1;
+        dataDays = 1;
+        expectedResult = 0;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 4
+        dataPeople = 1;
+        dataDays = 365;
+        expectedResult = 0;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 5
+        dataPeople = 365;
+        dataDays = 365;
+        expectedResult = 0;
+        runBirthdayTestGreaterThan(dataPeople, dataDays, expectedResult);
+
+        // Test 6
+        dataPeople = 2;
+        dataDays = 1;
+        expectedResult = 1;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 7
+        dataPeople = 3;
+        dataDays = 1;
+        expectedResult = 3;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 8
+        dataPeople = 4;
+        dataDays = 1;
+        expectedResult = 6;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 9
+        dataPeople = 5;
+        dataDays = 1;
+        expectedResult = 10;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 10
+        dataPeople = 100;
+        dataDays = 1;
+        expectedResult = 4950;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 11
+        dataPeople = 100000;
+        dataDays = 100;
+        expectedResult = 0;
+        runBirthdayTestGreaterThan(dataPeople, dataDays, expectedResult);
+
+        // Test 12
+        dataPeople = 100000;
+        dataDays = 100000;
+        expectedResult = 0;
+        runBirthdayTestGreaterThan(dataPeople, dataDays, expectedResult);
+
+        // Test 13
+        dataPeople = 18;
+        dataDays = 1;
+        expectedResult = 153;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 14
+        dataPeople = 1;
+        dataDays = 5;
+        expectedResult = 0;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 15
+        dataPeople = 1;
+        dataDays = 1000;
+        expectedResult = 0;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Test 16
+        dataPeople = 1000;
+        dataDays = 1;
+        expectedResult = 499500;
+        runBirthdayTest(dataPeople, dataDays, expectedResult);
+
+        // Add to Summary
+        addToSummary("sharedBirthdays()");
+
+
+    }
+
+    public static void testQueensAreSafe() {
+
+
+        // Setup
+        resetTestRun();
+        char[][] boardData = new char[0][0];
+        boolean expectedResult = false;
+        System.out.println(newline + "********* QUEEN TESTS *********" + newline);
+
+        // Test 1
+        boardData = new char[][] {
+                { '.', '.', '.' },
+                { '.', 'q', '.' },
+                { '.', 'q', '.' }
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 2
+        boardData = new char[][] {
+                { '.', '.', '.' },
+                { '.', '.', '.' },
+                { '.', 'q', 'q' }
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 3
+        boardData = new char[][] {
+                { '.', '.', '.' },
+                { '.', '.', '.' },
+                { '.', '.', '.' }
+        };
+        expectedResult = true;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 4
+        boardData = new char[][] {
+                { '.', '.', '.' },
+                { 'q', '.', '.' },
+                { '.', '.', 'q' }
+        };
+        expectedResult = true;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 5
+        boardData = new char[][] {
+                { '.', '.', '.', 'q' },
+                { '.', '.', '.', '.' },
+                { '.', '.', '.', '.' },
+                { 'q', '.', '.', '.' }
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 6
+        boardData = new char[][] {
+                { 'q', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', 'q', '.', '.' },
+                { '.', 'q', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', 'q', '.' },
+                { '.', '.', 'q', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', 'q' },
+                { '.', '.', '.', 'q', '.', '.', '.' }
+        };
+        expectedResult = true;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 7
+        boardData = new char[][] {
+                { 'q', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', 'q', '.', '.', '.', '.', '.' },
+                { '.', 'q', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', 'q', '.', '.', '.', '.' },
+                { '.', '.', 'q', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', 'q', '.', '.', '.' },
+                { '.', '.', '.', 'q', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', 'q', '.' },
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 8
+        boardData = new char[][] {
+                { '.', '.', '.', 'q', '.' },
+                { '.', 'q', '.', '.', '.' },
+                { '.', '.', '.', '.', 'q' },
+                { '.', '.', '.', '.', '.' },
+                { 'q', '.', '.', '.', '.' }
+        };
+        expectedResult = true;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 9
+        boardData = new char[][] {
+                { 'q', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', 'q', '.' },
+                { '.', '.', '.', '.', 'q', '.', '.' },
+                { '.', 'q', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', 'q', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', 'q' }
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 10
+        boardData = new char[][] {
+                { '.', 'q', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', 'q', '.', 'q' }
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 11
+        boardData = new char[][] {
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', 'q', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.', 'q' }
+        };
+        expectedResult = true;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 12
+        boardData = new char[][] { {'q'} };
+        expectedResult = true;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 13
+        boardData = new char[][] {
+                {'q', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', 'q', '.', '.', '.'},
+                {'.', 'q', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', 'q', '.', '.'},
+                {'.', '.', 'q', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', 'q', '.'},
+                {'.', '.', '.', 'q', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', 'q'}
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 14
+        boardData = new char[][] {
+                { '.', '.', 'q' },
+                { 'q', '.', '.' },
+                { '.', '.', 'q' }
+        };
+        expectedResult = false;
+        runQueenTest(boardData, expectedResult);
+
+        // Test 15
+        boardData = new char[][] {
+                { '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.' }
+        };
+        expectedResult = true;
+        runQueenTest(boardData, expectedResult);
+
+        // Add to Summary
+        addToSummary("queensAreSafe()");
+
+
+    }
+
+    public static void testMostValuablePlot() {
+
+
+        // Setup
+        resetTestRun();
+        int[][] cityData = new int[0][0];
+        int expectedResult = 0;
+        System.out.println(newline + "********* PLOT TESTS *********" + newline);
+
+        // Test 1
+        cityData = new int[][] {
+                {  -6,  -2, -7 },
+                {  -5,   10, -6 },
+                { -4,   -3, -4 }};
+        expectedResult = 10;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 2
+        cityData = new int[][] {
+                {  -6,  9, -7 },
+                {  -5,   10, -6 },
+                { -4,   -3, -4 }};
+        expectedResult = 19;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 3
+        cityData = new int[][] {
+                {  0,  -2, -7,  0, -1 },
+                {  9,   2, -6,  2, 0 },
+                { -4,   1, -4,  1, 0 },
+                { -1,   8,  0, -2, 1 },
+                { -10,  1,  1, -5, -6 },
+                { -15, -1,  1,  5, 4 } };
+        expectedResult = 15;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 4
+        cityData = new int[][] {
+                {  0,  -2, -7,  0, -1 },
+                {  9,   2, -6,  2, 0 },
+                { -4,   1, -4,  1, 0 },
+                { -1,   8,  0, -2, 1 },
+                { -10,  6,  1, -5, -6 },
+                { -15, -1,  1,  5, 4 } };
+        expectedResult = 17;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 5
+        cityData = new int[][] { { 1 } };
+        expectedResult = 1;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 6
+        cityData = new int[][] { { 1, 2, 3, 4, 5, 6, 7 } };
+        expectedResult = 28;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 7
+        cityData = new int[][] {
+                {-10, -10, -10, -5},
+                {-15, -15, -10, -10},
+                {-5, -10, -20, -5},
+                {-5, -5, -10, -20 }};
+        expectedResult = -5;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 8
+        cityData = new int[100][100];
+        Random rand = new Random();
+        for (int row = 0; row < cityData.length; row++) {
+            for(int col = 0; col < cityData[row].length; col++) {
+                cityData[row][col] = rand.nextInt(200) - 100;
+            }
+        }
+        expectedResult = 0; // > 0
+        runPlotValueTestGreaterThan(cityData, expectedResult);
+
+        // Test 9
+        cityData = new int[][] {
+                { 0, 2, 13, 7 },
+                { -5, 2, 0, 6 },
+                { -7, 1, 5, 4 } };
+        expectedResult = 40;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 10
+        cityData = new int[][] {
+                { 5, 8, 3, -1 },
+                { 7, 3, 6, -1 },
+                { -1, 5, 8, -1 },
+                { -2, 4, -1, -8 } };
+        expectedResult = 45;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 11
+        cityData = new int[][] {
+                { 5, 10 },
+                { 15, -4000 } };
+        expectedResult = 20;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 12
+        cityData = new int[][] {
+                { 2, 4, 6, 8, 10, 12, 14 },
+                { 40, 40, 40, -1000, 5, 6, 7 }};
+        expectedResult = 132;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 13
+        cityData = new int[][] {
+                {-1, -2, -3, -4},
+                {-5, -6, -7, -8},
+                {-9, -10, 0, -11},
+                {-12, -13, -14, -15},
+                {-16, -17, -18, -19}};
+        expectedResult = 0;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 14
+        cityData = new int[][] {
+                { 1, 1, 1 },
+                { 1, 1, 1 },
+                { 1, 1, 1 }};
+        expectedResult = 9;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Test 15
+        cityData = new int[][] {
+                {-1, 1, -1, 1},
+                {-1, 1, -1, 1},
+                {-1, 1, -1, 1} };
+        expectedResult = 3;
+        runPlotValueTest(cityData, expectedResult);
+
+        // Add to Summary
+        addToSummary("getMostValuablePlot()");
+
+    }
+
+    // *************************************************************************
+    // *************************************************************************
+    // ------------------------- DO NOT MESS WITH CODE BELOW -------------------
+    // *************************************************************************
+    // *************************************************************************
+
+    static int currentTestRun = 0;
+    static int passedTests = 0;
+    static String failedTests = "[";
+    static String fullTestSummary = "";
+    static final String newline = System.getProperty("line.separator");
+    static final InternalStopwatch stopwatch = new InternalStopwatch();
+
+    // **** Test specific helpers
+    public static void runHammingTest(int[] dataOne, int[] dataTwo, int expectedResult) {
+
+        stopwatch.start();
+        int actualResult = CodeCamp.hammingDistance(dataOne,dataTwo);
+        stopwatch.stop();
+        logTest(expectedResult, actualResult, stopwatch.time());
+    }
+
+    public static void runPermutationTest(int[] dataOne, int[] dataTwo, boolean expectedResult) {
+
+        stopwatch.start();
+        boolean actualResult = CodeCamp.isPermutation(dataOne, dataTwo);
+        stopwatch.stop();
+        logTest(expectedResult, actualResult, stopwatch.time());
+    }
+
+    public static void runVowelsTest(String[] data, int expectedResult) {
+
+        stopwatch.start();
+        int actualResult = CodeCamp.mostVowels(data);
+        stopwatch.stop();
+        logTest(expectedResult, actualResult, stopwatch.time());
+    }
+
+    public static void runBirthdayTest(int dataPeople, int dataDays, int expectedResult) {
+
+        stopwatch.start();
+        int actualResult = CodeCamp.sharedBirthdays(dataPeople, dataDays);
+        stopwatch.stop();
+        logTest(expectedResult, actualResult, stopwatch.time());
+    }
+
+    public static void runBirthdayTestGreaterThan(int dataPeople, int dataDays, int minimumResult) {
+
+        stopwatch.start();
+        int actualResult = CodeCamp.sharedBirthdays(dataPeople, dataDays);
+        stopwatch.stop();
+        logTestGreaterThan(minimumResult, actualResult, stopwatch.time());
+    }
+
+    public static void runQueenTest(char[][] boardData, boolean expectedResult) {
+
+        stopwatch.start();
+        boolean actualResult = CodeCamp.queensAreSafe(boardData);
+        stopwatch.stop();
+        logTest(expectedResult, actualResult, stopwatch.time());
+    }
+
+    public static void runPlotValueTest(int[][] cityData, int expectedResult) {
+
+        stopwatch.start();
+        int actualResult = CodeCamp.getValueOfMostValuablePlot(cityData);
+        stopwatch.stop();
+        logTest(expectedResult, actualResult, stopwatch.time());
+    }
+
+    public static void runPlotValueTestGreaterThan(int[][] cityData, int minimumValue) {
+
+        stopwatch.start();
+        int actualResult = CodeCamp.getValueOfMostValuablePlot(cityData);
+        stopwatch.stop();
+        logTestGreaterThan(minimumValue, actualResult, stopwatch.time());
+    }
+
+    // **** Abstract / General helpers
+    public static <T> void logTest(T expectedResult, T actualResult, double elapsedTime) {
+
+        currentTestRun++;
+        boolean testFailed = false;
+
+        if (expectedResult.equals(actualResult)) {
+
+            // TEST PASSED
+            if (fullOutput || summaryOnly == false) {
+                System.out.println();
+                System.out.println("[PASSED TEST " + currentTestRun + "]");
+            }
+            passedTests++;
+
+        } else {
+
+            // TEST FAILED
+            testFailed = true;
+
+            if (fullOutput || summaryOnly == false || smartOutput) {
+                System.out.println();
+                System.out.println("[!!! FAILED TEST " + currentTestRun + " !!!]");
+            }
+
+            failedTests = failedTests + currentTestRun + ",";
+
+        }
+
+        if (fullOutput || (testFailed && smartOutput)) {
+            System.out.println("    Expected: " + expectedResult);
+            System.out.println("    Actual: " + actualResult);
+            System.out.println("    Time (seconds): " + String.format("%.5f",elapsedTime));
+        }
+
+
+
+    }
+
+    public static void logTestGreaterThan(int minimumResult, int actualResult, double elapsedTime) {
+
+        currentTestRun++;
+        boolean testFailed = false;
+
+        if (actualResult > minimumResult) {
+
+            // TEST PASSED
+            if (fullOutput || summaryOnly == false) {
+                System.out.println();
+                System.out.println("[PASSED TEST " + currentTestRun + "]");
+            }
+            passedTests++;
+
+        } else {
+
+            // TEST FAILED
+            testFailed = true;
+
+            if (fullOutput || summaryOnly == false || smartOutput) {
+                System.out.println();
+                System.out.println("[!!! FAILED TEST " + currentTestRun + " !!!]");
+            }
+
+            failedTests = failedTests + currentTestRun + ",";
+
+        }
+
+        if (fullOutput || (testFailed && smartOutput)) {
+            System.out.println("    Expected greater than: " + minimumResult);
+            System.out.println("    Actual: " + actualResult);
+            System.out.println("    Time (seconds): " + String.format("%.5f",elapsedTime));
+        }
+
+
+
+    }
+
+    public static void resetTestRun() {
+
+        currentTestRun = 0;
+        passedTests = 0;
+        failedTests = "[";
+
+    }
+
+    public static void addToSummary(String testName) {
+
+        fullTestSummary = fullTestSummary + newline + testName + ": " + passedTests + "/" + currentTestRun + "  " + failedTests + "]";
+
+    }
+
+    public static void printSummaryPage() {
+
+        System.out.println(newline + "********* SUMMARY *********");
+        System.out.println(fullTestSummary);
+
+    }
+
+    // ------------------------ Internal Stopwatch Class ----------------------
+
+    /**
+     A class to measure time elapsed. Provided in CS314 class.
+     */
+
+    public static class InternalStopwatch
+    {
+        private long startTime;
+        private long stopTime;
+
+        public static final double NANOS_PER_SEC = 1000000000.0;
+
+        /**
+         start the stop watch.
+         */
+        public void start(){
+            startTime = System.nanoTime();
+        }
+
+        /**
+         stop the stop watch.
+         */
+        public void stop()
+        {	stopTime = System.nanoTime();	}
+
+        /**
+         elapsed time in seconds.
+         @return the time recorded on the stopwatch in seconds
+         */
+        public double time()
+        {	return (stopTime - startTime) / NANOS_PER_SEC;	}
+
+        public String toString(){
+            return "elapsed time: " + time() + " seconds.";
+        }
+
+        /**
+         elapsed time in nanoseconds.
+         @return the time recorded on the stopwatch in nanoseconds
+         */
+        public long timeInNanoseconds()
+        {	return (stopTime - startTime);	}
+    }
+
+
 }

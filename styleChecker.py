@@ -1,4 +1,5 @@
 import re
+from typing import final
 
 lines = []
 problematicLines = {}
@@ -13,6 +14,29 @@ isComment = False
 linesInMethod = 0
 operators = "*+-/%"
 operatorSpacing = 0
+
+def resetParams():
+    global haveReachedFirstMethod
+    global inClass
+    global bracketInLine
+    global inMethod
+    global bracketStack
+    global isComment
+    global linesInMethod
+    global operatorSpacing
+    global problematicLines
+    global lines
+
+    haveReachedFirstMethod = False
+    inClass = False
+    bracketInLine = True
+    inMethod = False
+    bracketStack = []
+    isComment = False
+    linesInMethod = 0
+    operatorSpacing = 0
+    problematicLines = {}
+    lines = []
 
 
 def instanceVariableProblem(line, index):
@@ -189,20 +213,59 @@ def styleCheck():
             
         index += 1
 
+def writeBasicHTML(file):
+    finalString = "{% extends 'base.html' %}\n{% block head %}{% endblock %}"
+    finalString += "\n{% block body %}\n"
+    finalString += "<h1>Style Errors</h1>\n<p id='styleErrors'>\n"
+
+    keys = problematicLines.keys()
+    for key in keys:
+        lineNum = int(key) + 1
+        finalString += "Line " + str(lineNum) + ": " + problematicLines[key] + "<br>\n"
+    finalString += "</p>\n"
+
+    finalString += "<h1>Code</h1>\n<p id='code'>\n"
+    keys = list(problematicLines.keys())
+    linesIndex = 0
+    keysIndex = 0
+    for line in lines:
+        if(keysIndex < len(keys) and keys[keysIndex] == linesIndex):
+            finalString += "<span class='error'>" + str(linesIndex + 1) + " " + line + "</span><br>\n"
+            keysIndex += 1
+        else:
+            finalString += str(linesIndex + 1) + " " + line + "<br>\n"
+        linesIndex += 1
+    button = ('<form action="/back" method="POST" enctype="multipart/form-data">'
+                + '<button>back</button></form>')
+    finalString += "</p>\n"
+    finalString += button + "\n"
+    finalString += "{% endblock %}"
+
+    file.write(finalString)
+
+        
+
 def infoPage():
     global lines
+    resetParams()
     #place all lines from the file into an array
     with open('static/uploads/text.txt') as f:
         lines = [line.rstrip() for line in f]
+    f.close
     styleCheck()
-    finalString = ""
+
+    HTMLFile = open("templates/result.html", "w")
+    writeBasicHTML(HTMLFile)
+
+    ''' finalString = ""
     keys = problematicLines.keys()
     for key in keys:
         lineNum = int(key) + 1
         finalString += "Line " + str(lineNum) + ": " + problematicLines[key] + "<br>"
     button = ('<form action="/back" method="POST" enctype="multipart/form-data">'
                 + '<button>back</button></form>')
-    return "<p class='error'>" + finalString + "</p>" + button
+    return "<p class='error'>" + finalString + "</p>" + button '''
+
 
 infoPage()
 print(problematicLines)

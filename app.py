@@ -17,7 +17,8 @@ def home():
 
 @app.route("/result")
 def result():
-    return infoPage()
+    infoPage()
+    return render_template("result.html") 
 
 @app.route("/back", methods=['POST'])
 def back():

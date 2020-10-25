@@ -1,711 +1,593 @@
+//  CodeCamp.java - CS314 Assignment 1
 
-/*
- * Student information for assignment:
- * On my honor, Rodrigo Okamoto Corbellini Pereira, 
- * this programming assignment is my own work
- * and I have not provided this code to any other student.
- * UTEID: ro7929
- * email address: rodrigoocp@utexas.edu
- * TA name: Irena
- * Number of slip days I am using: 0
+/*  Student information for assignment:
+ * 
+ *  replace <NAME> with your name.
+ *
+ *  On my honor, Rodrigo Okamoto Corbellini Pereira, this programming assignment is my own work
+ *  and I have not provided this code to any other student.
+ *
+ *  Name: Rodrigo Okamoto Corbellini Pereira
+ *  email address: rodrigoocp@utexas.edu
+ *  UTEID: ro7929
+ *  Section 5 digit ID: 50915
+ *  Grader name: Irena
+ *  Number of slip days used on this assignment: 0
  */
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.Random;
 
-public class LinkedList<E> implements IList<E> {
-    // CS314 students. Add you instance variables here.
-    // You decide what instance variables to use.
-    // Must adhere to assignment requirements.
-    // No ArrayLists or Java LinkedLists.
-    private final DoubleListNode<E> HEADER;
-    private int size;
-
-    // CS314 students, add constructors here:
-    public LinkedList(){
-        HEADER = new DoubleListNode<E>();
-        HEADER.setNext(HEADER);
-        HEADER.setPrev(HEADER);
-        size = 0;
-    }
-    // CS314 students, add methods here:
+public class CodeCamp {
 
     /**
-     * Add an item to the end of this list.
-     * <br>pre: item != null
-     * <br>post: size() = old size() + 1, get(size() - 1) = item
-     * @param item the data to be added to the end of this list,
-     * item != null
-     */
-    public void add(E item){
-        //precon
-        if(item == null){
-            throw new IllegalArgumentException("Precondition Violated: " 
-                    + "add. item must not be null.");
+     * Determine the Hamming distance between two arrays of ints. 
+     * Neither the parameter <tt>aData</tt> or
+     * <tt>bData</tt> are altered as a result of this method.<br>
+     * @param aData != null, aData.length == aData.length
+     * @param bData != null
+     * @return the Hamming Distance between the two arrays of ints.
+     */    
+    public static int hammingDistance(int[] aData, int[] bData) {
+        // check preconditions
+        if (aData == null || bData == null || aData.length != bData.length) { 
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "hammingDistance. neither parameter may equal null, arrays" +
+                    " must be equal length.");
         }
 
-        //Big O = O(1)
-
-        //Create a new DoubleListNode
-        //Because it will be added to the end, it points back to the previous
-        //last node and points to HEADER
-        DoubleListNode<E> newNode = 
-                new DoubleListNode<>(HEADER.getPrev(), item, HEADER);
-
-        //Update previous last to point to newNode
-        HEADER.getPrev().setNext(newNode);
-        //Update HEADER so that it points back to newNode
-        HEADER.setPrev(newNode);
-        size++;
-    }
-
-    /**
-     * Returns the node in this LinkedList at the given index
-     * @param index >= 0, < size
-     * @return the node in this LinkedList at the given index
-     */
-    private DoubleListNode<E> getNodeAt(int index){
-        //precon
-        if(index < 0 || index >= size){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "getNodeAt. index must be >= 0 and < size.");
-        }
-
-        //Big O = O(N)
-
-        DoubleListNode<E> tempNode;
-        final int MIDDLE_OF_LIST = size / 2;
-        //If the index is closer to the start then start from index 0, and if
-        //it is closer to the end then start from size - 1. This makes
-        //best case O(1) for getting first and last nodes
-        if(index < MIDDLE_OF_LIST){
-            //Start from index 0 until the given index
-            tempNode = HEADER.getNext();
-            for(int i = 0; i < index; i++){
-                tempNode = tempNode.getNext();
+        int hammingDistanceCount = 0;
+        // go through both arrays and if the values at the same index 
+        // are different, then add to count
+        for(int i = 0; i < aData.length ; i++){
+            
+            if(aData[i] != bData[i]){
+                hammingDistanceCount++; 
             }
-        }else{
-            //Start from size - 1 until the given index
-            tempNode = HEADER.getPrev();
-            for(int i = size - 1; i > index; i--){
-                tempNode = tempNode.getPrev();
+
+        }
+
+        return hammingDistanceCount;
+    }
+
+
+    /**
+     * Sorts a given array from least to greatest
+     * 
+     * @param array the array to sort
+     * @return a sorted array from least to greatest
+     * 
+    */  
+    private static int[] sort(int[] array){
+        // use a string array so that it is all null by default
+        String[] newArray = new String[array.length + 1];
+        
+        // go through array
+        for(int arrayIndex = 0; arrayIndex<array.length; arrayIndex++){
+
+            // compare all items in new array with currently selected item 
+            // from the original array
+            for(int newArrayIndex = newArray.length-1; newArrayIndex >= 0;
+                     newArrayIndex--){
+
+                if(newArrayIndex == newArray.length - 1){
+                    
+                    // if last index then add to newArray
+                    newArray[newArrayIndex] = ""+array[arrayIndex];
+
+                }else{
+
+                    // if next spot is less than or empty (== null)
+                    // then place currently selected item in new array
+                    if(newArray[newArrayIndex] == null 
+                            || array[arrayIndex] 
+                            < Integer.parseInt(newArray[newArrayIndex])){
+
+                        newArray[newArrayIndex + 1] = newArray[newArrayIndex];
+                        newArray[newArrayIndex] = ""+array[arrayIndex];
+                    }
+
+                }
+                
+
             }
+
         }
 
-        return tempNode;
+        // convert string array back to int array
+        int[]returnArr = new int[array.length];
+        for(int i = 0; i < array.length; i++){
+            returnArr[i] = Integer.parseInt(newArray[i]);
+        }
+
+        return returnArr;
+        
     }
 
     /**
-     * Insert an item at a specified position in the list.
-     * <br>pre: 0 <= pos <= size(), item != null
-     * <br>post: size() = old size() + 1, get(pos) = item,
-     * all elements in the list with a positon >= pos have a
-     * position = old position + 1
-     * @param pos the position to insert the data at in the list
-     * @param item the data to add to the list, item != null
-    */
-    public void insert(int pos, E item){
-        //precon
-        if(0 > pos || pos > size || item == null){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "insert. pos must be >= 0 and <= size and item must "
-                    + "not be null.");
-        }
-
-        //Big O = O(N)
-
-        //Get the node before this pos. If pos is 0 then get the HEADER
-        DoubleListNode<E> nodeBefore = 
-                (pos == 0) ? HEADER : getNodeAt(pos - 1);
-        //Create a new node for the item and make it point back to nodeBefore
-        //and to the node that nodeBefore is pointing to.
-        DoubleListNode<E> newNode = 
-                new DoubleListNode<>(nodeBefore, item, nodeBefore.getNext());
-        //Set the prev of the node after the index to the new node
-        nodeBefore.getNext().setPrev(newNode);
-        //Set the next of the node before to new node
-        nodeBefore.setNext(newNode);
-        size++;      
-    }
-
-    /**
-     * Change the data at the specified position in the list.
-     * the old data at that position is returned.
-     * <br>pre: 0 <= pos < size(), item != null
-     * <br>post: get(pos) = item, return the
-     * old get(pos)
-     * @param pos the position in the list to overwrite
-     * @param item the new item that will overwrite the old item,
-     * item != null
-     * @return the old data at the specified position
+     * Determine if one array of ints is a permutation of another.
+     * Neither the parameter <tt>aData</tt> or 
+     * the parameter <tt>bData</tt> are altered as a result of this method.<br>
+     * @param aData != null
+     * @param bData != null
+     * @return <tt>true</tt> if aData is a permutation of bData, 
+     * <tt>false</tt> otherwise
+     * 
      */
-    public E set(int pos, E item){
-        //precon
-        if(0 > pos || pos >= size || item == null){
-            throw new IllegalArgumentException("Precondition Violated: " 
-                    + "set. pos must be >= 0 and < size and item must not "
-                    + "be null.");
-        }
-
-        //Big O = O(N)
-
-        //Find node at pos
-        DoubleListNode<E> nodeAtPos = getNodeAt(pos);
-        //Store old data to return and then override it with new item
-        E oldData = nodeAtPos.getData();
-        nodeAtPos.setData(item);
-
-        return oldData;
-    }
-
-    /**
-     * Get an element from the list.
-     * <br>pre: 0 <= pos < size()
-     * <br>post: return the item at pos
-     * @param pos specifies which element to get
-     * @return the element at the specified position in the list
-     */
-    public E get(int pos){
-        //precon 
-        if(0 > pos || pos >= size){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "get. pos must be >= 0 and < size.");
-        }
-
-        //Big O = O(N)
-
-        //Find node at pos and return the data from the found node at pos
-        return getNodeAt(pos).getData();
-    }
-
-    /**
-     * Remove an element in the list based on position.
-     * <br>pre: 0 <= pos < size()
-     * <br>post: size() = old size() - 1, all elements of
-     * list with a position > pos have a position = old position - 1
-     * @param pos the position of the element to remove from the list
-     * @return the data at position pos
-     */
-    public E remove(int pos){
-        //precon
-        if(0 > pos || pos >= size){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "remove. pos must be >= 0 and < size.");
-        }
-
-        //Big O = O(N)
-
-        //Get the node before this pos. If pos is 0 then get the HEADER
-        DoubleListNode<E> nodeBefore = 
-                (pos == 0) ? HEADER : getNodeAt(pos - 1);
-        DoubleListNode<E> nodeAfter = nodeBefore.getNext().getNext();
-        //Store old data before removing node
-        E oldData = nodeBefore.getNext().getData();
-        //Remove all references to the node at pos by making the node after it
-        //point to the node before it and the node before it point to the node
-        //after it.
-        nodeAfter.setPrev(nodeBefore);
-        nodeBefore.setNext(nodeAfter);
-        size--;
-
-        return oldData;
-    }
-
-    /**
-     * Returns the first node that has the given item as data and returns
-     * null if no item was found
-     * @param item != null
-     * @return the first node that has the given item as data and null if no
-     * item was found
-     */
-    private DoubleListNode<E> getNodeWith(E item){
-        //precon
-        if(item == null){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "getNodeWith. item can not be null.");
-        }
-
-        //Big O = O(N)
-
-        DoubleListNode<E> tempNode = HEADER.getNext();
-        //Go through all nodes in this LinkedList and if any node has item
-        //stored, then return that node.
-        for(int i = 0; i < size; i++){
-            if(tempNode.getData().equals(item)){
-                return tempNode;
-            }
-            tempNode = tempNode.getNext();
+    public static boolean isPermutation(int[] aData, int[] bData) {
+        // check preconditions
+        if (aData == null || bData == null) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "isPermutation. neither parameter may equal null.");
         }
         
-        //No node with item was found so null is returned.
-        return null;
-    }
+        // Both arrays must be the same length before checking if its a 
+        // permutation
+        if(aData.length == bData.length){
 
-    /**
-     * Remove the first occurrence of obj in this list.
-     * Return <tt>true</tt> if this list changed
-     * as a result of this call, <tt>false</tt> otherwise.
-     * <br>pre: obj != null
-     * <br>post: if obj is in this list the first occurrence
-     * has been removed and size() = old size() - 1.
-     * If obj is not present the list is not altered in any way.
-     * @param obj The item to remove from this list. obj != null
-     * @return Return <tt>true</tt> if this list changed
-     * as a result of this call, <tt>false</tt> otherwise.
-     */
-    public boolean remove(E obj){
-        //precon
-        if(obj == null){
-            throw new IllegalArgumentException("Preconditon Violated: " 
-                    + "remove. obj must not be null.");
-        }
+            // sort both arrays
+            int[] sortedAData = sort(aData);
+            int[] sortedBData = sort(bData);
+            
+            // check to see if all numbers match 
+            for(int i = 0; i < aData.length; i++){
 
-        //Big O = O(N)
-
-        DoubleListNode<E> nodeWithObject = getNodeWith(obj);
-        //If node exists then remove all references to it by making the node
-        //before it point to the node after it and the node after it point back
-        //to the node before it.
-        if(nodeWithObject != null){
-            DoubleListNode<E> previousNode = nodeWithObject.getPrev();
-            DoubleListNode<E> nextNode = nodeWithObject.getNext();
-            previousNode.setNext(nextNode);
-            nextNode.setPrev(previousNode);
-            size--;
-            return true;
-        }
-        
-        //No node was found with the object
-        return false;
-    }
-
-    /**
-     * Return a sublist of elements in this list
-     * from <tt>start</tt> inclusive to <tt>stop</tt> exclusive.
-     * This list is not changed as a result of this call.
-     * <br>pre: <tt>0 <= start <= size(), start <= stop <= size()</tt>
-     * <br>post: return a list whose size is stop - start
-     * and contains the elements at positions start through stop - 1
-     * in this list.
-     * @param start index of the first element of the sublist.
-     * @param stop stop - 1 is the index of the last element
-     * of the sublist.
-     * @return a list with <tt>stop - start</tt> elements,
-     * The elements are from positions <tt>start</tt> inclusive to
-     * <tt>stop</tt> exclusive in this list.
-     * If start == stop an empty list is returned.
-     */
-    public IList<E> getSubList(int start, int stop){
-        //precon
-        if(start < 0 || start > size || start > stop || stop > size){
-            throw new IllegalArgumentException("Precondition Violated: " 
-                    + "getSubList. start must be >= 0 and <= size and " 
-                    + "stop must be >= start and <= size.");
-        }
-
-        //Big O = O(N)
-
-        LinkedList<E> subList = new LinkedList<>();
-
-        //If start == stop then an empty list should be returned so step to add
-        //elements is skipped
-        if(start != stop){
-            //Go through all of the nodes in this list from start to stop
-            //and add their data to the new subList using the add() method
-            DoubleListNode<E> tempNode = getNodeAt(start);
-            for(int i = start; i < stop; i++){
-                subList.add(tempNode.getData());
-                tempNode = tempNode.getNext();
-            }    
-        }    
-
-        return subList;
-
-
-    }
-
-    /**
-     * Return the size of this list.
-     * In other words the number of elements in this list.
-     * <br>pre: none
-     * <br>post: return the number of items in this list
-     * @return the number of items in this list
-     */
-    public int size(){
-        //Big O = O(1)
-
-        return size;
-    }
-
-    /**
-     * Find the position of an element in the list.
-     * <br>pre: item != null
-     * <br>post: return the index of the first element equal to item
-     * or -1 if item is not present
-     * @param item the element to search for in the list. item != null
-     * @return return the index of the first element equal to item
-     * or a -1 if item is not present
-     */
-    public int indexOf(E item){
-        //precon 
-        if(item == null){
-            throw new IllegalArgumentException("Precondition Violated: " 
-                    + "indexOf. item can not be null.");
-        }
-
-        //Big O = O(N)
-        
-        //If the list is empty then return -1
-        if(size == 0){
-            return -1;
-        }
-        //The other version of indexOf starts at a given index, so we call it 
-        //starting from index 0.
-        return indexOf(item, 0);
-    }
-
-    /**
-     * find the position of an element in the list starting
-     * at a specified position.
-     * <br>pre: 0 <= pos < size(), item != null
-     * <br>post: return the index of the first element equal
-     * to item starting at pos
-     * or -1 if item is not present from position pos onward
-     * @param item the element to search for in the list. Item != null
-     * @param pos the position in the list to start searching from
-     * @return starting from the specified position
-     * return the index of the first element equal to item
-     * or a -1 if item is not present between pos
-     * and the end of the list
-     */
-    public int indexOf(E item, int pos){
-        //precon 
-        if(0 > pos || pos >= size || item == null){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "indexOf. item must not be null and pos must be >=0 "
-                    + "and < size.");
-        }
-
-        //Big O = O(N)
-
-        //Since search starts at given index, tempNode is the node at that index
-        DoubleListNode<E> tempNode = getNodeAt(pos);
-        //Go through all nodes in this LinkedList starting from the given pos
-        //and if any node's data equals the give item, then return its index.
-        for(int i = pos; i < size; i++){
-            if(tempNode.getData().equals(item)){
-                return i;
-            }
-            tempNode = tempNode.getNext();
-        }
-        return -1;
-    }
-
-    /**
-     * return the list to an empty state.
-     * <br>pre: none
-     * <br>post: size() = 0
-     */
-    public void makeEmpty(){
-        //Big O = O(1)
-
-        //make the HEADER point to itself from both ends so that all the other
-        //elements don't have a starting reference therefore emptying the list
-        HEADER.setNext(HEADER);
-        HEADER.setPrev(HEADER);
-        size = 0;
-    }
-
-    /**
-     * Remove all elements in this list from <tt>start</tt>
-     * inclusive to <tt>stop</tt> exclusive.
-     * <br>pre: <tt>0 <= start <= size(), start <= stop <= size()</tt>
-     * <br>post: <tt>size() = old size() - (stop - start)</tt>
-     * @param start position at beginning of range of elements
-     * to be removed
-     * @param stop stop - 1 is the position at the end
-     * of the range of elements to be removed
-     */
-    public void removeRange(int start, int stop){
-        //precon 
-        if(0 > start || start > size || start > stop || stop > size){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "removeRange. start must be >= 0 and <= size and "
-                    + "stop must be >= start and <= size");
-        }
-
-        //Big O = O(N)
-
-        DoubleListNode<E> nodeBeforeStart =
-                (start == 0) ? HEADER : getNodeAt(start - 1);
-        DoubleListNode<E> nodeAtStop = 
-                (stop == size) ? HEADER : getNodeAt(stop);
-        //Make the node before start point to the node at stop and the node at
-        //stop point back to the node before start so that the nodes within the
-        //range are no longer referenced in this LinkedList
-        nodeBeforeStart.setNext(nodeAtStop);
-        nodeAtStop.setPrev(nodeBeforeStart);
-        size -= (stop - start);
-    }
-
-    /**
-     * Return a String version of this list enclosed in
-     * square brackets, []. Elements are in
-     * are in order based on position in the
-     * list with the first element
-     * first. Adjacent elements are separated by comma's
-     * @return a String representation of this IList
-     */
-    public String toString(){
-        //Big O = O(N)
-        
-        final String BETWEEN_ELEMENTS = ", ";
-        final String START_OF_STRING = "[";
-        final String END_OF_STRING = "]";
-        StringBuilder finalString = new StringBuilder(START_OF_STRING);
-        //Go through every node in this LinkedList and add the string version
-        //of their data to the finalString separated by ", "
-        DoubleListNode<E> tempNode = HEADER.getNext();
-        for(int i = 0; i < size; i++){
-            String dataString = tempNode.getData().toString();
-            finalString.append(dataString);
-            //Dont add ", " if its the last element
-            if(i != size - 1){
-                finalString.append(BETWEEN_ELEMENTS);
-            }
-            tempNode = tempNode.getNext();
-        }
-        finalString.append(END_OF_STRING);
-
-        return finalString.toString();
-    }
-
-    /**
-     * Determine if this IList is equal to other. Two
-     * ILists are equal if they contain the same elements
-     * in the same order.
-     * @return true if this IList is equal to other, false otherwise
-     */
-    public boolean equals(Object other){
-        //Big O = O(N)
-
-        //Check to see if other is an IList
-        boolean isLinkedList = other instanceof IList;
-
-        if(isLinkedList){
-            IList<?> otherList = (IList<?>)other;
-            //If the sizes aren't equal then they're not equal
-            if(otherList.size() != size){
-                return false;
-            }
-            //Go through all elements in both ILists and if any elements at the
-            //same index are not equal then return false
-            DoubleListNode<E> thisTemp = HEADER.getNext();
-            Iterator<?> otherIterator = otherList.iterator();
-            for(int i = 0; i < size; i++){
-                if(!thisTemp.getData().equals(otherIterator.next())){
+                if(sortedAData[i] != sortedBData[i]){
                     return false;
                 }
-                thisTemp = thisTemp.getNext();
+
             }
+
         }else{
-            //If other is not a IList then return false.
+            // not a permutation if not the same length
             return false;
         }
         
-        return true;
+        // if no differences were found in sorted arrays, then its a permutation
+        return true; 
     }
 
+
     /**
-     * add item to the front of the list. <br>
-     * pre: item != null <br>
-     * post: size() = old size() + 1, get(0) = item
-     *
-     * @param item the data to add to the front of this list
+     * Determine the index of the String that 
+     * has the largest number of vowels. 
+     * Vowels are defined as <tt>'A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 
+     * 'U', and 'u'</tt>.
+     * The parameter <tt>arrayOfStrings</tt> is not altered as a result of this method.
+     * <p>pre: <tt>arrayOfStrings != null</tt>, <tt>arrayOfStrings.length > 0</tt>, 
+     * there is an least 1 non null element in arrayOfStrings.
+     * <p>post: return the index of the non-null element in arrayOfStrings that has the 
+     * largest number of characters that are vowels.
+     * If there is a tie return the index closest to zero. 
+     * The empty String, "", has zero vowels.
+     * It is possible for the maximum number of vowels to be 0.<br>
+     * @param arrayOfStrings the array to check
+     * @return the index of the non-null element in arrayOfStrings that has 
+     * the largest number of vowels.
      */
-    public void addFirst(E item) {
-        //precon
-        if(item == null){
-            throw new IllegalArgumentException("Precondition Violated: "
-                + "addFirst. item must not be null.");
+    public static int mostVowels(String[] arrayOfStrings) {
+        // check preconditions
+        if (arrayOfStrings == null || arrayOfStrings.length == 0 || !atLeastOneNonNull(arrayOfStrings)) { 
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "mostVowels. parameter may not equal null and must contain " +
+                    "at least one none null value.");
         }
 
-        //Big O = O(1)
+        String vowels = "aeiou";
+        // last index of array since the loop starts from the end of array
+        int indexOfMostVowels = arrayOfStrings.length-1;
+        int countOfVowelsInMostVowels = 0;
 
-        //Because new node is in the first position make it point back to HEADER
-        //and the previous first node (HEADER.getNezt())
-        DoubleListNode<E> newNode = 
-                new DoubleListNode<>(HEADER, item, HEADER.getNext());
-        //Make HEADER point to newNode and the previous first node point back
-        //to newNode
-        HEADER.getNext().setPrev(newNode);
-        HEADER.setNext(newNode);
-        size++;
-    }
+        // go through all of the strings int the array
+        // Start from end of array so you can settle tie with string 
+        // closest to index 0
+        for(int i = arrayOfStrings.length - 1; i >=0; i--){
 
-    /**
-     * add item to the end of the list. <br>
-     * pre: item != null <br>
-     * post: size() = old size() + 1, get(size() -1) = item
-     *
-     * @param item the data to add to the end of this list
-     */
-    public void addLast(E item) {
-        //precon
-        if(item == null){
-            throw new IllegalArgumentException("Precondition Violated: "
-                    + "addLast. item can not be null.");
-        }
+            // make sure the string isnt null
+            if(arrayOfStrings[i] != null){
 
-        //Big O = O(1)
+                // turn the string into an all lowercase array of strings 
+                // so that you can check if each character is a vowel
+                String[]str = arrayOfStrings[i].toLowerCase().split("");
+                int countOfVowels = 0;
 
-        //add method already adds to the end of this list
-        add(item);
-    }
+                // count vowels in currently selected string
+                for(String x: str){
 
-    /**
-     * remove and return the first element of this list. <br>
-     * pre: size() > 0 <br>
-     * post: size() = old size() - 1
-     *
-     * @return the old first element of this list
-     */
-    public E removeFirst() {
-        //precon
-        if(size <= 0){
-            throw new IndexOutOfBoundsException("Precondition Violated: " 
-                    + "removeFirst. size must be > 0.");
-        }
+                    // must ignore empty string and see if the character 
+                    // is vowel before counting
+                    if(!x.equals("") && vowels.contains(x)){
+                        countOfVowels++;
+                    }
 
-        //Big O = O(1)
+                }
 
-        //Removing from front is already O(1) because of the HEADER node having
-        //a reference to the first node.
-        return remove(0);
-    }
+                // if this string has more vowels than previous
+                // then set it's index as the indexOfMostVowels
+                // and replace highest vowel count to current count
+                if(countOfVowels >= countOfVowelsInMostVowels){
+                    indexOfMostVowels = i;
+                    countOfVowelsInMostVowels = countOfVowels;
+                }
 
-    /**
-     * remove and return the last element of this list. <br>
-     * pre: size() > 0 <br>
-     * post: size() = old size() - 1
-     *
-     * @return the old last element of this list
-     */
-    public E removeLast() {
-        //precon 
-        if(size <= 0){
-            throw new IndexOutOfBoundsException("Precondition Violated: " 
-                    + "removeFirst. size must be > 0.");
-        }
-
-        //Big O = O(1)
-
-        //Remove all refences to current last by making header point back to 
-        //the node before current last and making the node before current last
-        //point towards HEADER
-        DoubleListNode<E> oldLast = HEADER.getPrev();
-        E oldData = oldLast.getData();
-        oldLast.getPrev().setNext(HEADER);
-        HEADER.setPrev(oldLast.getPrev());
-        size--;
-
-        return oldData;
-    }
-
-    /**
-    * return an Iterator for this list.
-    * <br>pre: none
-    * <br>post: return an Iterator object for this List
-    */
-    public Iterator<E> iterator(){
-        return new LIterator();
-    }
-
-    /**
-     * Provides an iterator for this LinkedList
-     */
-    private class LIterator implements Iterator<E> {
-        private DoubleListNode<E> currentNode;
-        private boolean okToRemove;
-
-        /**
-         * Constructor that creates a new iterator for this LinkedList
-         */
-        public LIterator(){
-            currentNode = HEADER;
-            okToRemove = false;
-        }
-
-        /**
-         * Returns {@code true} if the iteration has more elements.
-         * (In other words, returns {@code true} if {@link #next} would
-         * return an element rather than throwing an exception.)
-         *
-         * @return {@code true} if the iteration has more elements
-         */
-        public boolean hasNext(){
-            //Big O = O(1)
-
-            //If the the next node is HEADER (which has null stored) then 
-            //return false, otherwise return true.
-            return currentNode.getNext().getData() != null; 
-        }
-
-        /**
-         * Returns the next element in the iteration.
-         *
-         * @return the next element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
-         */
-        public E next(){
-            //precon
-            if(!hasNext()){
-                throw new NoSuchElementException();
             }
 
-            //Big O = O(1)
 
-            //Get the next node in the LinkedList and okToRemove is true
-            currentNode = currentNode.getNext();
-            okToRemove = true;
-
-            return currentNode.getData();
         }
 
-        /**
-         * Removes from the underlying collection the last element returned
-         * by this iterator (optional operation).  This method can be called
-         * only once per call to {@link #next}.
-         * <p>
-         *
-         * @throws IllegalStateException if the {@code next} method has not
-         *         yet been called, or the {@code remove} method has already
-         *         been called after the last call to the {@code next}
-         *         method
-         */
-        public void remove(){
-            //precon
-            if(!okToRemove){
-                throw new IllegalStateException();
+        return indexOfMostVowels;
+    }
+
+
+
+    /**
+     * Perform an experiment simulating the birthday problem.
+     * Pick random birthdays for the given number of people. 
+     * Return the number of pairs of people that share the
+     * same birthday.<br>
+     * @param numPeople The number of people in the experiment.
+     * This value must be > 0
+     * @param numDaysInYear The number of days in the year for this experiement.
+     * This value must be > 0
+     * @return The number of pairs of people that share a birthday 
+     * after running the simulation.
+     */
+    public static int sharedBirthdays(int numPeople, int numDaysInYear) {
+        // check preconditions
+        if (numPeople <= 0 || numDaysInYear <= 0) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "sharedBirthdays. both parameters must be greater than 0. " +
+                    "numPeople: " + numPeople + 
+                    ", numDaysInYear: " + numDaysInYear);
+        }
+
+        int[] birthdays = new int[numPeople];
+        int numberOfPairs = 0;
+
+        // generate random birthdays 
+        for(int i = 0; i<numPeople; i++){
+            Random r = new Random();
+            birthdays[i] = r.nextInt(numDaysInYear);
+
+        }
+
+        // go through list of birthdays
+        for(int i = 0; i < birthdays.length; i++){
+
+            // compare to every birthday except itself and the ones before it
+            // because the ones before it have already been compared
+            for(int x = i+1; x < birthdays.length; x++){
+                if(birthdays[i] == birthdays[x]){
+                    numberOfPairs++;
+                }
             }
 
-            //Big O = O(1)
-
-            //Remove references to the currentNode by making the node before it
-            //point to the node after it and the node after it point back to the
-            //node before it
-            DoubleListNode<E> previousNode = currentNode.getPrev();
-            DoubleListNode<E> nextNode = currentNode.getNext();
-            previousNode.setNext(nextNode);
-            nextNode.setPrev(previousNode);
-            currentNode = previousNode;
-            LinkedList.this.size--;   
-            okToRemove = false;
         }
 
+        return numberOfPairs; 
+    }
+
+
+
+    /**
+     * Determine if the chess board represented by board is a safe set up.
+     * <p>pre: board != null, board.length > 0, board is a square matrix.
+     * (In other words all rows in board have board.length columns.),
+     * all elements of board == 'q' or '.'. 'q's represent queens, '.'s
+     * represent open spaces.<br>
+     * <p>post: return true if the configuration of board is safe,
+     * that is no queen can attack any other queen on the board.
+     * false otherwise.
+     * the parameter <tt>board</tt> is not altered as a result of 
+     * this method.<br>
+     * @param board the chessboard
+     * @return true if the configuration of board is safe,
+     * that is no queen can attack any other queen on the board.
+     * false otherwise.
+     */
+    public static boolean queensAreSafe(char[][] board) {
+        char[] validChars = {'q', '.'};
+        // check preconditions
+        if (board == null || board.length == 0 || !isSquare(board) 
+                || !onlyContains(board, validChars)) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "queensAreSafe. The board may not be null, must be square, " +
+                    "and may only contain 'q's and '.'s");        
+        }
+
+        char queen = validChars[0];  // 'q' stands for queen on the board
+        for(int row = 0; row < board.length; row++){
+
+            for(int column = 0; column < board.length; column++){
+                // find queen in matrix
+                if(board[row][column] == queen){
+                    
+                    for(int i = 0; i < board.length; i++){
+                        // check horizontal for queen
+                        if(i != column && board[row][i] == queen){
+                            return false;
+                        }
+
+                        // check vertical for queen
+                        if(i != row && board[i][column] == queen){
+
+                            return false;
+                        }
+
+                        // check diagonal 1(\) for queen
+                        int columnDiagonal1 = column - (row - i);
+                        if(columnDiagonal1 >= 0 && columnDiagonal1 < board.length){
+                            if(i != row && board[i][columnDiagonal1] == queen){
+                                return false;
+                            }
+                        }
+
+                        // check diagonal 2(/) for queen
+                        int columnDiagonal2 = column + (row - i);
+                        if(columnDiagonal2 < board.length && columnDiagonal2 >= 0){
+                            if(i != row && board[i][columnDiagonal2] == queen){
+                                return false;
+                            }
+                        }
+                        
+                    }
+
+
+                }
+            }
+        }
+
+        // passed all directional tests for all queens on the board
+        // so the board is safe
+        return true; 
+    }
+
+    /**
+     * Given a 2D array and a starting point (row,column) it returns 
+     * the value of the most valuable contiguous sub rectangle from 
+     * that starting point
+     * 
+     * @param city The 2D array of ints representing the value of
+     * each block in a portion of a city.
+     * @param row the row of the starting point in the city array
+     * @param column the column of the starting point in the city array
+     * @return the value of the most valuable contiguous sub rectangle
+     * in the city array from the given starting point with row and column
+     */
+    private static int getMostValueFromStartingPoint(int[][]city, int row, int column){
+        int highestValue = city[row][column];
+
+        // runs through all rows from starting row and onwards
+        for(int r = row; r < city.length; r++){
+            // keeps count of value of current rectangle
+            int sum = 0;
+
+            // runs through all columns from starting column and onwards
+            for(int c = column; c < city[r].length; c++){
+                // adds values from previous columns
+                for(int currentRow = r; currentRow >= row; currentRow--){
+                    sum += city[currentRow][c];
+                }   
+                // if current rectangle is larger than previously 
+                // largest rectangle then replace 
+                // highest value with new rectangle value
+                if(sum > highestValue){
+                    highestValue = sum;
+                }           
+                
+            }
+
+        }
+
+        return highestValue;
+    }
+
+    /**
+     * Given a 2D array of ints return the value of the
+     * most valuable contiguous sub rectangle in the 2D array.
+     * The sub rectangle must be at least 1 by 1. 
+     * <p>pre: <tt>mat != null, mat.length > 0, mat[0].length > 0,
+     * mat</tt> is a rectangular matrix.
+     * <p>post: return the value of the most valuable contiguous sub rectangle
+     * in <tt>city</tt>.<br>
+     * @param city The 2D array of ints representing the value of
+     * each block in a portion of a city.
+     * @return return the value of the most valuable contiguous sub rectangle
+     * in <tt>city</tt>.
+     */
+    public static int getValueOfMostValuablePlot(int[][] city) {
+        // check preconditions
+        if (city == null || city.length == 0 || city[0].length == 0 
+                || !isRectangular(city) ) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "getValueOfMostValuablePlot. The parameter may not be null," +
+                    " must value at least one row and at least" +
+                    " one column, and must be rectangular."); 
+        }        
+
+        int highestValue = city[0][0];
+
+        for(int row = 0; row<city.length; row++){
+
+            for(int column = 0; column < city[row].length; column++){
+                // finds rectangle with highest value from this point
+                int maxValFromThisPoint = 
+                        getMostValueFromStartingPoint(city, row, column);
+                // if this new highest value exceeds previous highest value, 
+                // then it replaces it
+                if(maxValFromThisPoint > highestValue){
+                    highestValue = maxValFromThisPoint;
+                }
+            }
+
+        }
+
+        // returns highest possible value out of the 2D array 
+        // out of all starting points
+        return highestValue; 
+    }
+
+
+    // !!!!! ***** !!!!! ***** !!!!! ****** !!!!! ****** !!!!! ****** !!!!!!
+    // CS314 STUDENTS: Put your birthday problem experiment code here:
+
+    /**
+     * perform birthday experiment as many times as you want 
+     * works with sharedBirthdays method
+     * returns average number of pairs that occur
+     * 
+     * @param numOfExperiments the number of experiments that you want to run
+     * @param numPeople the number of people to be used in the birthday problem
+     * @param daysPerYear the number of days in a year to be 
+     * used in the birthday problem
+     * @return the average number of pairs out of all of the experiments
+     */
+    public static double averageNumberOfPairsExperiment(int numOfExperiments, int numPeople, int daysPerYear){
+        // keeps count of the sum of all the results
+        double totalSumOfPairs = 0;
+
+        // performs expriments and adds results to totalSumOfPairs
+        for(int i = 0; i < numOfExperiments; i++){
+            totalSumOfPairs += sharedBirthdays(numPeople, daysPerYear);
+        }
+
+        // returns the average number of pairs
+        return totalSumOfPairs/numOfExperiments;
+    }
+
+    /**
+     * performs birthday experiment and returns the number of experiments
+     * that have at least 1 shared birthday
+     * 
+     * @param numOfExperiments the number of experiments you want to run
+     * @param numPeople the number of people to be used in the birthday problem
+     * @param daysInYear the number of days in a year to be used
+     * in the birthday problem
+     * @return the number of experiments that had at least one pair
+     */
+    public static int countOfExperimentsWithAPair(int numOfExperiments, int numPeople, int daysInYear){
+        // keeps count of experiments that have atleast one pair
+        int countOfExperiments = 0;
+
+        // runs experiments
+        for(int i = 0; i < numOfExperiments; i++){
+            // adds to counter if experiment has a pair
+            if(sharedBirthdays(numPeople, daysInYear) >= 1){
+                countOfExperiments++;
+            }
+        }
+
+        return countOfExperiments;
 
     }
 
-    
+    /**
+     * Performs the second experiment for the birthday problem and draws the table
+     * 
+     * @param minRange the minimum number of people (inclusive)
+     * @param maxRange the maximum number of people (inclusive)
+     */
+    public static void runBirthdayExperiment2(int minRange, int maxRange){
+        
+        for(int i = minRange; i <= maxRange; i++){
+            int count = countOfExperimentsWithAPair(50000, i, 365);
+            double percentage = (count/50000.)*100;
+            System.out.print("Num people: "+i+", number of experiments with one or more shared birthday: "+count+", percentage: ");
+            System.out.printf("%.2f",percentage);
+            System.out.println();
+        }
+    }
 
+    /* 
+     * pre: arrayOfStrings != null
+     * post: return true if at least one element in arrayOfStrings is 
+     * not null, otherwise return false. 
+     */
+    private static boolean atLeastOneNonNull(String[] arrayOfStrings) {
+        // check precondition
+        if (arrayOfStrings == null) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "atLeastOneNonNull. parameter may not equal null.");
+        }
+        boolean foundNonNull = false;
+        int i = 0;
+        while( !foundNonNull && i < arrayOfStrings.length ) {
+            foundNonNull = arrayOfStrings[i] != null;
+            i++;
+        }
+        return foundNonNull;
+    }
+
+
+    /* 
+     * pre: mat != null
+     * post: return true if mat is a square matrix, false otherwise
+     */
+    private static boolean isSquare(char[][] mat) {
+        if (mat == null) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "isSquare. Parameter may not be null.");
+        }
+        final int numRows = mat.length;
+        int row = 0;
+        boolean isSquare = true;
+        while (isSquare && row < numRows) {
+            isSquare = ( mat[row] != null) && (mat[row].length == numRows);
+            row++;
+        }
+        return isSquare;
+    }
+
+
+    /* 
+     * pre: mat != null, valid != null
+     * post: return true if all elements in mat are one of the 
+     * characters in valid
+     */
+    private static boolean onlyContains(char[][] mat, char[] valid) {
+        // check preconditions
+        if (mat == null || valid == null) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "onlyContains. Parameters may not be null.");
+        }
+        String validChars = new String(valid);
+        int row = 0;
+        boolean onlyContainsValidChars = true;
+        while (onlyContainsValidChars && row < mat.length) {
+            int col = 0;
+            while(onlyContainsValidChars && col < mat[row].length) {
+                int indexOfChar = validChars.indexOf(mat[row][col]);
+                onlyContainsValidChars = indexOfChar != -1;
+                col++;
+            }
+            row++;
+        }
+        return onlyContainsValidChars;
+    }
+
+
+    /*
+     * pre: mat != null, mat.length > 0
+     * post: return true if mat is rectangular
+     */
+    private static boolean isRectangular(int[][] mat) {
+        // check preconditions
+        if (mat == null || mat.length == 0) {
+            throw new IllegalArgumentException("Violation of precondition: " +
+                    "isRectangular. Parameter may not be null and must contain" +
+                    " at least one row.");
+        }
+        boolean correct = mat[0] != null;
+        int row = 0;
+        while(correct && row < mat.length) {
+            correct = (mat[row] != null) 
+                    && (mat[row].length == mat[0].length);
+            row++;
+        }
+        return correct;
+    }
+
+    // make constructor private so no instances of CodeCamp can not be created
+    private CodeCamp() {
+
+    }
 }

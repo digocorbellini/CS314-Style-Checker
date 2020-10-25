@@ -1,9 +1,6 @@
 import re
 
-#place all lines from the file into an array
-with open('text.txt') as f:
-    lines = [line.rstrip() for line in f]
-
+lines = []
 problematicLines = {}
 
 #stage checks
@@ -104,7 +101,7 @@ def checkOperatorSpacing(line, index):
         currentSpacing = 0
         if(x in operators):      
             charBefore = line[lineIndex - 1]
-            charAfter = line[lineIndex + 1]
+            charAfter =  " " if (lineIndex == len(line) - 1) else line[lineIndex + 1]
             if(charBefore in allowedChars or x == charAfter):
                 currentSpacing += 1
             if(charAfter in allowedChars or x == charBefore or charAfter == "="):
@@ -158,9 +155,10 @@ def styleCheck():
                     lineIndex = 0
                     for x in line:
                         if(x in operators):
+                            nextChar = " " if (lineIndex == len(line) - 1) else line[lineIndex + 1]
                             if(line[lineIndex - 1] == " "):
                                 operatorSpacing += 1
-                            if(line[lineIndex + 1] == " "):
+                            if(nextChar == " "):
                                 operatorSpacing += 1
                             break
                         lineIndex += 1
@@ -191,7 +189,22 @@ def styleCheck():
             
         index += 1
 
-styleCheck()
+def infoPage():
+    global lines
+    #place all lines from the file into an array
+    with open('static/uploads/text.txt') as f:
+        lines = [line.rstrip() for line in f]
+    styleCheck()
+    finalString = ""
+    keys = problematicLines.keys()
+    for key in keys:
+        lineNum = int(key) + 1
+        finalString += "Line " + str(lineNum) + ": " + problematicLines[key] + "<br>"
+    button = ('<form action="/back" method="POST" enctype="multipart/form-data">'
+                + '<button>back</button></form>')
+    return "<p class='error'>" + finalString + "</p>" + button
+
+infoPage()
 print(problematicLines)
 
 

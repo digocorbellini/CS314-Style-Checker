@@ -1,6 +1,7 @@
 from os import error
 from flask import *
 import os
+from styleChecker import *
 
 from werkzeug.utils import secure_filename
 
@@ -14,13 +15,23 @@ def home():
     # looks for index.html in folder named "templates"
     return render_template("index.html")
 
+@app.route("/result")
+def result():
+    return infoPage()
+
+@app.route("/back", methods=['POST'])
+def back():
+    return redirect("/")
+
 @app.route("/handleUpload", methods = ['POST'])
 def handleUpload():
     if(request.files['fileUploaded']):
         file = request.files["fileUploaded"]
         fileName = file.filename
         if(checkFileType(fileName)):
+            os.remove("static/uploads/text.txt")
             file.save(os.path.join("static/uploads", "text.txt"))
+            return redirect("/result")
         else:
             flash("wrong file type", "warning")
     else:

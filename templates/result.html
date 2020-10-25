@@ -3,1236 +3,630 @@
 {% block body %}
 <h1>Style Errors</h1>
 <p id='styleErrors'>
-Line 192: All methods must be commented<br>
-Line 334: Inconsistent operator spacing.<br>
-Line 354: Inconsistent operator spacing.<br>
-Line 378: Inconsistent operator spacing.<br>
-Line 509: Inconsistent operator spacing.<br>
-Line 533: Inconsistent operator spacing.<br>
-Line 631: Inconsistent operator spacing.<br>
-Line 716: Inconsistent operator spacing.<br>
-Line 723: Methods must not be longer than 25 lines.<br>
-Line 725: All methods must be commented<br>
-Line 735: All methods must be commented<br>
-Line 744: Inconsistent operator spacing.<br>
-Line 753: All methods must be commented<br>
-Line 760: Inconsistent operator spacing.<br>
-Line 769: All methods must be commented<br>
-Line 776: Inconsistent operator spacing.<br>
-Line 785: All methods must be commented<br>
-Line 791: Inconsistent operator spacing.<br>
-Line 798: All methods must be commented<br>
-Line 838: Magic numbers should be constant.<br>
-Line 842: Magic numbers should be constant.<br>
-Line 844: Magic numbers should be constant.<br>
-Line 847: Magic numbers should be constant.<br>
-Line 849: Magic numbers should be constant.<br>
-Line 852: Magic numbers should be constant.<br>
-Line 854: Magic numbers should be constant.<br>
-Line 857: Magic numbers should be constant.<br>
-Line 861: Magic numbers should be constant.<br>
-Line 863: Magic numbers should be constant.<br>
-Line 892: All methods must be commented<br>
-Line 899: Inconsistent operator spacing.<br>
-Line 905: All methods must be commented<br>
-Line 924: All methods must be commented<br>
-Line 944: All methods must be commented<br>
-Line 963: All methods must be commented<br>
-Line 985: All methods must be commented<br>
-Line 1007: All methods must be commented<br>
-Line 1031: All methods must be commented<br>
-Line 1055: All methods must be commented<br>
-Line 1081: All methods must be commented<br>
-Line 1106: All methods must be commented<br>
-Line 1130: All methods must be commented<br>
-Line 1159: All methods must be commented<br>
-Line 1165: All methods must be commented<br>
-Line 1171: All methods must be commented<br>
-Line 1177: All methods must be commented<br>
+Line 7: Lines can not exceede 80 characters.<br>
+Line 34: Lines can not exceede 80 characters.<br>
+Line 69: Inconsistent operator spacing.<br>
+Line 75: Inconsistent operator spacing.<br>
+Line 86: Inconsistent operator spacing.<br>
+Line 155: Lines can not exceede 80 characters.<br>
+Line 156: Lines can not exceede 80 characters.<br>
+Line 158: Lines can not exceede 80 characters.<br>
+Line 169: Lines can not exceede 80 characters.<br>
+Line 171: Lines can not exceede 80 characters.<br>
+Line 177: Inconsistent operator spacing.<br>
+Line 238: Lines can not exceede 80 characters.<br>
+Line 258: Inconsistent operator spacing.<br>
+Line 293: Lines can not exceede 80 characters.<br>
+Line 318: Lines can not exceede 80 characters.<br>
+Line 326: Lines can not exceede 80 characters.<br>
+Line 356: Lines can not exceede 80 characters.<br>
+Line 402: Lines can not exceede 80 characters.<br>
+Line 444: Lines can not exceede 80 characters.<br>
+Line 454: Inconsistent operator spacing.<br>
+Line 467: Lines can not exceede 80 characters.<br>
+Line 484: Lines can not exceede 80 characters.<br>
+Line 492: Magic numbers should be constant.<br>
+Line 493: Magic numbers should be constant.<br>
+Line 494: Inconsistent operator spacing.<br>
+Line 495: Inconsistent operator spacing.<br>
+Line 559: Inconsistent operator spacing.<br>
+Line 576: Lines can not exceede 80 characters.<br>
 </p>
 <h1>Code</h1>
 <p id='code'>
-1 /*  Student information for assignment:<br>
-2 *<br>
-3 *  On my honor, Rodrigo Okamoto Corbellini Pereira,<br>
-4 *  this programming assignment is my own work<br>
-5 *  and I have not provided this code to any other student.<br>
-6 *<br>
-7 *  Name: Rodrigo Okamoto Corbellini Pereira<br>
-8 *  email address: rodrigoocp@utexas.edu<br>
-9 *  UTEID: ro7929<br>
-10 *  TA name: Irena<br>
-11 *  Number of slip days used on this assignment: 0<br>
-12 */<br>
-13 <br>
-14 //Experiment results. CS314 students, place your experiment<br>
-15 //results here:<br>
-16 /**<br>
-17  * 1)<br>
-18  * Num Repeats: 100<br>
-19  * Adding at end: ArrayList<br>
-20  * N = 30000, total time:  0.1138<br>
-21  * N = 60000, total time:  0.1680<br>
-22  * N = 120000, total time:  0.3597<br>
-23  * N = 240000, total time:  0.4080<br>
-24  * N = 480000, total time:  1.5995<br>
-25  *<br>
-26  *<br>
-27  * Num Repeats: 100<br>
-28  * Adding at end: LinkedList<br>
-29  * N = 30000, total time:  0.0430<br>
-30  * N = 60000, total time:  0.0841<br>
-31  * N = 120000, total time:  0.2570<br>
-32  * N = 240000, total time:  0.4170<br>
-33  * N = 480000, total time:  0.8553<br>
-34  *<br>
-35  *<br>
-36  * 2)<br>
-37  * Num Repeats: 100<br>
-38  * Adding at front: ArrayList<br>
-39  * N = 2000, total time:  0.0197<br>
-40  * N = 4000, total time:  0.0615<br>
-41  * N = 8000, total time:  0.2233<br>
-42  * N = 16000, total time:  1.0108<br>
-43  * N = 32000, total time:  4.1044<br>
-44  *<br>
-45  *<br>
-46  * Num Repeats: 100<br>
-47  * Adding at front: LinkedList<br>
-48  * N = 10000, total time:  0.0093<br>
-49  * N = 20000, total time:  0.0174<br>
-50  * N = 40000, total time:  0.0361<br>
-51  * N = 80000, total time:  0.0702<br>
-52  * N = 160000, total time:  0.1373<br>
-53  *<br>
-54  *<br>
-55  * 3)<br>
-56  * Num Repeats: 100<br>
-57  * Removing from front: ArrayList<br>
-58  * N = 2000, total time:  0.0180<br>
-59  * N = 4000, total time:  0.0547<br>
-60  * N = 8000, total time:  0.2083<br>
-61  * N = 16000, total time:  0.9560<br>
-62  * N = 32000, total time:  4.0443<br>
-63  *<br>
-64  *<br>
-65  * Num Repeats: 100<br>
-66  * removing from front: LinkedList<br>
-67  * N = 5000, total time:  0.0105<br>
-68  * N = 10000, total time:  0.0269<br>
-69  * N = 20000, total time:  0.0605<br>
-70  * N = 40000, total time:  0.1237<br>
-71  * N = 80000, total time:  0.2516<br>
-72  *<br>
-73  *<br>
-74  * 4)<br>
-75  * Num Repeats: 100<br>
-76  * Getting random: ArrayList<br>
-77  * N = 10000, total time:  0.0182<br>
-78  * N = 20000, total time:  0.0393<br>
-79  * N = 40000, total time:  0.0969<br>
-80  * N = 80000, total time:  0.2490<br>
-81  * N = 160000, total time:  0.6081<br>
-82  *<br>
-83  *<br>
-84  * Num Repeats: 100<br>
-85  * Getting random: LinkedList<br>
-86  * N = 1000, total time:  0.1132<br>
-87  * N = 2000, total time:  0.4517<br>
-88  * N = 4000, total time:  1.8269<br>
-89  * N = 8000, total time:  7.4272<br>
-90  * N = 16000, total time: 30.9252<br>
-91  *<br>
-92  *<br>
-93  * 5)<br>
-94  * Num Repeats: 100<br>
-95  * Getting all using iterator: ArrayList<br>
-96  * N = 50000, total time:  0.0149<br>
-97  * N = 100000, total time:  0.0260<br>
-98  * N = 200000, total time:  0.0389<br>
-99  * N = 400000, total time:  0.0819<br>
-100  * N = 800000, total time:  0.1441<br>
-101  *<br>
-102  *<br>
-103  * Num Repeats: 100<br>
-104  * Getting all using iterator: LinkedList<br>
-105  * N = 50000, total time:  0.0194<br>
-106  * N = 100000, total time:  0.0366<br>
-107  * N = 200000, total time:  0.0754<br>
-108  * N = 400000, total time:  0.1477<br>
-109  * N = 800000, total time:  0.2916<br>
-110  *<br>
-111  *<br>
-112  * 6)<br>
-113  * Num Repeats: 100<br>
-114  * Getting all using get method: ArrayList<br>
-115  * N = 100000, total time:  0.0154<br>
-116  * N = 200000, total time:  0.0282<br>
-117  * N = 400000, total time:  0.0563<br>
-118  * N = 800000, total time:  0.1132<br>
-119  * N = 1600000, total time:  0.2134<br>
-120  *<br>
-121  *<br>
-122  * Num Repeats: 100<br>
-123  * Getting all using get method: LinkedList<br>
-124  * N = 1000, total time:  0.1011<br>
-125  * N = 2000, total time:  0.4298<br>
-126  * N = 4000, total time:  1.7487<br>
-127  * N = 8000, total time:  7.2023<br>
-128  * N = 16000, total time: 30.6518<br>
-129  */<br>
-130 //1) Adding to end appears to be almost twice as fast on a LinkedList for most<br>
-131 //sizes of N.<br>
-132 //LinkedList appears to have a Big O of O(1) for adding to the end<br>
-133 //since the timing was increasing by only a factor of 2 caused by the loop that<br>
-134 //calls the addLast() method N times while the method its self caused no<br>
-135 //increase in time.<br>
-136 //ArrayList appears to have a Big O of O(N) because of resizing as shown in the<br>
-137 //4x increase in time from .4080 to 1.5995 when N is doubled from N = 240000<br>
-138 //to N = 480000. This 4x increase is caused by the experiment loop running<br>
-139 //the ArrayList .add() method of O(N) N times.<br>
-140 //<br>
-141 //2) Adding at front appears to be faster on a LinkedList because adding to the<br>
-142 //front was faster even when adding 5x more elements than in the ArrayList<br>
-143 //LinkedList appears to have a Big O of O(1) for adding to the front since the<br>
-144 //timing was increasing by only a factor of 2 caused by the loop that<br>
-145 //calls the addFirst() method N times while the method its self caused no<br>
-146 //increase in time.<br>
-147 //ArrayList appears to have a Big O of O(N) because of shifting as shown in the<br>
-148 //about 4x increase in time every time N was doubled. This 4x increase is caused<br>
-149 //by the experiment loop running the ArrayList .add(0,j) method of O(N) N times.<br>
-150 //<br>
-151 //3) Removing from front appears to be faster on a LinkedList because it was<br>
-152 //faster than an ArrayList while adding more than 2x the elements.<br>
-153 //LinkedList appears to have a Big O of O(1) for removing from the end since<br>
-154 //the timing doubled every time N was douled which was caused by the loop in<br>
-155 //the experiment calling removeFirst() N times while the method itself worked<br>
-156 //in constant time.<br>
-157 //ArrayList appears to have a Big O of O(N) because of shifting after removing<br>
-158 //as shown by the 4x increase in the times every time N was doubled. This 4x<br>
-159 //increase was caused by the experiment calling the remove(0), an O(N) method,<br>
-160 //N times.<br>
-161 //<br>
-162 //4) Getting random appeared to be faster for ArrayList since it got data faster<br>
-163 //while doing 10x the size of N that LinkedList did.<br>
-164 //LinkedList appeared to have a Big O of O(N) because of the 4x increase in<br>
-165 //timing every time N was doubled. This 4x increase was caused by the experiment<br>
-166 //calling the O(N) method of .get() N times.<br>
-167 //ArrayList appeared to have a Big O of O(1) because the timing only doubled<br>
-168 //every time N was double which was caused by the experiment calling the<br>
-169 //.get() method N.<br>
-170 //<br>
-171 //5) Getting all using iterator appeared to take around the same amount of time<br>
-172 //for both ArrayList and LinkedList for the same values of N.<br>
-173 //ArrayList and LinkedList appeared to have a Big O of O(1) for their iterator<br>
-174 //next() methods and an Big O of O(N) for getting all since their timings<br>
-175 //increased by 2 every time N was doubled.<br>
-176 //<br>
-177 //6) Getting all using get method appeared to be faster for ArrayList since it<br>
-178 //was faster at getting all for values of N 100x greater than LinkeList used.<br>
-179 //LinkedList appeared to have a Big O of O(N) for its get() method and a Big O<br>
-180 //of O(N^2) for getting all since its timings increased by a factor of 4 every<br>
-181 //time N was doubled.<br>
-182 //ArrayList appeared to have a Big O of O(1) for its get() method and a Big O of<br>
-183 //O(N) for getting all since its timings doubled every time N was doubled.<br>
+1 //  CodeCamp.java - CS314 Assignment 1<br>
+2 <br>
+3 /*  Student information for assignment:<br>
+4  *<br>
+5  *  replace <NAME> with your name.<br>
+6  *<br>
+<span class='tooltip'>7  *  On my honor, Rodrigo Okamoto Corbellini Pereira, this programming assignment is my own work<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+8  *  and I have not provided this code to any other student.<br>
+9  *<br>
+10  *  Name: Rodrigo Okamoto Corbellini Pereira<br>
+11  *  email address: rodrigoocp@utexas.edu<br>
+12  *  UTEID: ro7929<br>
+13  *  Section 5 digit ID: 50915<br>
+14  *  Grader name: Irena<br>
+15  *  Number of slip days used on this assignment: 0<br>
+16  */<br>
+17 <br>
+18 import java.util.Random;<br>
+19 <br>
+20 public class CodeCamp {<br>
+21 <br>
+22     /**<br>
+23      * Determine the Hamming distance between two arrays of ints.<br>
+24      * Neither the parameter <tt>aData</tt> or<br>
+25      * <tt>bData</tt> are altered as a result of this method.<br><br>
+26      * @param aData != null, aData.length == aData.length<br>
+27      * @param bData != null<br>
+28      * @return the Hamming Distance between the two arrays of ints.<br>
+29      */<br>
+30     public static int hammingDistance(int[] aData, int[] bData) {<br>
+31         // check preconditions<br>
+32         if (aData == null || bData == null || aData.length != bData.length) {<br>
+33             throw new IllegalArgumentException("Violation of precondition: " +<br>
+<span class='tooltip'>34                     "hammingDistance. neither parameter may equal null, arrays" +<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+35                     " must be equal length.");<br>
+36         }<br>
+37 <br>
+38         int hammingDistanceCount = 0;<br>
+39         // go through both arrays and if the values at the same index<br>
+40         // are different, then add to count<br>
+41         for(int i = 0; i < aData.length ; i++){<br>
+42 <br>
+43             if(aData[i] != bData[i]){<br>
+44                 hammingDistanceCount++;<br>
+45             }<br>
+46 <br>
+47         }<br>
+48 <br>
+49         return hammingDistanceCount;<br>
+50     }<br>
+51 <br>
+52 <br>
+53     /**<br>
+54      * Sorts a given array from least to greatest<br>
+55      *<br>
+56      * @param array the array to sort<br>
+57      * @return a sorted array from least to greatest<br>
+58      *<br>
+59     */<br>
+60     private static int[] sort(int[] array){<br>
+61         // use a string array so that it is all null by default<br>
+62         String[] newArray = new String[array.length + 1];<br>
+63 <br>
+64         // go through array<br>
+65         for(int arrayIndex = 0; arrayIndex<array.length; arrayIndex++){<br>
+66 <br>
+67             // compare all items in new array with currently selected item<br>
+68             // from the original array<br>
+<span class='tooltip'>69             for(int newArrayIndex = newArray.length-1; newArrayIndex >= 0;<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+70                      newArrayIndex--){<br>
+71 <br>
+72                 if(newArrayIndex == newArray.length - 1){<br>
+73 <br>
+74                     // if last index then add to newArray<br>
+<span class='tooltip'>75                     newArray[newArrayIndex] = ""+array[arrayIndex];<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+76 <br>
+77                 }else{<br>
+78 <br>
+79                     // if next spot is less than or empty (== null)<br>
+80                     // then place currently selected item in new array<br>
+81                     if(newArray[newArrayIndex] == null<br>
+82                             || array[arrayIndex]<br>
+83                             < Integer.parseInt(newArray[newArrayIndex])){<br>
+84 <br>
+85                         newArray[newArrayIndex + 1] = newArray[newArrayIndex];<br>
+<span class='tooltip'>86                         newArray[newArrayIndex] = ""+array[arrayIndex];<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+87                     }<br>
+88 <br>
+89                 }<br>
+90 <br>
+91 <br>
+92             }<br>
+93 <br>
+94         }<br>
+95 <br>
+96         // convert string array back to int array<br>
+97         int[]returnArr = new int[array.length];<br>
+98         for(int i = 0; i < array.length; i++){<br>
+99             returnArr[i] = Integer.parseInt(newArray[i]);<br>
+100         }<br>
+101 <br>
+102         return returnArr;<br>
+103 <br>
+104     }<br>
+105 <br>
+106     /**<br>
+107      * Determine if one array of ints is a permutation of another.<br>
+108      * Neither the parameter <tt>aData</tt> or<br>
+109      * the parameter <tt>bData</tt> are altered as a result of this method.<br><br>
+110      * @param aData != null<br>
+111      * @param bData != null<br>
+112      * @return <tt>true</tt> if aData is a permutation of bData,<br>
+113      * <tt>false</tt> otherwise<br>
+114      *<br>
+115      */<br>
+116     public static boolean isPermutation(int[] aData, int[] bData) {<br>
+117         // check preconditions<br>
+118         if (aData == null || bData == null) {<br>
+119             throw new IllegalArgumentException("Violation of precondition: " +<br>
+120                     "isPermutation. neither parameter may equal null.");<br>
+121         }<br>
+122 <br>
+123         // Both arrays must be the same length before checking if its a<br>
+124         // permutation<br>
+125         if(aData.length == bData.length){<br>
+126 <br>
+127             // sort both arrays<br>
+128             int[] sortedAData = sort(aData);<br>
+129             int[] sortedBData = sort(bData);<br>
+130 <br>
+131             // check to see if all numbers match<br>
+132             for(int i = 0; i < aData.length; i++){<br>
+133 <br>
+134                 if(sortedAData[i] != sortedBData[i]){<br>
+135                     return false;<br>
+136                 }<br>
+137 <br>
+138             }<br>
+139 <br>
+140         }else{<br>
+141             // not a permutation if not the same length<br>
+142             return false;<br>
+143         }<br>
+144 <br>
+145         // if no differences were found in sorted arrays, then its a permutation<br>
+146         return true;<br>
+147     }<br>
+148 <br>
+149 <br>
+150     /**<br>
+151      * Determine the index of the String that<br>
+152      * has the largest number of vowels.<br>
+153      * Vowels are defined as <tt>'A', 'a', 'E', 'e', 'I', 'i', 'O', 'o',<br>
+154      * 'U', and 'u'</tt>.<br>
+<span class='tooltip'>155      * The parameter <tt>arrayOfStrings</tt> is not altered as a result of this method.<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+<span class='tooltip'>156      * <p>pre: <tt>arrayOfStrings != null</tt>, <tt>arrayOfStrings.length > 0</tt>,<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+157      * there is an least 1 non null element in arrayOfStrings.<br>
+<span class='tooltip'>158      * <p>post: return the index of the non-null element in arrayOfStrings that has the<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+159      * largest number of characters that are vowels.<br>
+160      * If there is a tie return the index closest to zero.<br>
+161      * The empty String, "", has zero vowels.<br>
+162      * It is possible for the maximum number of vowels to be 0.<br><br>
+163      * @param arrayOfStrings the array to check<br>
+164      * @return the index of the non-null element in arrayOfStrings that has<br>
+165      * the largest number of vowels.<br>
+166      */<br>
+167     public static int mostVowels(String[] arrayOfStrings) {<br>
+168         // check preconditions<br>
+<span class='tooltip'>169         if (arrayOfStrings == null || arrayOfStrings.length == 0 || !atLeastOneNonNull(arrayOfStrings)) {<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+170             throw new IllegalArgumentException("Violation of precondition: " +<br>
+<span class='tooltip'>171                     "mostVowels. parameter may not equal null and must contain " +<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+172                     "at least one none null value.");<br>
+173         }<br>
+174 <br>
+175         String vowels = "aeiou";<br>
+176         // last index of array since the loop starts from the end of array<br>
+<span class='tooltip'>177         int indexOfMostVowels = arrayOfStrings.length-1;<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+178         int countOfVowelsInMostVowels = 0;<br>
+179 <br>
+180         // go through all of the strings int the array<br>
+181         // Start from end of array so you can settle tie with string<br>
+182         // closest to index 0<br>
+183         for(int i = arrayOfStrings.length - 1; i >=0; i--){<br>
 184 <br>
-185 import java.util.Iterator;<br>
-186 import java.util.ArrayList;<br>
-187 import java.util.Random;<br>
-188 import java.util.Arrays;<br>
-189 <br>
-190 public class LinkedListTester {<br>
-191 <br>
-<span class='tooltip'>192    public static void main(String[] args) {<span class='tooltiptext'>All methods must be commented</span></span><br>
-193 <br>
-194        //CS314 students. Add your tests here:<br>
-195        String[] expectedArr;<br>
-196        String[] initialList;<br>
-197        LinkedList<String> testList;<br>
-198 <br>
-199        //Testing toString()<br>
-200        System.out.println();<br>
-201        System.out.println("----------------Testing toString()----------------");<br>
-202 <br>
-203        //toString 1<br>
-204        expectedArr = new String[] {};<br>
-205        testList = makeList(expectedArr);<br>
-206        runTest("toString()", testList, expectedArr);<br>
-207 <br>
-208        //toString 2<br>
-209        expectedArr = new String[] {"A"};<br>
-210        testList = makeList(expectedArr);<br>
-211        runTest("toString()", testList, expectedArr);<br>
-212 <br>
-213        //toString 3<br>
-214        expectedArr = new String[] {"A", "B", "C", "D", "e", "f"};<br>
-215        testList = makeList(expectedArr);<br>
-216        runTest("toString()", testList, expectedArr);<br>
-217 <br>
-218        //Testing add()<br>
-219        System.out.println();<br>
-220        System.out.println("------------------Testing add()-------------------");<br>
+185             // make sure the string isnt null<br>
+186             if(arrayOfStrings[i] != null){<br>
+187 <br>
+188                 // turn the string into an all lowercase array of strings<br>
+189                 // so that you can check if each character is a vowel<br>
+190                 String[]str = arrayOfStrings[i].toLowerCase().split("");<br>
+191                 int countOfVowels = 0;<br>
+192 <br>
+193                 // count vowels in currently selected string<br>
+194                 for(String x: str){<br>
+195 <br>
+196                     // must ignore empty string and see if the character<br>
+197                     // is vowel before counting<br>
+198                     if(!x.equals("") && vowels.contains(x)){<br>
+199                         countOfVowels++;<br>
+200                     }<br>
+201 <br>
+202                 }<br>
+203 <br>
+204                 // if this string has more vowels than previous<br>
+205                 // then set it's index as the indexOfMostVowels<br>
+206                 // and replace highest vowel count to current count<br>
+207                 if(countOfVowels >= countOfVowelsInMostVowels){<br>
+208                     indexOfMostVowels = i;<br>
+209                     countOfVowelsInMostVowels = countOfVowels;<br>
+210                 }<br>
+211 <br>
+212             }<br>
+213 <br>
+214 <br>
+215         }<br>
+216 <br>
+217         return indexOfMostVowels;<br>
+218     }<br>
+219 <br>
+220 <br>
 221 <br>
-222        //Add 1<br>
-223        expectedArr = new String[] {"A","b","C"};<br>
-224        testList = makeList(expectedArr);<br>
-225        runTest("add()", testList, expectedArr);<br>
-226 <br>
-227        //Add 2<br>
-228        expectedArr = new String[] {"1"};<br>
-229        testList = makeList(expectedArr);<br>
-230        runTest("add()", testList, expectedArr);<br>
-231 <br>
-232        //Add 3<br>
-233        expectedArr = new String[] {"h","e","l","l","o","world"};<br>
-234        testList = makeList(expectedArr);<br>
-235        runTest("add()", testList, expectedArr);<br>
-236 <br>
-237        //testing addFirst()<br>
-238        System.out.println();<br>
-239        System.out.println("---------------Testing addFirst()-----------------");<br>
-240 <br>
-241        //addFirst 1<br>
-242        initialList = new String[] {};<br>
-243        expectedArr = new String[] {"b"};<br>
-244        testList = makeList(initialList);<br>
-245        testList.addFirst("b");<br>
-246        runTest("addFirst()", testList, expectedArr);<br>
-247 <br>
-248        //addFirst 2<br>
-249        initialList = new String[] {"c"};<br>
-250        expectedArr = new String[] {"b","c"};<br>
-251        testList = makeList(initialList);<br>
-252        testList.addFirst("b");<br>
-253        runTest("addFirst()", testList, expectedArr);<br>
-254 <br>
-255        //addFirst 3<br>
-256        initialList = new String[] {"a","fda","fdeaefd","ae"};<br>
-257        expectedArr = new String[] {"a","a","fda","fdeaefd","ae"};<br>
-258        testList = makeList(initialList);<br>
-259        testList.addFirst("a");<br>
-260        runTest("addFirst()", testList, expectedArr);<br>
-261 <br>
-262        //testing addLast()<br>
-263        System.out.println();<br>
-264        System.out.println("---------------Testing addLast()------------------");<br>
+222     /**<br>
+223      * Perform an experiment simulating the birthday problem.<br>
+224      * Pick random birthdays for the given number of people.<br>
+225      * Return the number of pairs of people that share the<br>
+226      * same birthday.<br><br>
+227      * @param numPeople The number of people in the experiment.<br>
+228      * This value must be > 0<br>
+229      * @param numDaysInYear The number of days in the year for this experiement.<br>
+230      * This value must be > 0<br>
+231      * @return The number of pairs of people that share a birthday<br>
+232      * after running the simulation.<br>
+233      */<br>
+234     public static int sharedBirthdays(int numPeople, int numDaysInYear) {<br>
+235         // check preconditions<br>
+236         if (numPeople <= 0 || numDaysInYear <= 0) {<br>
+237             throw new IllegalArgumentException("Violation of precondition: " +<br>
+<span class='tooltip'>238                     "sharedBirthdays. both parameters must be greater than 0. " +<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+239                     "numPeople: " + numPeople +<br>
+240                     ", numDaysInYear: " + numDaysInYear);<br>
+241         }<br>
+242 <br>
+243         int[] birthdays = new int[numPeople];<br>
+244         int numberOfPairs = 0;<br>
+245 <br>
+246         // generate random birthdays<br>
+247         for(int i = 0; i<numPeople; i++){<br>
+248             Random r = new Random();<br>
+249             birthdays[i] = r.nextInt(numDaysInYear);<br>
+250 <br>
+251         }<br>
+252 <br>
+253         // go through list of birthdays<br>
+254         for(int i = 0; i < birthdays.length; i++){<br>
+255 <br>
+256             // compare to every birthday except itself and the ones before it<br>
+257             // because the ones before it have already been compared<br>
+<span class='tooltip'>258             for(int x = i+1; x < birthdays.length; x++){<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+259                 if(birthdays[i] == birthdays[x]){<br>
+260                     numberOfPairs++;<br>
+261                 }<br>
+262             }<br>
+263 <br>
+264         }<br>
 265 <br>
-266        //addLast 1<br>
-267        initialList = new String[] {};<br>
-268        expectedArr = new String[] {"b"};<br>
-269        testList = makeList(initialList);<br>
-270        testList.addLast("b");<br>
-271        runTest("addLast()", testList, expectedArr);<br>
-272 <br>
-273        //addLast 2<br>
-274        initialList = new String[] {"b","c"};<br>
-275        expectedArr = new String[] {"b","c","b"};<br>
-276        testList = makeList(initialList);<br>
-277        testList.addLast("b");<br>
-278        runTest("addLast()", testList, expectedArr);<br>
-279 <br>
-280        //addLast 3<br>
-281        initialList = new String[] {"b","c","b","c"};<br>
-282        expectedArr = new String[] {"b","c","b","c","b"};<br>
-283        testList = makeList(initialList);<br>
-284        testList.addLast("b");<br>
-285        runTest("addLast()", testList, expectedArr);<br>
-286 <br>
-287        //testing insert()<br>
-288        System.out.println();<br>
-289        System.out.println("----------------Testing insert()------------------");<br>
-290 <br>
-291        //insert 1<br>
-292        initialList = new String[] {"a","fda","fdeaefd","ae"};<br>
-293        expectedArr = new String[] {"a","a","fda","fdeaefd","ae"};<br>
-294        testList = makeList(initialList);<br>
-295        testList.insert(0,"a");<br>
-296        runTest("insert()", testList, expectedArr);<br>
-297 <br>
-298        //insert 2<br>
-299        initialList = new String[] {"a","fda","fdeaefd","ae"};<br>
-300        expectedArr = new String[] {"a","fda","fdeaefd","ae","a"};<br>
-301        testList = makeList(initialList);<br>
-302        testList.insert(initialList.length,"a");<br>
-303        runTest("insert()", testList, expectedArr);<br>
-304 <br>
-305        //insert 3<br>
-306        initialList = new String[] {"a","fda","fdeaefd","ae"};<br>
-307        expectedArr = new String[] {"a","fda","a","fdeaefd","ae"};<br>
-308        testList = makeList(initialList);<br>
-309        testList.insert(initialList.length/2,"a");<br>
-310        runTest("insert()", testList, expectedArr);<br>
-311 <br>
-312        //testing set()<br>
-313        System.out.println();<br>
-314        System.out.println("------------------Testing set()-------------------");<br>
+266         return numberOfPairs;<br>
+267     }<br>
+268 <br>
+269 <br>
+270 <br>
+271     /**<br>
+272      * Determine if the chess board represented by board is a safe set up.<br>
+273      * <p>pre: board != null, board.length > 0, board is a square matrix.<br>
+274      * (In other words all rows in board have board.length columns.),<br>
+275      * all elements of board == 'q' or '.'. 'q's represent queens, '.'s<br>
+276      * represent open spaces.<br><br>
+277      * <p>post: return true if the configuration of board is safe,<br>
+278      * that is no queen can attack any other queen on the board.<br>
+279      * false otherwise.<br>
+280      * the parameter <tt>board</tt> is not altered as a result of<br>
+281      * this method.<br><br>
+282      * @param board the chessboard<br>
+283      * @return true if the configuration of board is safe,<br>
+284      * that is no queen can attack any other queen on the board.<br>
+285      * false otherwise.<br>
+286      */<br>
+287     public static boolean queensAreSafe(char[][] board) {<br>
+288         char[] validChars = {'q', '.'};<br>
+289         // check preconditions<br>
+290         if (board == null || board.length == 0 || !isSquare(board)<br>
+291                 || !onlyContains(board, validChars)) {<br>
+292             throw new IllegalArgumentException("Violation of precondition: " +<br>
+<span class='tooltip'>293                     "queensAreSafe. The board may not be null, must be square, " +<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+294                     "and may only contain 'q's and '.'s");<br>
+295         }<br>
+296 <br>
+297         char queen = validChars[0];  // 'q' stands for queen on the board<br>
+298         for(int row = 0; row < board.length; row++){<br>
+299 <br>
+300             for(int column = 0; column < board.length; column++){<br>
+301                 // find queen in matrix<br>
+302                 if(board[row][column] == queen){<br>
+303 <br>
+304                     for(int i = 0; i < board.length; i++){<br>
+305                         // check horizontal for queen<br>
+306                         if(i != column && board[row][i] == queen){<br>
+307                             return false;<br>
+308                         }<br>
+309 <br>
+310                         // check vertical for queen<br>
+311                         if(i != row && board[i][column] == queen){<br>
+312 <br>
+313                             return false;<br>
+314                         }<br>
 315 <br>
-316        //set 1<br>
-317        initialList = new String[] {"b","fds","as"};<br>
-318        expectedArr = new String[] {"a","fds","as"};<br>
-319        testList = makeList(initialList);<br>
-320        testList.set(0,"a");<br>
-321        runTest("set()", testList, expectedArr);<br>
-322 <br>
-323        //set 2<br>
-324        initialList = new String[] {"1","2","3"};<br>
-325        expectedArr = new String[] {"1","2","10"};<br>
-326        testList = makeList(initialList);<br>
-327        testList.set(initialList.length - 1,"10");<br>
-328        runTest("set()", testList, expectedArr);<br>
-329 <br>
-330        //set 3<br>
-331        initialList = new String[] {"1","2","4"};<br>
-332        expectedArr = new String[] {"1","3","4"};<br>
-333        testList = makeList(initialList);<br>
-<span class='tooltip'>334        testList.set(initialList.length/2,"3");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-335        runTest("set()", testList, expectedArr);<br>
-336 <br>
-337        //testing get()<br>
-338        System.out.println();<br>
-339        System.out.println("------------------Testing get()-------------------");<br>
-340 <br>
-341        //get 1<br>
-342        initialList = new String[] {"a"};<br>
-343        testList = makeList(initialList);<br>
-344        runTest("get()", testList.get(0), "a");<br>
-345 <br>
-346        //get 2<br>
-347        initialList = new String[] {"a","b","c","d"};<br>
-348        testList = makeList(initialList);<br>
-349        runTest("get()", testList.get(initialList.length - 1), "d");<br>
-350 <br>
-351        //get 3<br>
-352        initialList = new String[] {"a","b","c","d"};<br>
-353        testList = makeList(initialList);<br>
-<span class='tooltip'>354        runTest("get()", testList.get(initialList.length/2), "c");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-355 <br>
-356        //testing remove(index)<br>
-357        System.out.println();<br>
-358        System.out.println("--------------Testing remove(index)---------------");<br>
-359 <br>
-360        //remove 1<br>
-361        initialList = new String[] {"1"};<br>
-362        expectedArr = new String[] {};<br>
-363        testList = makeList(initialList);<br>
-364        testList.remove(0);<br>
-365        runTest("remove(index)", testList, expectedArr);<br>
-366 <br>
-367        //remove 2<br>
-368        initialList = new String[] {"1","2","3","4","5"};<br>
-369        expectedArr = new String[] {"1","2","3","4"};<br>
-370        testList = makeList(initialList);<br>
-371        testList.remove(initialList.length - 1);<br>
-372        runTest("remove(index)", testList, expectedArr);<br>
-373 <br>
-374        //remove 3<br>
-375        initialList = new String[] {"1","2","3","4","5"};<br>
-376        expectedArr = new String[] {"1","2","4","5"};<br>
-377        testList = makeList(initialList);<br>
-<span class='tooltip'>378        testList.remove(initialList.length/2);<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-379        runTest("remove(index)", testList, expectedArr);<br>
+316                         // check diagonal 1(\) for queen<br>
+317                         int columnDiagonal1 = column - (row - i);<br>
+<span class='tooltip'>318                         if(columnDiagonal1 >= 0 && columnDiagonal1 < board.length){<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+319                             if(i != row && board[i][columnDiagonal1] == queen){<br>
+320                                 return false;<br>
+321                             }<br>
+322                         }<br>
+323 <br>
+324                         // check diagonal 2(/) for queen<br>
+325                         int columnDiagonal2 = column + (row - i);<br>
+<span class='tooltip'>326                         if(columnDiagonal2 < board.length && columnDiagonal2 >= 0){<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+327                             if(i != row && board[i][columnDiagonal2] == queen){<br>
+328                                 return false;<br>
+329                             }<br>
+330                         }<br>
+331 <br>
+332                     }<br>
+333 <br>
+334 <br>
+335                 }<br>
+336             }<br>
+337         }<br>
+338 <br>
+339         // passed all directional tests for all queens on the board<br>
+340         // so the board is safe<br>
+341         return true;<br>
+342     }<br>
+343 <br>
+344     /**<br>
+345      * Given a 2D array and a starting point (row,column) it returns<br>
+346      * the value of the most valuable contiguous sub rectangle from<br>
+347      * that starting point<br>
+348      *<br>
+349      * @param city The 2D array of ints representing the value of<br>
+350      * each block in a portion of a city.<br>
+351      * @param row the row of the starting point in the city array<br>
+352      * @param column the column of the starting point in the city array<br>
+353      * @return the value of the most valuable contiguous sub rectangle<br>
+354      * in the city array from the given starting point with row and column<br>
+355      */<br>
+<span class='tooltip'>356     private static int getMostValueFromStartingPoint(int[][]city, int row, int column){<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+357         int highestValue = city[row][column];<br>
+358 <br>
+359         // runs through all rows from starting row and onwards<br>
+360         for(int r = row; r < city.length; r++){<br>
+361             // keeps count of value of current rectangle<br>
+362             int sum = 0;<br>
+363 <br>
+364             // runs through all columns from starting column and onwards<br>
+365             for(int c = column; c < city[r].length; c++){<br>
+366                 // adds values from previous columns<br>
+367                 for(int currentRow = r; currentRow >= row; currentRow--){<br>
+368                     sum += city[currentRow][c];<br>
+369                 }<br>
+370                 // if current rectangle is larger than previously<br>
+371                 // largest rectangle then replace<br>
+372                 // highest value with new rectangle value<br>
+373                 if(sum > highestValue){<br>
+374                     highestValue = sum;<br>
+375                 }<br>
+376 <br>
+377             }<br>
+378 <br>
+379         }<br>
 380 <br>
-381        //testing remove(obj)<br>
-382        System.out.println();<br>
-383        System.out.println("---------------Testing remove(obj)----------------");<br>
-384 <br>
-385        //remove 1<br>
-386        initialList = new String[] {"1","2","1"};<br>
-387        expectedArr = new String[] {"2","1"};<br>
-388        testList = makeList(initialList);<br>
-389        testList.remove("1");<br>
-390        runTest("remove(index)", testList, expectedArr);<br>
-391 <br>
-392        //remove 2<br>
-393        initialList = new String[] {"1","2","1"};<br>
-394        expectedArr = new String[] {"1","1"};<br>
-395        testList = makeList(initialList);<br>
-396        testList.remove("2");<br>
-397        runTest("remove(index)", testList, expectedArr);<br>
-398 <br>
-399        //remove 3<br>
-400        initialList = new String[] {"3"};<br>
-401        expectedArr = new String[] {};<br>
-402        testList = makeList(initialList);<br>
-403        testList.remove("3");<br>
-404        runTest("remove(index)", testList, expectedArr);<br>
-405 <br>
-406        //testing removeFirst()<br>
-407        System.out.println();<br>
-408        System.out.println("--------------Testing removeFirst()---------------");<br>
-409 <br>
-410        //remove 1<br>
-411        initialList = new String[] {"1","2","1"};<br>
-412        expectedArr = new String[] {"2","1"};<br>
-413        testList = makeList(initialList);<br>
-414        testList.removeFirst();<br>
-415        runTest("removeFirst()", testList, expectedArr);<br>
-416 <br>
-417        //remove 2<br>
-418        initialList = new String[] {"1"};<br>
-419        expectedArr = new String[] {};<br>
-420        testList = makeList(initialList);<br>
-421        testList.removeFirst();<br>
-422        runTest("removeFirst()", testList, expectedArr);<br>
+381         return highestValue;<br>
+382     }<br>
+383 <br>
+384     /**<br>
+385      * Given a 2D array of ints return the value of the<br>
+386      * most valuable contiguous sub rectangle in the 2D array.<br>
+387      * The sub rectangle must be at least 1 by 1.<br>
+388      * <p>pre: <tt>mat != null, mat.length > 0, mat[0].length > 0,<br>
+389      * mat</tt> is a rectangular matrix.<br>
+390      * <p>post: return the value of the most valuable contiguous sub rectangle<br>
+391      * in <tt>city</tt>.<br><br>
+392      * @param city The 2D array of ints representing the value of<br>
+393      * each block in a portion of a city.<br>
+394      * @return return the value of the most valuable contiguous sub rectangle<br>
+395      * in <tt>city</tt>.<br>
+396      */<br>
+397     public static int getValueOfMostValuablePlot(int[][] city) {<br>
+398         // check preconditions<br>
+399         if (city == null || city.length == 0 || city[0].length == 0<br>
+400                 || !isRectangular(city) ) {<br>
+401             throw new IllegalArgumentException("Violation of precondition: " +<br>
+<span class='tooltip'>402                     "getValueOfMostValuablePlot. The parameter may not be null," +<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+403                     " must value at least one row and at least" +<br>
+404                     " one column, and must be rectangular.");<br>
+405         }<br>
+406 <br>
+407         int highestValue = city[0][0];<br>
+408 <br>
+409         for(int row = 0; row<city.length; row++){<br>
+410 <br>
+411             for(int column = 0; column < city[row].length; column++){<br>
+412                 // finds rectangle with highest value from this point<br>
+413                 int maxValFromThisPoint =<br>
+414                         getMostValueFromStartingPoint(city, row, column);<br>
+415                 // if this new highest value exceeds previous highest value,<br>
+416                 // then it replaces it<br>
+417                 if(maxValFromThisPoint > highestValue){<br>
+418                     highestValue = maxValFromThisPoint;<br>
+419                 }<br>
+420             }<br>
+421 <br>
+422         }<br>
 423 <br>
-424        //remove 3<br>
-425        initialList = new String[] {"a","B","C","d"};<br>
-426        expectedArr = new String[] {"B","C","d"};<br>
-427        testList = makeList(initialList);<br>
-428        testList.removeFirst();<br>
-429        runTest("removeFirst()", testList, expectedArr);<br>
-430 <br>
-431 <br>
-432        //testing removeLast()<br>
-433        System.out.println();<br>
-434        System.out.println("--------------Testing removeLast()----------------");<br>
-435 <br>
-436        //remove 1<br>
-437        initialList = new String[] {"d"};<br>
-438        expectedArr = new String[] {};<br>
-439        testList = makeList(initialList);<br>
-440        testList.removeLast();<br>
-441        runTest("removeLast()", testList, expectedArr);<br>
-442 <br>
-443        //remove 2<br>
-444        initialList = new String[] {"a","d","c","f"};<br>
-445        expectedArr = new String[] {"a","d","c"};<br>
-446        testList = makeList(initialList);<br>
-447        testList.removeLast();<br>
-448        runTest("removeLast()", testList, expectedArr);<br>
-449 <br>
-450        //remove 3<br>
-451        initialList = new String[] {"a","f"};<br>
-452        expectedArr = new String[] {"a"};<br>
-453        testList = makeList(initialList);<br>
-454        testList.removeLast();<br>
-455        runTest("removeLast()", testList, expectedArr);<br>
+424         // returns highest possible value out of the 2D array<br>
+425         // out of all starting points<br>
+426         return highestValue;<br>
+427     }<br>
+428 <br>
+429 <br>
+430     // !!!!! ***** !!!!! ***** !!!!! ****** !!!!! ****** !!!!! ****** !!!!!!<br>
+431     // CS314 STUDENTS: Put your birthday problem experiment code here:<br>
+432 <br>
+433     /**<br>
+434      * perform birthday experiment as many times as you want<br>
+435      * works with sharedBirthdays method<br>
+436      * returns average number of pairs that occur<br>
+437      *<br>
+438      * @param numOfExperiments the number of experiments that you want to run<br>
+439      * @param numPeople the number of people to be used in the birthday problem<br>
+440      * @param daysPerYear the number of days in a year to be<br>
+441      * used in the birthday problem<br>
+442      * @return the average number of pairs out of all of the experiments<br>
+443      */<br>
+<span class='tooltip'>444     public static double averageNumberOfPairsExperiment(int numOfExperiments, int numPeople, int daysPerYear){<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+445         // keeps count of the sum of all the results<br>
+446         double totalSumOfPairs = 0;<br>
+447 <br>
+448         // performs expriments and adds results to totalSumOfPairs<br>
+449         for(int i = 0; i < numOfExperiments; i++){<br>
+450             totalSumOfPairs += sharedBirthdays(numPeople, daysPerYear);<br>
+451         }<br>
+452 <br>
+453         // returns the average number of pairs<br>
+<span class='tooltip'>454         return totalSumOfPairs/numOfExperiments;<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+455     }<br>
 456 <br>
-457        //testing getSubList()<br>
-458        System.out.println();<br>
-459        System.out.println("--------------Testing getSubList()----------------");<br>
-460 <br>
-461        //subList 1<br>
-462        initialList = new String[] {"a"};<br>
-463        expectedArr = new String[] {};<br>
-464        testList = makeList(initialList);<br>
-465        testList = (LinkedList<String>) testList.getSubList(0, 0);<br>
-466        runTest("getSubList()", testList, expectedArr);<br>
-467 <br>
-468        //subList 2<br>
-469        initialList = new String[] {"a","b","c","d"};<br>
-470        expectedArr = new String[] {"b"};<br>
-471        testList = makeList(initialList);<br>
-472        testList = (LinkedList<String>) testList.getSubList(1, 2);<br>
-473        runTest("getSubList()", testList, expectedArr);<br>
-474 <br>
-475        //subList 3<br>
-476        initialList = new String[] {"a","b","c","d","e","f"};<br>
-477        expectedArr = new String[] {"c","d","e","f"};<br>
-478        testList = makeList(initialList);<br>
-479        testList =<br>
-480             (LinkedList<String>) testList.getSubList(2, initialList.length);<br>
-481        runTest("getSubList()", testList, expectedArr);<br>
+457     /**<br>
+458      * performs birthday experiment and returns the number of experiments<br>
+459      * that have at least 1 shared birthday<br>
+460      *<br>
+461      * @param numOfExperiments the number of experiments you want to run<br>
+462      * @param numPeople the number of people to be used in the birthday problem<br>
+463      * @param daysInYear the number of days in a year to be used<br>
+464      * in the birthday problem<br>
+465      * @return the number of experiments that had at least one pair<br>
+466      */<br>
+<span class='tooltip'>467     public static int countOfExperimentsWithAPair(int numOfExperiments, int numPeople, int daysInYear){<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+468         // keeps count of experiments that have atleast one pair<br>
+469         int countOfExperiments = 0;<br>
+470 <br>
+471         // runs experiments<br>
+472         for(int i = 0; i < numOfExperiments; i++){<br>
+473             // adds to counter if experiment has a pair<br>
+474             if(sharedBirthdays(numPeople, daysInYear) >= 1){<br>
+475                 countOfExperiments++;<br>
+476             }<br>
+477         }<br>
+478 <br>
+479         return countOfExperiments;<br>
+480 <br>
+481     }<br>
 482 <br>
-483        //testing size()<br>
-484        System.out.println();<br>
-485        System.out.println("-----------------Testing size()-------------------");<br>
-486 <br>
-487        //size 1<br>
-488        initialList = new String[] {};<br>
-489        testList = makeList(initialList);<br>
-490        runTest("size()", testList.size(), initialList.length);<br>
-491 <br>
-492        //size 2<br>
-493        initialList = new String[] {"a","b"};<br>
-494        testList = makeList(initialList);<br>
-495        runTest("size()", testList.size(), initialList.length);<br>
-496 <br>
-497        //size 3<br>
-498        initialList = new String[] {"a","b","c","d","e","f","g"};<br>
-499        testList = makeList(initialList);<br>
-500        runTest("size()", testList.size(), initialList.length);<br>
-501 <br>
-502        //testing indexOf(item)<br>
-503        System.out.println();<br>
-504        System.out.println("--------------Testing indexOf(item)---------------");<br>
-505 <br>
-506        //indexOf 1<br>
-507        initialList = new String[] {};<br>
-508        testList = makeList(initialList);<br>
-<span class='tooltip'>509        runTest("indexOf(item)", testList.indexOf("a"), -1);<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-510 <br>
-511        //indexOf 2<br>
-512        initialList = new String[] {"a","b","a"};<br>
-513        testList = makeList(initialList);<br>
-514        runTest("indexOf(item)", testList.indexOf("a"), 0);<br>
-515 <br>
-516        //indexOf 3<br>
-517        initialList = new String[] {"a","b","a","c","d","e"};<br>
-518        testList = makeList(initialList);<br>
-519        runTest("indexOf(item)", testList.indexOf("e"), initialList.length - 1);<br>
+483     /**<br>
+<span class='tooltip'>484      * Performs the second experiment for the birthday problem and draws the table<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+485      *<br>
+486      * @param minRange the minimum number of people (inclusive)<br>
+487      * @param maxRange the maximum number of people (inclusive)<br>
+488      */<br>
+489     public static void runBirthdayExperiment2(int minRange, int maxRange){<br>
+490 <br>
+491         for(int i = minRange; i <= maxRange; i++){<br>
+<span class='tooltip'>492             int count = countOfExperimentsWithAPair(50000, i, 365);<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
+<span class='tooltip'>493             double percentage = (count/50000.)*100;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
+<span class='tooltip'>494             System.out.print("Num people: "+i+", number of experiments with one or more shared birthday: "+count+", percentage: ");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+<span class='tooltip'>495             System.out.printf("%.2f",percentage);<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+496             System.out.println();<br>
+497         }<br>
+498     }<br>
+499 <br>
+500     /*<br>
+501      * pre: arrayOfStrings != null<br>
+502      * post: return true if at least one element in arrayOfStrings is<br>
+503      * not null, otherwise return false.<br>
+504      */<br>
+505     private static boolean atLeastOneNonNull(String[] arrayOfStrings) {<br>
+506         // check precondition<br>
+507         if (arrayOfStrings == null) {<br>
+508             throw new IllegalArgumentException("Violation of precondition: " +<br>
+509                     "atLeastOneNonNull. parameter may not equal null.");<br>
+510         }<br>
+511         boolean foundNonNull = false;<br>
+512         int i = 0;<br>
+513         while( !foundNonNull && i < arrayOfStrings.length ) {<br>
+514             foundNonNull = arrayOfStrings[i] != null;<br>
+515             i++;<br>
+516         }<br>
+517         return foundNonNull;<br>
+518     }<br>
+519 <br>
 520 <br>
-521        //testing indexOf(item, pos)<br>
-522        System.out.println();<br>
-523        System.out.println("------------Testing indexOf(item, pos)------------");<br>
-524 <br>
-525        //indexOf 1<br>
-526        initialList = new String[] {"a"};<br>
-527        testList = makeList(initialList);<br>
-528        runTest("indexOf(item, pos)", testList.indexOf("a",0), 0);<br>
-529 <br>
-530        //indexOf 2<br>
-531        initialList = new String[] {"a","b","c","d"};<br>
-532        testList = makeList(initialList);<br>
-<span class='tooltip'>533        runTest("indexOf(item, pos)", testList.indexOf("a",1), -1);<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-534 <br>
-535        //indexOf 3<br>
-536        initialList = new String[] {"a","b","c","d","a"};<br>
-537        testList = makeList(initialList);<br>
-538        runTest("indexOf(item, pos)", testList.indexOf("a",1),<br>
-539             initialList.length - 1);<br>
+521     /*<br>
+522      * pre: mat != null<br>
+523      * post: return true if mat is a square matrix, false otherwise<br>
+524      */<br>
+525     private static boolean isSquare(char[][] mat) {<br>
+526         if (mat == null) {<br>
+527             throw new IllegalArgumentException("Violation of precondition: " +<br>
+528                     "isSquare. Parameter may not be null.");<br>
+529         }<br>
+530         final int numRows = mat.length;<br>
+531         int row = 0;<br>
+532         boolean isSquare = true;<br>
+533         while (isSquare && row < numRows) {<br>
+534             isSquare = ( mat[row] != null) && (mat[row].length == numRows);<br>
+535             row++;<br>
+536         }<br>
+537         return isSquare;<br>
+538     }<br>
+539 <br>
 540 <br>
-541         //testing makeEmtpy()<br>
-542        System.out.println();<br>
-543        System.out.println("---------------Testing makeEmpty()----------------");<br>
-544 <br>
-545        //makeEmpty 1<br>
-546        initialList = new String[] {};<br>
-547        expectedArr = new String[] {};<br>
-548        testList = makeList(initialList);<br>
-549        testList.makeEmpty();<br>
-550        runTest("makeEmpty()", testList, expectedArr);<br>
-551 <br>
-552        //makeEmpty 2<br>
-553        initialList = new String[] {"a","b","c"};<br>
-554        expectedArr = new String[] {};<br>
-555        testList = makeList(initialList);<br>
-556        testList.makeEmpty();<br>
-557        runTest("makeEmpty()", testList, expectedArr);<br>
-558 <br>
-559        //makeEmpty 3<br>
-560        initialList = new String[] {"a"};<br>
-561        expectedArr = new String[] {};<br>
-562        testList = makeList(initialList);<br>
-563        testList.makeEmpty();<br>
-564        runTest("makeEmpty()", testList, expectedArr);<br>
-565 <br>
-566        //testing removeRange()<br>
-567        System.out.println();<br>
-568        System.out.println("--------------Testing removeRange()---------------");<br>
-569 <br>
-570        //removeRange() 1<br>
-571        initialList = new String[] {"a","b","c"};<br>
-572        expectedArr = new String[] {"a","b","c"};<br>
-573        testList = makeList(initialList);<br>
-574        testList.removeRange(2, 2);<br>
-575        runTest("removeRange()", testList, expectedArr);<br>
-576 <br>
-577        //removeRange() 2<br>
-578        initialList = new String[] {"a","b","c"};<br>
-579        expectedArr = new String[] {"b","c"};<br>
-580        testList = makeList(initialList);<br>
-581        testList.removeRange(0, 1);<br>
-582        runTest("removeRange()", testList, expectedArr);<br>
-583 <br>
-584        //removeRange() 3<br>
-585        initialList = new String[] {"a","b","c"};<br>
-586        expectedArr = new String[] {};<br>
-587        testList = makeList(initialList);<br>
-588        testList.removeRange(0, initialList.length);<br>
-589        runTest("removeRange()", testList, expectedArr);<br>
-590 <br>
-591        //testing equals()<br>
-592        System.out.println();<br>
-593        System.out.println("----------------Testing equals()------------------");<br>
-594 <br>
-595        //equals 1<br>
-596        initialList = new String[] {};<br>
-597        testList = makeList(initialList);<br>
-598        LinkedList<String> testList2 = makeList(initialList);<br>
-599        runTest("equals()", testList.equals(testList2));<br>
-600 <br>
-601        //equals 2<br>
-602        initialList = new String[] {};<br>
-603        testList = makeList(initialList);<br>
-604        testList2 = makeList(initialList);<br>
-605        testList2.add("a");<br>
-606        runTest("equals()", !testList.equals(testList2));<br>
-607 <br>
-608        //equals 2<br>
-609        initialList = new String[] {};<br>
-610        testList = makeList(initialList);<br>
-611        LinkedList<Integer> testList3 = new LinkedList<>();<br>
-612        runTest("equals()", testList.equals(testList3));<br>
-613 <br>
-614        //testing iterator()<br>
-615        System.out.println();<br>
-616        System.out.println("---------------Testing Iterator()-----------------");<br>
-617 <br>
-618        //iterator 1<br>
-619        runTest("iterator()", testList.iterator() != null);<br>
-620 <br>
-621        //iterator 2<br>
-622        testList = new LinkedList<>();<br>
-623        runTest("iterator()", testList.iterator() != null);<br>
-624 <br>
-625        //iterator 3<br>
-626        testList = new LinkedList<>();<br>
-627        testList.add("a");<br>
-628        runTest("iterator()", testList.iterator() != null);<br>
-629 <br>
-630        System.out.println();<br>
-<span class='tooltip'>631        System.out.println("*****************ITERATOR METHODS*****************");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-632 <br>
-633        //testing hasNext()<br>
-634        System.out.println();<br>
-635        System.out.println("----------------Testing hasNext()-----------------");<br>
-636 <br>
-637        //hasNext 1<br>
-638        initialList = new String[] {};<br>
-639        testList = makeList(initialList);<br>
-640        Iterator<String> it = testList.iterator();<br>
-641        runTest("hasNext()", !it.hasNext());<br>
-642 <br>
-643        //hasNext 2<br>
-644        initialList = new String[] {"a","b"};<br>
-645        testList = makeList(initialList);<br>
-646        it = testList.iterator();<br>
-647        runTest("hasNext()", it.hasNext());<br>
-648 <br>
-649        //hasNext 3<br>
-650        initialList = new String[] {"a","b","c"};<br>
-651        testList = makeList(initialList);<br>
-652        it = testList.iterator();<br>
-653        it.next();<br>
-654        it.next();<br>
-655        runTest("hasNext()", it.hasNext());<br>
-656 <br>
-657        //testing next()<br>
-658        System.out.println();<br>
-659        System.out.println("-----------------Testing next()-------------------");<br>
-660 <br>
-661        //next 1<br>
-662        initialList = new String[] {"a"};<br>
-663        testList = makeList(initialList);<br>
-664        it = testList.iterator();<br>
-665        runTest("next()", it.next(), initialList[0]);<br>
-666 <br>
-667        //next 2<br>
-668        initialList = new String[] {"a","b"};<br>
-669        testList = makeList(initialList);<br>
-670        it = testList.iterator();<br>
-671        it.next();<br>
-672        runTest("next()", it.next(), initialList[1]);<br>
-673 <br>
-674        //next 2<br>
-675        initialList = new String[] {"a","b","c","d","e"};<br>
-676        testList = makeList(initialList);<br>
-677        it = testList.iterator();<br>
-678        it.next();<br>
-679        it.next();<br>
-680        it.next();<br>
-681        runTest("next()", it.next(), "d");<br>
-682 <br>
-683        //testing remove()<br>
-684        System.out.println();<br>
-685        System.out.println("----------------Testing remove()------------------");<br>
-686 <br>
-687        //remove()<br>
-688        initialList = new String[] {"a"};<br>
-689        expectedArr = new String[] {};<br>
-690        testList = makeList(initialList);<br>
-691        it = testList.iterator();<br>
-692        it.next();<br>
-693        it.remove();<br>
-694        runTest("remove()", testList, expectedArr);<br>
-695 <br>
-696        //remove()<br>
-697        initialList = new String[] {"a","b"};<br>
-698        expectedArr = new String[] {"a"};<br>
-699        testList = makeList(initialList);<br>
-700        it = testList.iterator();<br>
-701        it.next();<br>
-702        it.next();<br>
-703        it.remove();<br>
-704        runTest("remove()", testList, expectedArr);<br>
-705 <br>
-706        //remove()<br>
-707        initialList = new String[] {"a","b","c"};<br>
-708        expectedArr = new String[] {"a","c"};<br>
-709        testList = makeList(initialList);<br>
-710        it = testList.iterator();<br>
-711        it.next();<br>
-712        it.next();<br>
-713        it.remove();<br>
-714        runTest("remove()", testList, expectedArr);<br>
-715 <br>
-<span class='tooltip'>716        System.out.println("\nTests passed: " + testsPassed + "/"<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-717             + (testNum - 1));<br>
-718 <br>
-719        // CS314 Students:<br>
-720        // uncomment the following line to run tests comparing<br>
-721        // your LinkedList class to the java ArrayList class.<br>
-722        //comparison();<br>
-<span class='tooltip'>723    }<span class='tooltiptext'>Methods must not be longer than 25 lines.</span></span><br>
-724 <br>
-<span class='tooltip'>725     private static LinkedList<String> makeList(String...str){<span class='tooltiptext'>All methods must be commented</span></span><br>
-726        LinkedList<String> newList = new LinkedList<>();<br>
-727         for(String s : str){<br>
-728             newList.add(s);<br>
-729         }<br>
-730         return newList;<br>
-731    }<br>
-732 <br>
-733     private static int testNum = 1;<br>
-734     private static int testsPassed = 0;<br>
-<span class='tooltip'>735     private static void runTest(String methodName, LinkedList<String> testList<span class='tooltiptext'>All methods must be commented</span></span><br>
-736             , String[] expectedArr){<br>
-737         String listString = testList.toString();<br>
-738         String expectedString = Arrays.toString(expectedArr);<br>
-739        if(listString.equals(expectedString)){<br>
-740            System.out.print("[PASSED] ");<br>
-741            System.out.println("Test " + testNum + ": " + methodName);<br>
-742            testsPassed++;<br>
-743        }else{<br>
-<span class='tooltip'>744            System.out.print("[**FAILED**] ");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-745            System.out.println("Test " + testNum + ": " + methodName);<br>
-746            System.out.println("Expected: " + expectedString);<br>
-747            System.out.println("Actual: " + listString);<br>
-748        }<br>
-749 <br>
-750        testNum++;<br>
-751    }<br>
-752 <br>
-<span class='tooltip'>753     private static void runTest(String methodName, String listString,<span class='tooltiptext'>All methods must be commented</span></span><br>
-754             String expectedString){<br>
-755        if(listString.equals(expectedString)){<br>
-756            System.out.print("[PASSED] ");<br>
-757            System.out.println("Test " + testNum + ": " + methodName);<br>
-758            testsPassed++;<br>
-759        }else{<br>
-<span class='tooltip'>760            System.out.print("[**FAILED**] ");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-761            System.out.println("Test " + testNum + ": " + methodName);<br>
-762            System.out.println("Expected: " + expectedString);<br>
-763            System.out.println("Actual: " + listString);<br>
-764        }<br>
-765 <br>
-766        testNum++;<br>
-767    }<br>
-768 <br>
-<span class='tooltip'>769    private static void runTest(String methodName, int listInt,<span class='tooltiptext'>All methods must be commented</span></span><br>
-770             int expectedInt){<br>
-771        if(listInt == expectedInt){<br>
-772            System.out.print("[PASSED] ");<br>
-773            System.out.println("Test " + testNum + ": " + methodName);<br>
-774            testsPassed++;<br>
-775        }else{<br>
-<span class='tooltip'>776            System.out.print("[**FAILED**] ");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-777            System.out.println("Test " + testNum + ": " + methodName);<br>
-778            System.out.println("Expected: " + expectedInt);<br>
-779            System.out.println("Actual: " + listInt);<br>
-780        }<br>
-781 <br>
-782        testNum++;<br>
-783    }<br>
-784 <br>
-<span class='tooltip'>785    private static void runTest(String methodName, boolean result){<span class='tooltiptext'>All methods must be commented</span></span><br>
-786        if(result){<br>
-787            System.out.print("[PASSED] ");<br>
-788            System.out.println("Test " + testNum + ": " + methodName);<br>
-789            testsPassed++;<br>
-790        }else{<br>
-<span class='tooltip'>791            System.out.print("[**FAILED**] ");<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-792            System.out.println("Test " + testNum + ": " + methodName);<br>
-793        }<br>
-794 <br>
-795        testNum++;<br>
-796    }<br>
-797 <br>
-<span class='tooltip'>798    private static Object[] toArray(LinkedList<String> list) {<span class='tooltiptext'>All methods must be commented</span></span><br>
-799        Object[] result = new Object[list.size()];<br>
-800        Iterator<String> it = list.iterator();<br>
-801        int index = 0;<br>
-802        while (it.hasNext()){<br>
-803            result[index] = it.next();<br>
-804            index++;<br>
-805        }<br>
-806        return result;<br>
-807    }<br>
-808 <br>
-809    //pre: none<br>
-810    private static boolean arraysSame(Object[] one, Object[] two)  {<br>
-811        boolean same;<br>
-812        if (one == null || two == null) {<br>
-813            same = (one == two);<br>
-814        } else {<br>
-815            //neither one or two are null<br>
-816            assert one != null && two != null;<br>
-817            same = one.length == two.length;<br>
-818            if (same) {<br>
-819                int index = 0;<br>
-820                while (index < one.length && same) {<br>
-821                    same = (one[index].equals(two[index]));<br>
-822                    index++;<br>
-823                }<br>
-824            }<br>
-825        }<br>
-826        return same;<br>
-827    }<br>
-828 <br>
-829 <br>
-830    private static final int NUM_DOUBLINGS_OF_N = 5;<br>
-831    private static final int NUM_REPEATS_OF_TEST = 100;<br>
-832 <br>
-833    // A method to be run to compare your LinkedList class<br>
-834    // and the Java ArrayList class.<br>
-835    public static void comparison() {<br>
-836        Stopwatch s = new Stopwatch();<br>
-837 <br>
-<span class='tooltip'>838        int initialN = 30000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-839        addEndArrayList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-840        addEndLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-841 <br>
-<span class='tooltip'>842        initialN = 2000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-843        addFrontArrayList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-<span class='tooltip'>844        initialN = 10000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-845        addFrontLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-846 <br>
-<span class='tooltip'>847        initialN = 2000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-848        removeFrontArrayList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-<span class='tooltip'>849        initialN = 5000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-850        removeFrontLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-851 <br>
-<span class='tooltip'>852        initialN = 10000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-853        getRandomArrayList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-<span class='tooltip'>854        initialN = 1000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-855        getRandomLinkedList(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-856 <br>
-<span class='tooltip'>857        initialN = 50000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-858        getAllArrayListUsingIterator(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-859        getAllLinkedListUsingIterator(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-860 <br>
-<span class='tooltip'>861        initialN = 100000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-862        getAllArrayListUsingGetMethod(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-<span class='tooltip'>863        initialN = 1000;<span class='tooltiptext'>Magic numbers should be constant.</span></span><br>
-864        getAllLinkedListUsingGetMethod(s, initialN, NUM_DOUBLINGS_OF_N);<br>
-865 <br>
-866    }<br>
-867 <br>
-868    // These pairs of method illustrate a failure to use polymorphism.<br>
-869    // If the students had implemented the Java list interface there<br>
-870    // could be a single method. Also we could use function objects to<br>
-871    // reduce the awful repetition of code.<br>
-872    public static void addEndArrayList(Stopwatch s, int initialN,<br>
-873            int numTests) {<br>
-874 <br>
-875        double[] totalTimes = new double[numTests];<br>
-876        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-877            int n = initialN;<br>
-878            for (int i = 0; i < numTests; i++) {<br>
-879                ArrayList<Integer> javaList = new ArrayList<>();<br>
-880                s.start();<br>
-881                for (int j = 0; j < n; j++) {<br>
-882                    javaList.add(j);<br>
-883                }<br>
-884                s.stop();<br>
-885                totalTimes[i] += s.time();<br>
-886                n *= 2;<br>
-887            }<br>
-888        }<br>
-889        showResults("Adding at end: ArrayList", totalTimes, initialN);<br>
-890    }<br>
-891 <br>
-<span class='tooltip'>892    private static void showResults(String title, double[] times,<span class='tooltiptext'>All methods must be commented</span></span><br>
-893            int initialN) {<br>
-894        System.out.println();<br>
-895        System.out.println("Num Repeats: " + NUM_REPEATS_OF_TEST);<br>
-896        System.out.println(title);<br>
-897        for (double time : times) {<br>
-898            System.out.print("N = " + initialN + ", total time: ");<br>
-<span class='tooltip'>899            System.out.printf("%7.4f\n", time);<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
-900            initialN *= 2;<br>
-901        }<br>
-902        System.out.println();<br>
-903    }<br>
-904 <br>
-<span class='tooltip'>905    public static void addEndLinkedList(Stopwatch s, int initialN,<span class='tooltiptext'>All methods must be commented</span></span><br>
-906            int numTests){<br>
-907        double[] totalTimes = new double[numTests];<br>
-908        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-909            int n = initialN;<br>
-910            for (int i = 0; i < numTests; i++) {<br>
-911                LinkedList<Integer> studentList = new LinkedList<>();<br>
-912                s.start();<br>
-913                for (int j = 0; j < n; j++) {<br>
-914                    studentList.add(j);<br>
-915                }<br>
-916                s.stop();<br>
-917                totalTimes[i] += s.time();<br>
-918                n *= 2;<br>
-919            }<br>
-920        }<br>
-921        showResults("Adding at end: LinkedList", totalTimes, initialN);<br>
-922    }<br>
-923 <br>
-<span class='tooltip'>924    public static void addFrontArrayList(Stopwatch s, int initialN,<span class='tooltiptext'>All methods must be commented</span></span><br>
-925            int numTests){<br>
-926 <br>
-927        double[] totalTimes = new double[numTests];<br>
-928        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-929            int n = initialN;<br>
-930            for (int i = 0; i < numTests; i++) {<br>
-931                ArrayList<Integer> javaList = new ArrayList<>();<br>
-932                s.start();<br>
-933                for (int j = 0; j < n; j++) {<br>
-934                    javaList.add(0, j);<br>
-935                }<br>
-936                s.stop();<br>
-937                totalTimes[i] += s.time();<br>
-938                n *= 2;<br>
-939            }<br>
-940        }<br>
-941        showResults("Adding at front: ArrayList", totalTimes, initialN);<br>
-942    }<br>
-943 <br>
-<span class='tooltip'>944    public static void addFrontLinkedList(Stopwatch s, int initialN,<span class='tooltiptext'>All methods must be commented</span></span><br>
-945            int numTests){<br>
-946        double[] totalTimes = new double[numTests];<br>
-947        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-948            int n = initialN;<br>
-949            for (int i = 0; i < numTests; i++) {<br>
-950                LinkedList<Integer> studentList = new LinkedList<>();<br>
-951                s.start();<br>
-952                for (int j = 0; j < n; j++) {<br>
-953                    studentList.insert(0, j);<br>
-954                }<br>
-955                s.stop();<br>
-956                totalTimes[i] += s.time();<br>
-957                n *= 2;<br>
-958            }<br>
-959        }<br>
-960        showResults("Adding at front: LinkedList", totalTimes, initialN);<br>
-961    }<br>
-962 <br>
-<span class='tooltip'>963    public static void removeFrontArrayList(Stopwatch s, int initialN,<span class='tooltiptext'>All methods must be commented</span></span><br>
-964            int numTests){<br>
-965        double[] totalTimes = new double[numTests];<br>
-966        for(int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-967            int n = initialN;<br>
-968            for (int i = 0; i < numTests; i++) {<br>
-969                ArrayList<String> javaList = new ArrayList<>();<br>
-970                for (int j = 0; j < n; j++) {<br>
-971                    javaList.add(j + "");<br>
-972                }<br>
-973                s.start();<br>
-974                while (!javaList.isEmpty()) {<br>
-975                    javaList.remove(0);<br>
-976                }<br>
-977                s.stop();<br>
-978                totalTimes[i] += s.time();<br>
-979                n *= 2;<br>
-980            }<br>
-981        }<br>
-982        showResults("Removing from front: ArrayList", totalTimes, initialN);<br>
-983    }<br>
-984 <br>
-<span class='tooltip'>985    public static void removeFrontLinkedList(Stopwatch s, int initialN,<span class='tooltiptext'>All methods must be commented</span></span><br>
-986            int numTests){<br>
-987        double[] totalTimes = new double[numTests];<br>
-988        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-989            int n = initialN;<br>
-990            for (int i = 0; i < numTests; i++) {<br>
-991                LinkedList<String> studentList = new LinkedList<>();<br>
-992                for (int j = 0; j < n; j++) {<br>
-993                    studentList.add(j + "");<br>
-994                }<br>
-995                s.start();<br>
-996                while (studentList.size() != 0) {<br>
-997                    studentList.removeFirst();<br>
-998                }<br>
-999                s.stop();<br>
-1000                totalTimes[i] += s.time();<br>
-1001                n *= 2;<br>
-1002            }<br>
-1003        }<br>
-1004        showResults("removing from front: LinkedList", totalTimes, initialN);<br>
-1005    }<br>
-1006 <br>
-<span class='tooltip'>1007    public static void getRandomArrayList(Stopwatch s, int initialN,<span class='tooltiptext'>All methods must be commented</span></span><br>
-1008            int numTests){<br>
-1009        double[] totalTimes = new double[numTests];<br>
-1010        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-1011            int n = initialN;<br>
-1012            int total = 0;<br>
-1013            Random r = new Random();<br>
-1014            for (int i = 0; i < numTests; i++) {<br>
-1015                ArrayList<Integer> javaList = new ArrayList<>();<br>
-1016                for (int j = 0; j < n; j++) {<br>
-1017                    javaList.add(j);<br>
-1018                }<br>
-1019                s.start();<br>
-1020                for (int j = 0; j < n; j++) {<br>
-1021                    total += javaList.get(r.nextInt(javaList.size()));<br>
-1022                }<br>
-1023                s.stop();<br>
-1024                totalTimes[i] += s.time();<br>
-1025                n *= 2;<br>
-1026            }<br>
-1027        }<br>
-1028        showResults("Getting random: ArrayList", totalTimes, initialN);<br>
-1029    }<br>
-1030 <br>
-<span class='tooltip'>1031    public static void getRandomLinkedList(Stopwatch s, int initialN,<span class='tooltiptext'>All methods must be commented</span></span><br>
-1032            int numTests){<br>
-1033        double[] totalTimes = new double[numTests];<br>
-1034        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-1035            int n = initialN;<br>
-1036            int total = 0;<br>
-1037            Random r = new Random();<br>
-1038            for (int i = 0; i < numTests; i++) {<br>
-1039                LinkedList<Integer> studentList = new LinkedList< >();<br>
-1040                for (int j = 0; j < n; j++) {<br>
-1041                    studentList.add(j);<br>
-1042                }<br>
-1043                s.start();<br>
-1044                for (int j = 0; j < n; j++) {<br>
-1045                    total += studentList.get(r.nextInt(studentList.size()));<br>
-1046                }<br>
-1047                s.stop();<br>
-1048                totalTimes[i] += s.time();<br>
-1049                n *= 2;<br>
-1050            }<br>
-1051        }<br>
-1052        showResults("Getting random: LinkedList", totalTimes, initialN);<br>
-1053    }<br>
-1054 <br>
-<span class='tooltip'>1055    public static void getAllArrayListUsingIterator(Stopwatch s,<span class='tooltiptext'>All methods must be commented</span></span><br>
-1056            int initialN, int numTests){<br>
-1057 <br>
-1058        double[] totalTimes = new double[numTests];<br>
-1059        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-1060            int n = initialN;<br>
-1061            int total = 0;<br>
-1062            for (int i = 0; i < numTests; i++) {<br>
-1063                ArrayList<Integer> javaList = new ArrayList<>();<br>
-1064                for (int j = 0; j < n; j++) {<br>
-1065                    javaList.add(j);<br>
-1066                }<br>
-1067                Iterator<Integer> it = javaList.iterator();<br>
-1068                s.start();<br>
-1069                while (it.hasNext()) {<br>
-1070                    total += it.next();<br>
-1071                }<br>
-1072                s.stop();<br>
-1073                totalTimes[i] += s.time();<br>
-1074                n *= 2;<br>
-1075            }<br>
-1076        }<br>
-1077        showResults("Getting all using iterator: ArrayList", totalTimes,<br>
-1078                initialN);<br>
-1079    }<br>
-1080 <br>
-<span class='tooltip'>1081    public static void getAllLinkedListUsingIterator(Stopwatch s,<span class='tooltiptext'>All methods must be commented</span></span><br>
-1082            int initialN, int numTests){<br>
-1083        double[] totalTimes = new double[numTests];<br>
-1084        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-1085            int n = initialN;<br>
-1086            int total = 0;<br>
-1087            for (int i = 0; i < numTests; i++) {<br>
-1088                LinkedList<Integer> studentList = new LinkedList<>();<br>
-1089                for (int j = 0; j < n; j++) {<br>
-1090                    studentList.add(j);<br>
-1091                }<br>
-1092                Iterator<Integer> it = studentList.iterator();<br>
-1093                s.start();<br>
-1094                while (it.hasNext()) {<br>
-1095                    total += it.next();<br>
-1096                }<br>
-1097                s.stop();<br>
-1098                totalTimes[i] += s.time();<br>
-1099                n *= 2;<br>
-1100            }<br>
-1101        }<br>
-1102        showResults("Getting all using iterator: LinkedList", totalTimes,<br>
-1103                initialN);<br>
-1104    }<br>
-1105 <br>
-<span class='tooltip'>1106    public static void getAllArrayListUsingGetMethod(Stopwatch s,<span class='tooltiptext'>All methods must be commented</span></span><br>
-1107            int initialN, int numTests){<br>
-1108        double[] totalTimes = new double[numTests];<br>
-1109        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-1110            int n = initialN;<br>
-1111            for (int i = 0; i < numTests; i++) {<br>
-1112                ArrayList<Integer> javaList = new ArrayList<>();<br>
-1113                for (int j = 0; j < n; j++) {<br>
-1114                    javaList.add(j);<br>
-1115                }<br>
-1116                s.start();<br>
-1117                int x = 0;<br>
-1118                for (int j = 0; j < javaList.size(); j++) {<br>
-1119                    x += javaList.get(j);<br>
-1120                }<br>
-1121                s.stop();<br>
-1122                totalTimes[i] += s.time();<br>
-1123                n *= 2;<br>
-1124            }<br>
-1125        }<br>
-1126        showResults("Getting all using get method: ArrayList", totalTimes,<br>
-1127                initialN);<br>
-1128    }<br>
-1129 <br>
-<span class='tooltip'>1130    public static void getAllLinkedListUsingGetMethod(Stopwatch s,<span class='tooltiptext'>All methods must be commented</span></span><br>
-1131            int initialN, int numTests){<br>
-1132        double[] totalTimes = new double[numTests];<br>
-1133        for (int t = 0; t < NUM_REPEATS_OF_TEST; t++) {<br>
-1134            int n = initialN;<br>
-1135            for (int i = 0; i < numTests; i++) {<br>
-1136                LinkedList<Integer> studentList = new LinkedList<>();<br>
-1137                for (int j = 0; j < n; j++) {<br>
-1138                    studentList.add(j);<br>
-1139                }<br>
-1140                s.start();<br>
-1141                int x = 0;<br>
-1142                for (int j = 0; j < studentList.size(); j++) {<br>
-1143                    x += studentList.get(j);<br>
-1144                }<br>
-1145                s.stop();<br>
-1146                totalTimes[i] += s.time();<br>
-1147                n *= 2;<br>
-1148            }<br>
-1149        }<br>
-1150        showResults("Getting all using get method: LinkedList",<br>
-1151                totalTimes, initialN);<br>
-1152    }<br>
-1153 <br>
-1154    // for future changes<br>
-1155    private static interface ArrayListOp {<br>
-1156        public <E> void op(ArrayList<E> list, E data);<br>
-1157    }<br>
-1158 <br>
-<span class='tooltip'>1159    private ArrayListOp addAL = new ArrayListOp() {<span class='tooltiptext'>All methods must be commented</span></span><br>
-1160        public <E> void op(ArrayList<E> list, E data) {<br>
-1161            list.add(data);<br>
-1162        }<br>
-1163    };<br>
-1164 <br>
-<span class='tooltip'>1165    private ArrayListOp addFrontAL = new ArrayListOp() {<span class='tooltiptext'>All methods must be commented</span></span><br>
-1166        public <E> void op(ArrayList<E> list, E data) {<br>
-1167            list.add(0, data);<br>
-1168        }<br>
-1169    };<br>
-1170 <br>
-<span class='tooltip'>1171    private ArrayListOp removeFrontAL = new ArrayListOp() {<span class='tooltiptext'>All methods must be commented</span></span><br>
-1172        public <E> void op(ArrayList<E> list, E data) {<br>
-1173            list.remove(0);<br>
-1174        }<br>
-1175    };<br>
-1176 <br>
-<span class='tooltip'>1177    private static interface LinkedListOp<E> {<span class='tooltiptext'>All methods must be commented</span></span><br>
-1178        public void op(LinkedList<E> list);<br>
-1179    }<br>
-1180 <br>
-1181 }<br>
+541     /*<br>
+542      * pre: mat != null, valid != null<br>
+543      * post: return true if all elements in mat are one of the<br>
+544      * characters in valid<br>
+545      */<br>
+546     private static boolean onlyContains(char[][] mat, char[] valid) {<br>
+547         // check preconditions<br>
+548         if (mat == null || valid == null) {<br>
+549             throw new IllegalArgumentException("Violation of precondition: " +<br>
+550                     "onlyContains. Parameters may not be null.");<br>
+551         }<br>
+552         String validChars = new String(valid);<br>
+553         int row = 0;<br>
+554         boolean onlyContainsValidChars = true;<br>
+555         while (onlyContainsValidChars && row < mat.length) {<br>
+556             int col = 0;<br>
+557             while(onlyContainsValidChars && col < mat[row].length) {<br>
+558                 int indexOfChar = validChars.indexOf(mat[row][col]);<br>
+<span class='tooltip'>559                 onlyContainsValidChars = indexOfChar != -1;<span class='tooltiptext'>Inconsistent operator spacing.</span></span><br>
+560                 col++;<br>
+561             }<br>
+562             row++;<br>
+563         }<br>
+564         return onlyContainsValidChars;<br>
+565     }<br>
+566 <br>
+567 <br>
+568     /*<br>
+569      * pre: mat != null, mat.length > 0<br>
+570      * post: return true if mat is rectangular<br>
+571      */<br>
+572     private static boolean isRectangular(int[][] mat) {<br>
+573         // check preconditions<br>
+574         if (mat == null || mat.length == 0) {<br>
+575             throw new IllegalArgumentException("Violation of precondition: " +<br>
+<span class='tooltip'>576                     "isRectangular. Parameter may not be null and must contain" +<span class='tooltiptext'>Lines can not exceede 80 characters.</span></span><br>
+577                     " at least one row.");<br>
+578         }<br>
+579         boolean correct = mat[0] != null;<br>
+580         int row = 0;<br>
+581         while(correct && row < mat.length) {<br>
+582             correct = (mat[row] != null)<br>
+583                     && (mat[row].length == mat[0].length);<br>
+584             row++;<br>
+585         }<br>
+586         return correct;<br>
+587     }<br>
+588 <br>
+589     // make constructor private so no instances of CodeCamp can not be created<br>
+590     private CodeCamp() {<br>
+591 <br>
+592     }<br>
+593 }<br>
 </p>
 <form action="/back" method="POST" enctype="multipart/form-data"><button>back</button></form>
 {% endblock %}

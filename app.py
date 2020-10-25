@@ -1,9 +1,6 @@
-from os import error
 from flask import *
 import os
 from styleChecker import *
-
-from werkzeug.utils import secure_filename
 
 # __name__ references this file
 app = Flask(__name__)

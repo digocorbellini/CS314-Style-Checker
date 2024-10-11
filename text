@@ -1,0 +1,603 @@
+/*
+ * Student information for assignment:
+ * On my honor, <NAME>, this programming assignment is my own work
+ * and I have not provided this code to any other student.
+ * UTEID: ko7722
+ * email address: oishiken11@gmail.com
+ * Number of slip days I am using: 0
+ */
+
+import java.util.Iterator;
+
+public class LL314<E> implements IList<E> {
+    // CS314 students. Add you instance variables here.
+    // You decide what instance variables to use.
+    // Must adhere to assignment requirements. 
+    // No ArrayLists or Java LinkedLists.
+
+    // CS314 students, add constructors here:
+    private int size = 0;
+    private final DoubleListNode<E> HEADER;
+    // CS314 students, add methods here:
+
+    public LL314() {
+        HEADER = new DoubleListNode<>();
+        HEADER.prev = HEADER;
+        HEADER.next = HEADER;
+        //mickey mouse :), sets up the loop so that I don't have to use first and last nodes
+    }
+    /**
+     * add item to the front of the list. <br>
+     * pre: item != null <br>
+     * post: size() = old size() + 1, get(0) = item
+     *
+     * @param item the data to add to the front of this list
+     * O(1) at worst case, adds to the front of the list
+     */
+    public void addFirst(E item) {
+        if(item == null) throw new IllegalArgumentException("Can't add null elements");
+        DoubleListNode<E> new_node = new DoubleListNode(HEADER, item, HEADER.next);
+
+        if (size == 0) {
+            // special case
+            HEADER.prev = new_node;
+        } else {
+            // general case, not empty
+            HEADER.next.prev = new_node;
+        }
+
+        HEADER.next = new_node;
+        size++;
+    }
+
+    /**
+     * add item to the end of the list. <br>
+     * pre: item != null <br>
+     * post: size() = old size() + 1, get(size() -1) = item
+     *
+     * @param item the data to add to the end of this list
+     * O(1) at worst case, just adds to the list
+     */
+    public void addLast(E item) {
+        add(item);
+    }
+
+    /**
+     * remove and return the first element of this list. <br>
+     * pre: size() > 0 <br>
+     * post: size() = old size() - 1
+     *
+     * @return the old first element of this list
+     * O(1) at worst case, remove at the front
+     */
+    public E removeFirst() {
+
+        if (size <= 0) throw new IllegalArgumentException("out of things to remove");
+
+        E oldFirstElement = HEADER.next.data;
+        HEADER.next = HEADER.next.next;
+        size--;
+        HEADER.next.prev = HEADER;
+
+        return oldFirstElement;
+    }
+
+    /**
+     * remove and return the last element of this list. <br>
+     * pre: size() > 0 <br>
+     * post: size() = old size() - 1
+     *
+     * @return the old last element of this list
+     * O(1) at worst case, can only remove the last element
+     */
+    public E removeLast() {
+
+        //checks if there are elements to remove
+        if (size <= 0) throw new IllegalArgumentException("out of things to remove");
+
+        E oldLastElement = HEADER.prev.data;
+        // Make first refer to what was the second last node.
+        HEADER.prev = HEADER.prev.prev;
+        size--;
+
+        if (size == 0) {
+            //special case
+            HEADER.next = HEADER;
+        }else{
+            //general case
+            HEADER.prev.next = HEADER;
+        }
+
+        return oldLastElement;
+    }
+
+    /**
+     * Add an item to the end of this list.
+     * <br>pre: item != null
+     * <br>post: size() = old size() + 1, get(size() - 1) = item
+     * @param item the data to be added to the end of this list,
+     * item != null
+     * O(1) at worst case, just adds an item to the end of the list
+     */
+    public void add(E item){
+        if(item == null) throw new IllegalArgumentException("Can't add null elements");
+
+        DoubleListNode<E> newNode = new DoubleListNode<>(HEADER.prev, item, HEADER);
+
+        if (size == 0) {
+            // special case
+            HEADER.next = newNode;
+            newNode.prev = HEADER;
+        } else {
+            // general case, not empty
+            HEADER.prev.next = newNode;
+        }
+
+        HEADER.prev = newNode;
+        size++;
+    }
+
+    /**
+     * Insert an item at a specified position in the list.
+     * <br>pre: 0 <= pos <= size(), item != null
+     * <br>post: size() = old size() + 1, get(pos) = item,
+     * all elements in the list with a positon >= pos have a
+     * position = old position + 1
+     * @param pos the position to insert the data at in the list
+     * @param item the data to add to the list, item != null
+     * O(N) worst case, adds to the second to last of the list
+     */
+    public void insert(int pos, E item){
+        if(item == null) throw new IllegalArgumentException("Can't add null elements");
+
+        if(pos < 0 || pos > size()) throw new IllegalArgumentException("out of range");
+
+        if (pos == 0) {
+            addFirst(item);
+        } else if (pos == size) {
+            add(item);
+        } else {
+            DoubleListNode<E> temp = getNodeAtPos(pos - 1);
+            DoubleListNode<E> newNode = new DoubleListNode<>(temp, item, temp.next);
+            temp.next.prev = newNode;
+            temp.next = newNode;
+            size++;
+        }
+
+    }
+
+    /**
+     * Change the data at the specified position in the list.
+     * the old data at that position is returned.
+     * <br>pre: 0 <= pos < size(), item != null
+     * <br>post: get(pos) = item, return the
+     * old get(pos)
+     * @param pos the position in the list to overwrite
+     * @param item the new item that will overwrite the old item,
+     * item != null
+     * @return the old data at the specified position
+     * O(N) at the worst, sets an item at the end of the list
+     */
+    public E set(int pos, E item){
+        if(pos < 0 || pos >= size()) throw new IllegalArgumentException("out of range");
+        if(item == null) throw new IllegalArgumentException("Can't add null elements");
+        DoubleListNode<E> old = getNodeAtPos(pos);
+        remove(pos);
+        insert(pos, item);
+        return old.data;
+    }
+
+    /**
+     * Get an element from the list.
+     * <br>pre: 0 <= pos < size()
+     * <br>post: return the item at pos
+     * @param pos specifies which element to get
+     * @return the element at the specified position in the list
+     * O(N) worst case, looks for last item in list
+     */
+    public E get(int pos){
+        if(pos < 0 || pos >= size()) throw new IllegalArgumentException("out of range");
+
+        return getNodeAtPos(pos).data;
+    }
+
+
+    /**
+     * Remove an element in the list based on position.
+     * <br>pre: 0 <= pos < size()
+     * <br>post: size() = old size() - 1, all elements of
+     * list with a position > pos have a position = old position - 1
+     * @param pos the position of the element to remove from the list
+     * @return the data at position pos
+     * O(N) worst case, remove last item in list
+     */
+    public E remove(int pos){
+        if(pos < 0 || pos >= size()) throw new IllegalArgumentException("out of range");
+
+        if (pos == 0) {
+            //special case
+            return removeFirst();
+        }
+
+        if (pos == size - 1) {
+            //special case (for effeciency)
+            return removeLast();
+        }
+
+        //getting data
+        DoubleListNode<E> temp = getNodeAtPos(pos - 1);
+        E removedData = temp.next.data;
+        temp.next = temp.next.next;
+
+        size--;
+        return removedData;
+    }
+
+    /**
+     * Remove the first occurrence of obj in this list.
+     * Return <tt>true</tt> if this list changed
+     * as a result of this call, <tt>false</tt> otherwise.
+     * <br>pre: obj != null
+     * <br>post: if obj is in this list the first occurrence
+     * has been removed and size() = old size() - 1.
+     * If obj is not present the list is not altered in any way.
+     * @param obj The item to remove from this list. obj != null
+     * @return Return <tt>true</tt> if this list changed
+     * as a result of this call, <tt>false</tt> otherwise.
+     * O(N) worst case, removes a node at the end of the list
+     */
+    public boolean remove(E obj){
+        if(obj == null) throw new IllegalArgumentException("Can't remove null elements");
+
+        int pos = 0;
+
+        //check for if the list is done iterating and if it can't find the object
+        if(HEADER.next != HEADER){
+            DoubleListNode<E> tempNode = HEADER.next;
+            while(tempNode != HEADER){
+
+                if(tempNode.data.equals(obj)){
+                    remove(pos);
+                    return true;
+                }
+
+                //patches up the hole from the remove
+                tempNode = tempNode.next;
+                pos++;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Return a sublist of elements in this list
+     * from <tt>start</tt> inclusive to <tt>stop</tt> exclusive.
+     * This list is not changed as a result of this call.
+     * <br>pre: <tt>0 <= start <= size(), start <= stop <= size()</tt>
+     * <br>post: return a list whose size is stop - start
+     * and contains the elements at positions start through stop - 1
+     * in this list.
+     * @param start index of the first element of the sublist.
+     * @param stop stop - 1 is the index of the last element
+     * of the sublist.
+     * @return a list with <tt>stop - start</tt> elements,
+     * The elements are from positions <tt>start</tt> inclusive to
+     * <tt>stop</tt> exclusive in this list.
+     * If start == stop an empty list is returned.
+     * O(N^2) worst case, loops through and removes everything in the list
+     */
+    public IList<E> getSubList(int start, int stop){
+        if(start < 0 || start > size()) throw new IllegalArgumentException("out of range");
+
+        if(stop < start || stop > size()) throw new IllegalArgumentException("out of range");
+
+        IList<E> subList = new LL314<>();
+        //creates a new list and adds the nodes
+        for(int i = start; i<stop; i++){
+            subList.add(getNodeAtPos(i).data);
+        }
+        return subList;
+    }
+
+    /**
+     * Return the size of this list.
+     * In other words the number of elements in this list.
+     * <br>pre: none
+     * <br>post: return the number of items in this list
+     * @return the number of items in this list
+     * O(1) worst case, sends an int
+     */
+    public int size(){
+        return size;
+    }
+
+    /**
+     * Find the position of an element in the list.
+     * <br>pre: item != null
+     * <br>post: return the index of the first element equal to item
+     * or -1 if item is not present
+     * @param item the element to search for in the list. item != null
+     * @return return the index of the first element equal to item
+     * or a -1 if item is not present
+     * O(N) worst case, checks the entire list to find element, N
+     */
+    public int indexOf(E item){
+        if(item == null) throw new IllegalArgumentException("Can't find null elements");
+
+        int pos = 0;
+
+        if(HEADER.next != HEADER){
+            DoubleListNode<E> tempNode = HEADER.next;
+            while(tempNode != HEADER){
+
+                //checks if the item is in the node data
+                if(tempNode.data.equals(item)){
+                    return pos;
+                }
+
+                tempNode = tempNode.next;
+                pos++;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * find the position of an element in the list starting
+     * at a specified position.
+     * <br>pre: 0 <= pos < size(), item != null
+     * <br>post: return the index of the first element equal
+     * to item starting at pos
+     * or -1 if item is not present from position pos onward
+     * @param item the element to search for in the list. Item != null
+     * @param pos the position in the list to start searching from
+     * @return starting from the specified position
+     * return the index of the first element equal to item
+     * or a -1 if item is not present between pos
+     * and the end of the list
+     * O(N) worst case, checks the entire list to find element, N
+     */
+    public int indexOf(E item, int pos){
+        if(item == null) throw new IllegalArgumentException("Can't find null elements");
+
+        if(pos < 0 || pos >= size()) throw new IllegalArgumentException("out of range");
+
+
+        //checks each node's data after a specified position
+        if(HEADER.next != HEADER){
+            DoubleListNode<E> tempNode = getNodeAtPos(pos);
+            while(tempNode != HEADER){
+
+                if(tempNode.data.equals(item)){
+                    return pos;
+                }
+
+                tempNode = tempNode.next;
+                pos++;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * return the list to an empty state.
+     * <br>pre: none
+     * <br>post: size() = 0
+     * O(1) worst case, changes 2 data points
+     */
+    public void makeEmpty(){
+        //garbage collection :)
+        HEADER.next = HEADER;
+        HEADER.prev = HEADER;
+        size=0;
+    }
+
+    /**
+     * return an Iterator for this list.
+     * <br>pre: none
+     * <br>post: return an Iterator object for this List
+     * O(1) worst case, just converting over to iterator
+     */
+    public Iterator<E> iterator(){
+        return new LLIterator();
+    }
+
+    private class LLIterator implements Iterator<E> {
+
+        private DoubleListNode<E> nodeWithNext;
+        private boolean removeOk;
+        //instantiation
+        private LLIterator() {
+            nodeWithNext = HEADER.next;
+        }
+
+        //pre: size > 0
+        //post: moves to the next node
+        public boolean hasNext() {
+            return nodeWithNext != HEADER;
+        }
+
+        //pre: size > 0
+        //post: selects the next node and returns the data
+        public E next() {
+            // next is O(1)
+            E nextData = nodeWithNext.data;
+            nodeWithNext = nodeWithNext.next;
+            removeOk = true;
+            return nextData;
+        }
+
+        //pre: size > 0
+        //post: remove last element, size() = oldsize() - 1
+        public void remove() {
+            if(!removeOk) throw new IllegalArgumentException("out of things to remove");
+
+            // remove here is O(1)
+            nodeWithNext.prev.prev.next = nodeWithNext;
+            nodeWithNext.prev = nodeWithNext.prev.prev;
+            size--;
+        }
+
+    }
+
+    /**
+     * Remove all elements in this list from <tt>start</tt>
+     * inclusive to <tt>stop</tt> exclusive.
+     * <br>pre: <tt>0 <= start <= size(), start <= stop <= size()</tt>
+     * <br>post: <tt>size() = old size() - (stop - start)</tt>
+     * @param start position at beginning of range of elements
+     * to be removed
+     * @param stop stop - 1 is the position at the end
+     * of the range of elements to be removed
+     * O(N) worst case, removes all elements for N
+     */
+    public void removeRange(int start, int stop){
+        if(start < 0 || start > size()) throw new IllegalArgumentException("out of range");
+
+        if(stop < start || stop > size()) throw new IllegalArgumentException("out of range");
+
+        DoubleListNode<E> tempNode = getNodeAtPos(start);
+        DoubleListNode<E> tempNode2 = getNodeAtPos(stop);
+        tempNode2.prev = tempNode.prev;
+
+        //cuts out everything from a certain point to another certain stopping point.
+        if(tempNode.prev != HEADER){
+            tempNode.prev.next = tempNode2;
+        }
+        else{
+            HEADER.next = tempNode2;
+        }
+
+        size -= (stop - start);
+    }
+
+    /**
+     * Return a String version of this list enclosed in
+     * square brackets, []. Elements are in
+     * are in order based on position in the
+     * list with the first element
+     * first. Adjacent elements are separated by comma's
+     * @return a String representation of this IList
+     * O(N) worst case, takes every element from the list and adds it to the string builder
+     */
+    public String toString(){
+
+        if (size == 0) {
+            return "[]";
+        }
+
+        StringBuilder sb = new StringBuilder("[");
+        // At least one element
+        sb.append(HEADER.next.data);
+        // Traverse through the rest of the nodes
+        DoubleListNode<E> temp = HEADER.next.next;
+        while (temp != HEADER) {
+            sb.append(", ");
+            sb.append(temp.data);
+            temp = temp.next;
+        }
+        return sb.append("]").toString();
+    }
+
+
+    /**
+     * Determine if this IList is equal to other. Two
+     * ILists are equal if they contain the same elements
+     * in the same order.
+     * @return true if this IList is equal to other, false otherwise
+     * O(N) worst case, checks each element from both lists for 2N
+     */
+    public boolean equals(Object other){
+
+        if(!other.getClass().equals(getClass())){
+            return false;
+        }
+
+        boolean cases = true;
+        IList<E> item1 = this;
+        IList<E> item2 = (IList<E>) other;
+
+        //checks each other elements to each other in the same positions
+        if(item1.size() == item2.size()){
+            for(int i = 0; i < item1.size(); i++){
+
+                if(!item1.get(i).equals(item2.get(i))){
+                    cases = false;
+                    i = item1.size();
+                }
+
+            }
+        }else{
+            cases = false;
+        }
+
+        return cases;
+    }
+
+    // pre: 0 <= pos < size
+    // post: return a reference to the Node at the given position.
+    //O(N) worst case, goes through all the elements once with the 2nd farthest
+    private DoubleListNode<E> getNodeAtPos(int pos) {
+        if(pos < 0 || pos >= size()) throw new IllegalArgumentException("out of range");
+
+        if (pos == size - 1) {
+            return HEADER.prev;
+        }
+
+        // general case
+        DoubleListNode<E> temp = HEADER.next;
+        for (int i = 0; i < pos; i++) {
+            temp = temp.next;
+        }
+        return temp;
+    }
+
+    /**
+     * A class that represents a node to be used in a linked list.
+     * These nodes are doubly linked. All methods are O(1).
+     *
+     * @author Mike Scott
+     * @version 9/25/2023
+     */
+
+    private static class DoubleListNode<E> {
+
+        // the data to store in this node
+        private E data;
+
+        // the link to the next node (presumably in a list)
+        private DoubleListNode<E> next;
+
+        // the reference to the previous node (presumably in a list)
+        private DoubleListNode<E> prev;
+
+        /**
+         * default constructor.
+         * <br>pre: none
+         * <br>post: data = null, next = null, prev = null
+         * <br>O(1)
+         */
+        public DoubleListNode() {
+            this(null, null, null);
+        }
+
+        /**
+         * create a DoubleListNode that holds the specified data
+         * and refers to the specified next and previous elements.
+         * <br>pre: none
+         * <br>post: this.data = data, this.next = next, this.prev = prev
+         * <br>O(1)
+         * @param prev the previous node
+         * @param data the  data this DoubleListNode should hold
+         * @param next the next node
+         */
+        public DoubleListNode(DoubleListNode<E> prev, E data, DoubleListNode<E> next) {
+            this.prev = prev;
+            this.data = data;
+            this.next = next;
+        }
+    }
+}
